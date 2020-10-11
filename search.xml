@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>DoTween</title>
+    <url>/2020/09/15/DoTween/</url>
+    <content><![CDATA[<h1 id="1-Introdution"><a href="#1-Introdution" class="headerlink" title="1. Introdution"></a>1. Introdution</h1><a id="more"></a>
+
+<h1 id="2-Function"><a href="#2-Function" class="headerlink" title="2. Function"></a>2. Function</h1><h2 id="Transform"><a href="#Transform" class="headerlink" title="Transform"></a><strong>Transform</strong></h2><p><code>transform.Func()</code></p>
+<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><ul>
+<li><code>DOMove(Vector3 target, float time)</code></li>
+<li><code>DOLocalMove()</code></li>
+<li><code>DOPunchPosition()</code></li>
+</ul>
+<h3 id="rotation"><a href="#rotation" class="headerlink" title="rotation"></a>rotation</h3><ul>
+<li><code>DORotate()</code></li>
+<li><code>DOLocalRotate()</code></li>
+<li><code>DORotateQuaternion()</code></li>
+<li><code>DOLookat()</code></li>
+<li><code>DOPunchRotation()</code></li>
+</ul>
+<h3 id="scale"><a href="#scale" class="headerlink" title="scale"></a>scale</h3><ul>
+<li><code>DOScale()</code></li>
+<li><code>DOPunchScale()</code></li>
+</ul>
+<h3 id="other"><a href="#other" class="headerlink" title="other"></a>other</h3><ul>
+<li><code>DOShakePosition()</code>：常用于相机的振动效果</li>
+</ul>
+<h3 id="blend"><a href="#blend" class="headerlink" title="blend"></a>blend</h3><ul>
+<li>如果同时执行两个<code>DOMove()</code>，则前一个会被覆盖，这时需要使用动画混合</li>
+<li>实现增量控制</li>
+<li><code>DOBlendableMoveBy()</code></li>
+<li><code>DOBlendablePunchRotation()</code></li>
+</ul>
+<h2 id="Material"><a href="#Material" class="headerlink" title="Material"></a><strong>Material</strong></h2><p><code>Material material = GetComponent&lt;MeshRenderer&gt;().material;</code></p>
+<p><code>material.Func()</code></p>
+<h3 id="color"><a href="#color" class="headerlink" title="color"></a>color</h3><ul>
+<li><code>DOColor()</code>：传颜色属性名字</li>
+<li><code>DOGradientColor()</code>：渐变颜色动画</li>
+</ul>
+<h3 id="alpha"><a href="#alpha" class="headerlink" title="alpha"></a>alpha</h3><ul>
+<li><p><code>DOColor(Color.clear, time)</code>：通过改变颜色的透明度改变物体透明度</p>
+</li>
+<li><p><code>DOFade()</code></p>
+</li>
+</ul>
+<h3 id="other-1"><a href="#other-1" class="headerlink" title="other"></a>other</h3><ul>
+<li><code>DOOffset()</code>：动态改变uv坐标，可用于特效，如武器流光</li>
+<li><code>DOVector()</code>：改变任意material四维向量值</li>
+<li><code>DOBlendableColor()</code>：颜色混合</li>
+</ul>
+<h1 id="3-Tips"><a href="#3-Tips" class="headerlink" title="3. Tips"></a>3. Tips</h1><ul>
+<li>函数命名与功能相关，每一类命名都有关键词</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/09/12/hello-world/</url>
+    <content><![CDATA[<p>Hello World！</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Anconda常用命令</title>
+    <url>/2020/09/12/text/</url>
+    <content><![CDATA[<ul>
+<li>conda当前版本</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda -V</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列举当前安装的包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda list</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<ul>
+<li>conda基本信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda info</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当前存在的虚拟环境</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda env list</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>检查更新</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda update conda</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建虚拟环境</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda create --name your_env_name python&#x3D;3.7</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>激活虚拟环境</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda activate your_env_name</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关闭虚拟环境</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda deactivate</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>安装包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda install package_name</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda remove package_name</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除虚拟环境</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda remove --name your_env_name --all</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加源</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda config --add channel_urls</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>换回默认源</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda config --remove-key channels</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>关于校园的一些碎片</title>
+    <url>/2020/01/01/photo/20200101-school/</url>
+    <content><![CDATA[<img data-src="/image/4-1.jpg" alt="天台" style="zoom:16%;"/>
+
+<a id="more"></a>
+
+<img data-src="/image/4-2.jpg" alt="红黄蓝" style="zoom:30%;"/>
+
+<img data-src="/image/4-4.jpg" alt="最爱玉泉午后的光影" style="zoom:30%;"/>
+
+<img data-src="/image/4-5.jpg" alt="玉泉某个角落" style="zoom:30%;"/>
+
+<img data-src="/image/4-6.jpg" alt="不知道是什么楼" style="zoom:30%;"/>
+
+<img data-src="/image/4-7.jpg" alt="祖国万岁" style="zoom:30%;"/>
+
+<img data-src="/image/4-8.jpg" alt="请爱护光缆" style="zoom:30%;"/>
+
+<img data-src="/image/4-9.jpg" alt="紫金港的鹅鹅鹅" style="zoom:16%;"/>
+
+<img data-src="/image/4-10.jpg" alt="你瞅啥" style="zoom:16%;"/>]]></content>
+      <tags>
+        <tag>“photos”</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>月亮碎了，于是星星亮了</title>
+    <url>/2020/04/30/photo/20200430-star/</url>
+    <content><![CDATA[<p>&emsp;&emsp;在广袤的星空下，才真正感受到人类的渺小。</p>
+<img data-src= "/image/2-1.jpg" alt="1" style="zoom:16%;"/>
+
+<a id="more"></a>
+
+<img data-src= "/image/2-2.jpg" alt="2" style="zoom:16%;"/>
+
+<img data-src= "/image/2-3.jpg" alt="3" style="zoom:16%;"/>
+
+<img data-src= "/image/2-4.jpg" alt="4" style="zoom:16%;"/>
+
+<img data-src= "/image/2-5.jpg" alt="5" style="zoom:16%;"/>
+
+<img data-src= "/image/2-6.jpg" alt="6" style="zoom:16%;"/>
+
+]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>毕业那些事</title>
+    <url>/2020/10/11/photo/20200630-graduate/</url>
+    <content><![CDATA[<img data-src="/image/1-1.jpg" alt="1" style="zoom:16%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于故乡</title>
+    <url>/2020/10/11/photo/20201005-hometown/</url>
+    <content><![CDATA[<p>故乡，大概是写在每个人灵魂最深处的底层代码。</p>
+<p>越长大，在家的日子就越少。曾经熟悉的地方，那些个常去的影院，洒过汗水的球场，躲过雨的屋檐，一不留神就变了模样，甚至，一晃眼就成了一片废墟，再也回不来了。</p>
+<p>这小小的一方城池啊，承载着太多回忆。因为这片土地上有我们在意的人儿，发生过许许多多与我们有关的事，这土地上的钢筋混凝土才有了温度，被我们惦记着，并亲切地称之为故乡。</p>
+<a id="more"></a>
+
+<img data-src="/image/3-1.png" alt="1" style="zoom:30%;"/>
+
+<img data-src="/image/3-2.png" alt="2" style="zoom:30%;"/>
+
+<img data-src="/image/3-3.png" alt="3" style="zoom:30%;"/>    
+
+<img data-src="/image/3-4.png" alt="4" style="zoom:30%;"/>
+
+<img data-src="/image/3-5.png" alt="5" style="zoom:30%;"/>
+
+<img data-src="/image/3-6.jpg" alt="6" style="zoom:30%;"/>
+
+<img data-src="/image/3-7.png" alt="7" style="zoom:30%;"/>
+
+<img data-src="/image/3-8.png" alt="8" style="zoom:30%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
+  </entry>
+</search>
