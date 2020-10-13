@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>DoTween</title>
-    <url>/2020/09/15/DoTween/</url>
+    <url>/2020/09/15/tech/DoTween/</url>
     <content><![CDATA[<h1 id="1-Introdution"><a href="#1-Introdution" class="headerlink" title="1. Introdution"></a>1. Introdution</h1><a id="more"></a>
 
 <h1 id="2-Function"><a href="#2-Function" class="headerlink" title="2. Function"></a>2. Function</h1><h2 id="Transform"><a href="#Transform" class="headerlink" title="Transform"></a><strong>Transform</strong></h2><p><code>transform.Func()</code></p>
@@ -55,13 +55,13 @@
   </entry>
   <entry>
     <title>Hello World</title>
-    <url>/2020/09/12/hello-world/</url>
+    <url>/2020/09/12/tech/hello-world/</url>
     <content><![CDATA[<p>Hello World！</p>
 ]]></content>
   </entry>
   <entry>
     <title>Anconda常用命令</title>
-    <url>/2020/09/12/text/</url>
+    <url>/2020/09/12/tech/text/</url>
     <content><![CDATA[<ul>
 <li>conda当前版本</li>
 </ul>
@@ -152,13 +152,14 @@
 
 <img data-src="/image/4-10.jpg" alt="你瞅啥" style="zoom:16%;"/>]]></content>
       <tags>
-        <tag>“photos”</tag>
+        <tag>photos</tag>
+        <tag>胶片</tag>
       </tags>
   </entry>
   <entry>
     <title>月亮碎了，于是星星亮了</title>
     <url>/2020/04/30/photo/20200430-star/</url>
-    <content><![CDATA[<p>&emsp;&emsp;在广袤的星空下，才真正感受到人类的渺小。</p>
+    <content><![CDATA[<p>在广袤的星空下，才真正感受到人类的渺小。</p>
 <img data-src= "/image/2-1.jpg" alt="1" style="zoom:16%;"/>
 
 <a id="more"></a>
@@ -174,14 +175,6 @@
 <img data-src= "/image/2-6.jpg" alt="6" style="zoom:16%;"/>
 
 ]]></content>
-      <tags>
-        <tag>photos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>毕业那些事</title>
-    <url>/2020/10/11/photo/20200630-graduate/</url>
-    <content><![CDATA[<img data-src="/image/1-1.jpg" alt="1" style="zoom:16%;"/>]]></content>
       <tags>
         <tag>photos</tag>
       </tags>
@@ -209,6 +202,15 @@
 <img data-src="/image/3-7.jpg" alt="7" style="zoom:30%;"/>
 
 <img data-src="/image/3-8.jpg" alt="8" style="zoom:30%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
+        <tag>胶片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>毕业那些事</title>
+    <url>/2020/10/11/photo/20200630-graduate/</url>
+    <content><![CDATA[<img data-src="/image/1-1.jpg" alt="1" style="zoom:16%;"/>]]></content>
       <tags>
         <tag>photos</tag>
       </tags>
