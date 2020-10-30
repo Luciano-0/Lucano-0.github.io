@@ -54,31 +54,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>初见Processing</title>
-    <url>/2020/10/18/tech/Processing-1/</url>
-    <content><![CDATA[<h2 id="新大陆"><a href="#新大陆" class="headerlink" title="新大陆"></a>新大陆</h2><p>前几天开始看 Daniel Shiffman的<a href="https://book.douban.com/subject/26264736/">《代码本色：用编程模拟自然系统》</a>，接触到了Processing这种编程语言，就像发现了新大陆。Processing号称为艺术而生的语言，确实，从使用体验到运行效果，都能透露出一份独特的优雅。</p>
-<a id="more"></a>
-
-<p>Processing设计的思路就是使用图形化替代原来的命令行，正是这种初衷赋予了这门语言生命，编写几行简单的代码，点击运行按钮就能看到生动的演示效果。</p>
-<p>在使用体验上，Processing简单但不简陋，下载后直接打开就能进行编程，不需要复杂的配置环境过程。窗口有点类似单片机的编程，而编程体验类似于Python，且由于开放的社区环境，有许多功能强大的扩展包可以安装。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
-<li><a href="https://processing.org/">官网</a></li>
-<li><a href="http://iprocessing.cn/%E6%96%87%E6%A1%A3/">文档</a></li>
-<li>社区：<a href="https://www.openprocessing.org/">OpenProcessing</a> / <a href="http://iprocessing.cn/">Processing编程艺术</a></li>
-<li>书籍：<a href="https://book.douban.com/subject/3143256/">Learning Processing</a> / <a href="https://book.douban.com/subject/20452058/">The Nature of Code</a></li>
-</ul>
-<h2 id="一个小尝试"><a href="#一个小尝试" class="headerlink" title="一个小尝试"></a>一个小尝试</h2><p>迫不及待就仿照书中的例程编写了一个简单的Demo，模拟的是多个小球与中间大球之间的引力作用。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Mover[] movers = new Mover[<span class="number">2000</span>];</span><br><span class="line">Attractor a;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">	size(<span class="number">1600</span>, <span class="number">900</span>);</span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; movers.length; i++) &#123;</span><br><span class="line">	movers[i] = new Mover();</span><br><span class="line">	&#125;</span><br><span class="line">	a = new Attractor();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void draw() &#123;</span><br><span class="line">	background(<span class="number">50</span>);</span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; movers.length; i++) &#123;</span><br><span class="line">	PVector force = a.attract(movers[i]);</span><br><span class="line">	movers[i].applyForce(force);</span><br><span class="line">	movers[i].update();</span><br><span class="line">	movers[i].display();</span><br><span class="line">	&#125;</span><br><span class="line">	//a.display();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Mover &#123;</span><br><span class="line">	PVector location;</span><br><span class="line">	PVector velocity;</span><br><span class="line">	PVector acceleration;</span><br><span class="line">	float mass;</span><br><span class="line">	color mycolor;</span><br><span class="line">	</span><br><span class="line">	Mover() &#123;</span><br><span class="line">	location = new PVector(random(width / <span class="number">4</span>, width * <span class="number">3</span> / <span class="number">4</span>), random(height / <span class="number">4</span>, height * <span class="number">3</span> / <span class="number">4</span>));        </span><br><span class="line">	mass = random(<span class="number">0.5</span>, <span class="number">1</span>);</span><br><span class="line">	velocity = new PVector(random(<span class="number">0</span>, <span class="number">1</span>), random(<span class="number">0</span>, <span class="number">1</span>));</span><br><span class="line">	mycolor = color(<span class="number">200</span>, random(<span class="number">0</span>, <span class="number">200</span>), random(<span class="number">0</span>, <span class="number">200</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void update() &#123;</span><br><span class="line">	velocity.add(acceleration);</span><br><span class="line">	location.add(velocity);</span><br><span class="line">	acceleration.mult(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void display() &#123;</span><br><span class="line">	stroke(<span class="number">0</span>);</span><br><span class="line">	fill(mycolor);</span><br><span class="line">	ellipse(location.x, location.y, mass * <span class="number">16</span>, mass * <span class="number">16</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void applyForce(PVector force) &#123;</span><br><span class="line">	acceleration = force;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Attractor &#123;</span><br><span class="line">	float mass;</span><br><span class="line">	PVector location;</span><br><span class="line">	float G;</span><br><span class="line">	</span><br><span class="line">	Attractor() &#123;</span><br><span class="line">	location = new PVector(width / <span class="number">2</span>, height / <span class="number">2</span>);</span><br><span class="line">	mass = <span class="number">50</span>;</span><br><span class="line">	G = <span class="number">5</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	PVector attract(Mover m) &#123;</span><br><span class="line">	PVector force = PVector.sub(location, m.location);</span><br><span class="line">	float distance = force.mag();</span><br><span class="line">	distance = constrain(distance, <span class="number">10</span>, <span class="number">40</span>); //限制两者之间的距离</span><br><span class="line">	force.normalize();</span><br><span class="line">	float strength = (G * mass * m.mass) / (distance * distance);</span><br><span class="line">	force.mult(strength);</span><br><span class="line">	<span class="keyword">return</span> force;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void display() &#123;</span><br><span class="line">	stroke(<span class="number">0</span>);</span><br><span class="line">	fill(<span class="number">255</span>);</span><br><span class="line">	ellipse(location.x, location.y, mass * <span class="number">2</span>, mass * <span class="number">2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>作为一个重度“颜控”的程序员，热衷于实现一些炫酷、优雅或是有趣的视觉效果。Processing非常契合我的需求。之后会深入学习，争取做一些有意思的作品。</p>
-]]></content>
-      <tags>
-        <tag>Processing</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Lua小技巧及语法糖记录</title>
     <url>/2020/10/27/tech/Lua-1/</url>
     <content><![CDATA[<p>在Lua的学习过程中，发现有许多特别或是巧妙的语法，特在此记录。</p>
@@ -108,6 +83,31 @@
       </tags>
   </entry>
   <entry>
+    <title>初见Processing</title>
+    <url>/2020/10/18/tech/Processing-1/</url>
+    <content><![CDATA[<h2 id="新大陆"><a href="#新大陆" class="headerlink" title="新大陆"></a>新大陆</h2><p>前几天开始看 Daniel Shiffman的<a href="https://book.douban.com/subject/26264736/">《代码本色：用编程模拟自然系统》</a>，接触到了Processing这种编程语言，就像发现了新大陆。Processing号称为艺术而生的语言，确实，从使用体验到运行效果，都能透露出一份独特的优雅。</p>
+<a id="more"></a>
+
+<p>Processing设计的思路就是使用图形化替代原来的命令行，正是这种初衷赋予了这门语言生命，编写几行简单的代码，点击运行按钮就能看到生动的演示效果。</p>
+<p>在使用体验上，Processing简单但不简陋，下载后直接打开就能进行编程，不需要复杂的配置环境过程。窗口有点类似单片机的编程，而编程体验类似于Python，且由于开放的社区环境，有许多功能强大的扩展包可以安装。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://processing.org/">官网</a></li>
+<li><a href="http://iprocessing.cn/%E6%96%87%E6%A1%A3/">文档</a></li>
+<li>社区：<a href="https://www.openprocessing.org/">OpenProcessing</a> / <a href="http://iprocessing.cn/">Processing编程艺术</a></li>
+<li>书籍：<a href="https://book.douban.com/subject/3143256/">Learning Processing</a> / <a href="https://book.douban.com/subject/20452058/">The Nature of Code</a></li>
+</ul>
+<h2 id="一个小尝试"><a href="#一个小尝试" class="headerlink" title="一个小尝试"></a>一个小尝试</h2><p>迫不及待就仿照书中的例程编写了一个简单的Demo，模拟的是多个小球与中间大球之间的引力作用。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Mover[] movers = new Mover[<span class="number">2000</span>];</span><br><span class="line">Attractor a;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">	size(<span class="number">1600</span>, <span class="number">900</span>);</span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; movers.length; i++) &#123;</span><br><span class="line">	movers[i] = new Mover();</span><br><span class="line">	&#125;</span><br><span class="line">	a = new Attractor();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void draw() &#123;</span><br><span class="line">	background(<span class="number">50</span>);</span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; movers.length; i++) &#123;</span><br><span class="line">	PVector force = a.attract(movers[i]);</span><br><span class="line">	movers[i].applyForce(force);</span><br><span class="line">	movers[i].update();</span><br><span class="line">	movers[i].display();</span><br><span class="line">	&#125;</span><br><span class="line">	//a.display();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Mover &#123;</span><br><span class="line">	PVector location;</span><br><span class="line">	PVector velocity;</span><br><span class="line">	PVector acceleration;</span><br><span class="line">	float mass;</span><br><span class="line">	color mycolor;</span><br><span class="line">	</span><br><span class="line">	Mover() &#123;</span><br><span class="line">	location = new PVector(random(width / <span class="number">4</span>, width * <span class="number">3</span> / <span class="number">4</span>), random(height / <span class="number">4</span>, height * <span class="number">3</span> / <span class="number">4</span>));        </span><br><span class="line">	mass = random(<span class="number">0.5</span>, <span class="number">1</span>);</span><br><span class="line">	velocity = new PVector(random(<span class="number">0</span>, <span class="number">1</span>), random(<span class="number">0</span>, <span class="number">1</span>));</span><br><span class="line">	mycolor = color(<span class="number">200</span>, random(<span class="number">0</span>, <span class="number">200</span>), random(<span class="number">0</span>, <span class="number">200</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void update() &#123;</span><br><span class="line">	velocity.add(acceleration);</span><br><span class="line">	location.add(velocity);</span><br><span class="line">	acceleration.mult(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void display() &#123;</span><br><span class="line">	stroke(<span class="number">0</span>);</span><br><span class="line">	fill(mycolor);</span><br><span class="line">	ellipse(location.x, location.y, mass * <span class="number">16</span>, mass * <span class="number">16</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void applyForce(PVector force) &#123;</span><br><span class="line">	acceleration = force;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Attractor &#123;</span><br><span class="line">	float mass;</span><br><span class="line">	PVector location;</span><br><span class="line">	float G;</span><br><span class="line">	</span><br><span class="line">	Attractor() &#123;</span><br><span class="line">	location = new PVector(width / <span class="number">2</span>, height / <span class="number">2</span>);</span><br><span class="line">	mass = <span class="number">50</span>;</span><br><span class="line">	G = <span class="number">5</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	PVector attract(Mover m) &#123;</span><br><span class="line">	PVector force = PVector.sub(location, m.location);</span><br><span class="line">	float distance = force.mag();</span><br><span class="line">	distance = constrain(distance, <span class="number">10</span>, <span class="number">40</span>); //限制两者之间的距离</span><br><span class="line">	force.normalize();</span><br><span class="line">	float strength = (G * mass * m.mass) / (distance * distance);</span><br><span class="line">	force.mult(strength);</span><br><span class="line">	<span class="keyword">return</span> force;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void display() &#123;</span><br><span class="line">	stroke(<span class="number">0</span>);</span><br><span class="line">	fill(<span class="number">255</span>);</span><br><span class="line">	ellipse(location.x, location.y, mass * <span class="number">2</span>, mass * <span class="number">2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>作为一个重度“颜控”的程序员，热衷于实现一些炫酷、优雅或是有趣的视觉效果。Processing非常契合我的需求。之后会深入学习，争取做一些有意思的作品。</p>
+]]></content>
+      <tags>
+        <tag>Processing</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>一种拨轮动效</title>
     <url>/2020/09/28/tech/TimeWidget/</url>
     <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
@@ -127,6 +127,86 @@
     <url>/2020/09/12/tech/hello-world/</url>
     <content><![CDATA[<p>Hello World！</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>月亮碎了，于是星星亮了</title>
+    <url>/2020/04/30/photo/20200430-star/</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>手牵手一步两步三步四步望着天    </p>
+<p>看星星一颗两颗三颗四颗连成线</p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+<img data-src= "/image/2-1.jpg" alt="1" style="zoom:16%;"/>
+
+<a id="more"></a>
+
+<img data-src= "/image/2-2.jpg" alt="2" style="zoom:16%;"/>
+
+<img data-src= "/image/2-3.jpg" alt="3" style="zoom:16%;"/>
+
+<img data-src= "/image/2-4.jpg" alt="4" style="zoom:16%;"/>
+
+<img data-src= "/image/2-5.jpg" alt="5" style="zoom:16%;"/>
+
+<img data-src= "/image/2-6.jpg" alt="6" style="zoom:16%;"/>
+
+]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>故乡</title>
+    <url>/2020/10/11/photo/20201005-hometown/</url>
+    <content><![CDATA[<p>故乡，大概是写在每个人灵魂最深处的底层代码。</p>
+<p>越长大，在家的日子就越少。曾经熟悉的地方，那些个常去的影院，洒过汗水的球场，躲过雨的屋檐，一不留神就变了模样，甚至，一晃眼就成了一片废墟，再也回不来了。</p>
+<p>这小小的一方城池啊，承载着太多回忆。因为这片土地上有我们在意的人儿，发生过许许多多与我们有关的事，这土地上的钢筋混凝土才有了温度，被我们惦记着，并亲切地称之为故乡。</p>
+<a id="more"></a>
+
+<img data-src="/image/3-1.jpg" alt="1" style="zoom:30%;"/>
+
+<img data-src="/image/3-2.jpg" alt="2" style="zoom:30%;"/>
+
+<img data-src="/image/3-3.jpg" alt="3" style="zoom:30%;"/>    
+
+<img data-src="/image/3-4.jpg" alt="4" style="zoom:30%;"/>
+
+<img data-src="/image/3-5.jpg" alt="5" style="zoom:30%;"/>
+
+<img data-src="/image/3-6.jpg" alt="6" style="zoom:30%;"/>
+
+<img data-src="/image/3-7.jpg" alt="7" style="zoom:30%;"/>
+
+<img data-src="/image/3-8.jpg" alt="8" style="zoom:30%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
+        <tag>胶片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>毕业那些事</title>
+    <url>/2020/10/11/photo/20200630-graduate/</url>
+    <content><![CDATA[<p>毕业，在杭州的雨季中悄然而至。</p>
+<p>2020年的毕业季，号称史上最难毕业季。疫情之下，校园紧闭，连最后的相聚也显得格外仓促。</p>
+<a id="more"></a>
+
+<p>雨后的校园，就会长出三三两两的穿着学位服拍照的人们，趁着一两片弥足珍贵的阳光，定格校园中最后的时光。</p>
+<img data-src="/image/1-1.jpg" alt="最后一课" style="zoom:16%;"/>
+
+<p>平日里，我是一个没心没肺的人，但到了离别的时候，总想着，让时间过得再慢一些，还想和这些可爱的人儿多说一些话。</p>
+<p>高中毕业时，似乎内心全乎是高考结束的欣喜，全然没有离别的伤感。大概是因为喜欢的人还在身边，要好的哥们还住对面，大家奔赴五湖四海，但我们来自同一个地方，相聚还容易。</p>
+<p>但今时不同往日。或许是因为我们来自五湖四海，匆匆四年又即将奔赴五湖四海，又或许，是因为自己也即将离开熟悉的城市，成为异乡人。</p>
+<p>在未来的某一刻，可能会突然意识到，有些人，此刻说了再见，这辈子就真的再也不见了。</p>
+<img data-src="/image/1-2.jpg" alt="毕业前再去瞅瞅西湖" style="zoom:25%;"/>
+
+<p>我们不能奢求有人可以一直陪我们走下去，有些人出现，就是在人生中陪我们走一段，这一段我们一起过得精彩，就足矣。<br>岁月匆匆，惟愿总相逢。</p>
+]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
   </entry>
   <entry>
     <title>Anconda常用命令</title>
@@ -226,83 +306,25 @@
       </tags>
   </entry>
   <entry>
-    <title>月亮碎了，于是星星亮了</title>
-    <url>/2020/04/30/photo/20200430-star/</url>
-    <content><![CDATA[<blockquote class="blockquote-center">
-            <i class="fa fa-quote-left"></i>
-            <p>手牵手一步两步三步四步望着天    </p>
-<p>看星星一颗两颗三颗四颗连成线</p>
-
-            <i class="fa fa-quote-right"></i>
-          </blockquote>
-
-<img data-src= "/image/2-1.jpg" alt="1" style="zoom:16%;"/>
+    <title>那些年追过的展（持续更新）</title>
+    <url>/2020/10/31/photo/20201031-gallery/</url>
+    <content><![CDATA[<img data-src="/image/5-1.jpg" alt="🌊" style="zoom:30%;"/>
 
 <a id="more"></a>
 
-<img data-src= "/image/2-2.jpg" alt="2" style="zoom:16%;"/>
+<img data-src="/image/5-2.jpg" alt="早安打工人！" style="zoom:30%;"/>
 
-<img data-src= "/image/2-3.jpg" alt="3" style="zoom:16%;"/>
+<img data-src="/image/5-3.jpg" alt="西岸美术馆的长梯" style="zoom:30%;"/>
 
-<img data-src= "/image/2-4.jpg" alt="4" style="zoom:16%;"/>
+<img data-src="/image/5-4.jpg" alt="Wheel" style="zoom:30%;"/>
 
-<img data-src= "/image/2-5.jpg" alt="5" style="zoom:16%;"/>
+<img data-src="/image/5-5.jpg" alt="Plane" style="zoom:30%;"/>
 
-<img data-src= "/image/2-6.jpg" alt="6" style="zoom:16%;"/>
+<img data-src="/image/5-6.jpg" alt="月食" style="zoom:30%;"/>
 
-]]></content>
+<img data-src="/image/5-7.jpg" alt="最美二叉树？" style="zoom:30%;"/>]]></content>
       <tags>
         <tag>photos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>毕业那些事</title>
-    <url>/2020/10/11/photo/20200630-graduate/</url>
-    <content><![CDATA[<p>毕业，在杭州的雨季中悄然而至。</p>
-<p>2020年的毕业季，号称史上最难毕业季。疫情之下，校园紧闭，连最后的相聚也显得格外仓促。</p>
-<a id="more"></a>
-
-<p>雨后的校园，就会长出三三两两的穿着学位服拍照的人们，趁着一两片弥足珍贵的阳光，定格校园中最后的时光。</p>
-<img data-src="/image/1-1.jpg" alt="最后一课" style="zoom:16%;"/>
-
-<p>平日里，我是一个没心没肺的人，但到了离别的时候，总想着，让时间过得再慢一些，还想和这些可爱的人儿多说一些话。</p>
-<p>高中毕业时，似乎内心全乎是高考结束的欣喜，全然没有离别的伤感。大概是因为喜欢的人还在身边，要好的哥们还住对面，大家奔赴五湖四海，但我们来自同一个地方，相聚还容易。</p>
-<p>但今时不同往日。或许是因为我们来自五湖四海，匆匆四年又即将奔赴五湖四海，又或许，是因为自己也即将离开熟悉的城市，成为异乡人。</p>
-<p>在未来的某一刻，可能会突然意识到，有些人，此刻说了再见，这辈子就真的再也不见了。</p>
-<img data-src="/image/1-2.jpg" alt="毕业前再去瞅瞅西湖" style="zoom:25%;"/>
-
-<p>我们不能奢求有人可以一直陪我们走下去，有些人出现，就是在人生中陪我们走一段，这一段我们一起过得精彩，就足矣。<br>岁月匆匆，惟愿总相逢。</p>
-]]></content>
-      <tags>
-        <tag>photos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>故乡</title>
-    <url>/2020/10/11/photo/20201005-hometown/</url>
-    <content><![CDATA[<p>故乡，大概是写在每个人灵魂最深处的底层代码。</p>
-<p>越长大，在家的日子就越少。曾经熟悉的地方，那些个常去的影院，洒过汗水的球场，躲过雨的屋檐，一不留神就变了模样，甚至，一晃眼就成了一片废墟，再也回不来了。</p>
-<p>这小小的一方城池啊，承载着太多回忆。因为这片土地上有我们在意的人儿，发生过许许多多与我们有关的事，这土地上的钢筋混凝土才有了温度，被我们惦记着，并亲切地称之为故乡。</p>
-<a id="more"></a>
-
-<img data-src="/image/3-1.jpg" alt="1" style="zoom:30%;"/>
-
-<img data-src="/image/3-2.jpg" alt="2" style="zoom:30%;"/>
-
-<img data-src="/image/3-3.jpg" alt="3" style="zoom:30%;"/>    
-
-<img data-src="/image/3-4.jpg" alt="4" style="zoom:30%;"/>
-
-<img data-src="/image/3-5.jpg" alt="5" style="zoom:30%;"/>
-
-<img data-src="/image/3-6.jpg" alt="6" style="zoom:30%;"/>
-
-<img data-src="/image/3-7.jpg" alt="7" style="zoom:30%;"/>
-
-<img data-src="/image/3-8.jpg" alt="8" style="zoom:30%;"/>]]></content>
-      <tags>
-        <tag>photos</tag>
-        <tag>胶片</tag>
       </tags>
   </entry>
 </search>
