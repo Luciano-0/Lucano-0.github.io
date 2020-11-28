@@ -1,57 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>DoTween</title>
-    <url>/2020/09/15/tech/DoTween/</url>
-    <content><![CDATA[<h1 id="1-Introdution"><a href="#1-Introdution" class="headerlink" title="1. Introdution"></a>1. Introdution</h1><a id="more"></a>
+    <title>关于校园的一些碎片</title>
+    <url>/2020/01/01/photo/20200101-school/</url>
+    <content><![CDATA[<img data-src="/image/4-1.jpg" alt="天台" style="zoom:16%;"/>
 
-<h1 id="2-Function"><a href="#2-Function" class="headerlink" title="2. Function"></a>2. Function</h1><h2 id="Transform"><a href="#Transform" class="headerlink" title="Transform"></a><strong>Transform</strong></h2><p><code>transform.Func()</code></p>
-<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><ul>
-<li><code>DOMove(Vector3 target, float time)</code></li>
-<li><code>DOLocalMove()</code></li>
-<li><code>DOPunchPosition()</code></li>
-</ul>
-<h3 id="rotation"><a href="#rotation" class="headerlink" title="rotation"></a>rotation</h3><ul>
-<li><code>DORotate()</code></li>
-<li><code>DOLocalRotate()</code></li>
-<li><code>DORotateQuaternion()</code></li>
-<li><code>DOLookat()</code></li>
-<li><code>DOPunchRotation()</code></li>
-</ul>
-<h3 id="scale"><a href="#scale" class="headerlink" title="scale"></a>scale</h3><ul>
-<li><code>DOScale()</code></li>
-<li><code>DOPunchScale()</code></li>
-</ul>
-<h3 id="other"><a href="#other" class="headerlink" title="other"></a>other</h3><ul>
-<li><code>DOShakePosition()</code>：常用于相机的振动效果</li>
-</ul>
-<h3 id="blend"><a href="#blend" class="headerlink" title="blend"></a>blend</h3><ul>
-<li>如果同时执行两个<code>DOMove()</code>，则前一个会被覆盖，这时需要使用动画混合</li>
-<li>实现增量控制</li>
-<li><code>DOBlendableMoveBy()</code></li>
-<li><code>DOBlendablePunchRotation()</code></li>
-</ul>
-<h2 id="Material"><a href="#Material" class="headerlink" title="Material"></a><strong>Material</strong></h2><p><code>Material material = GetComponent&lt;MeshRenderer&gt;().material;</code></p>
-<p><code>material.Func()</code></p>
-<h3 id="color"><a href="#color" class="headerlink" title="color"></a>color</h3><ul>
-<li><code>DOColor()</code>：传颜色属性名字</li>
-<li><code>DOGradientColor()</code>：渐变颜色动画</li>
-</ul>
-<h3 id="alpha"><a href="#alpha" class="headerlink" title="alpha"></a>alpha</h3><ul>
-<li><p><code>DOColor(Color.clear, time)</code>：通过改变颜色的透明度改变物体透明度</p>
-</li>
-<li><p><code>DOFade()</code></p>
-</li>
-</ul>
-<h3 id="other-1"><a href="#other-1" class="headerlink" title="other"></a>other</h3><ul>
-<li><code>DOOffset()</code>：动态改变uv坐标，可用于特效，如武器流光</li>
-<li><code>DOVector()</code>：改变任意material四维向量值</li>
-<li><code>DOBlendableColor()</code>：颜色混合</li>
-</ul>
-<h1 id="3-Tips"><a href="#3-Tips" class="headerlink" title="3. Tips"></a>3. Tips</h1><ul>
-<li>函数命名与功能相关，每一类命名都有关键词</li>
-</ul>
+<a id="more"></a>
+
+<img data-src="/image/4-2.jpg" alt="红黄蓝" style="zoom:30%;"/>
+
+<img data-src="/image/4-4.jpg" alt="最爱玉泉午后的光影" style="zoom:30%;"/>
+
+<img data-src="/image/4-5.jpg" alt="玉泉某个角落" style="zoom:30%;"/>
+
+<img data-src="/image/4-6.jpg" alt="不知道是什么楼" style="zoom:30%;"/>
+
+<img data-src="/image/4-7.jpg" alt="祖国万岁" style="zoom:30%;"/>
+
+<img data-src="/image/4-8.jpg" alt="请爱护光缆" style="zoom:30%;"/>
+
+<img data-src="/image/4-9.jpg" alt="紫金港的鹅鹅鹅" style="zoom:16%;"/>
+
+<img data-src="/image/4-10.jpg" alt="你瞅啥" style="zoom:16%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
+        <tag>胶片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>月亮碎了，于是星星亮了</title>
+    <url>/2020/04/30/photo/20200430-star/</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>手牵手一步两步三步四步望着天    </p>
+<p>看星星一颗两颗三颗四颗连成线</p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+<img data-src= "/image/2-1.jpg" alt="1" style="zoom:16%;"/>
+
+<a id="more"></a>
+
+<img data-src= "/image/2-2.jpg" alt="2" style="zoom:16%;"/>
+
+<img data-src= "/image/2-3.jpg" alt="3" style="zoom:16%;"/>
+
+<img data-src= "/image/2-4.jpg" alt="4" style="zoom:16%;"/>
+
+<img data-src= "/image/2-5.jpg" alt="5" style="zoom:16%;"/>
+
+<img data-src= "/image/2-6.jpg" alt="6" style="zoom:16%;"/>
+
 ]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>山河满目，既往不咎</title>
+    <url>/2020/01/10/photo/20200110-WestLake/</url>
+    <content><![CDATA[<p>2019年最后一天，于西湖。</p>
+<img data-src="/image/6-1.jpg" alt=" " style="zoom:30%;"/>
+
+<a id="more"></a>
+
+<img data-src="/image/6-2.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/6-3.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/6-4.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/6-5.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/6-6.jpg" alt=" " style="zoom:30%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
+        <tag>胶片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>毕业那些事</title>
+    <url>/2020/10/11/photo/20200630-graduate/</url>
+    <content><![CDATA[<p>毕业，在杭州的雨季中悄然而至。</p>
+<p>2020年的毕业季，号称史上最难毕业季。疫情之下，校园紧闭，连最后的相聚也显得格外仓促。</p>
+<a id="more"></a>
+
+<p>雨后的校园，就会长出三三两两的穿着学位服拍照的人们，趁着一两片弥足珍贵的阳光，定格校园中最后的时光。</p>
+<img data-src="/image/1-1.jpg" alt="最后一课" style="zoom:16%;"/>
+
+<p>平日里，我是一个没心没肺的人，但到了离别的时候，总想着，让时间过得再慢一些，还想和这些可爱的人儿多说一些话。</p>
+<p>高中毕业时，似乎内心全乎是高考结束的欣喜，全然没有离别的伤感。大概是因为喜欢的人还在身边，要好的哥们还住对面，大家奔赴五湖四海，但我们来自同一个地方，相聚还容易。</p>
+<p>但今时不同往日。或许是因为我们来自五湖四海，匆匆四年又即将奔赴五湖四海，又或许，是因为自己也即将离开熟悉的城市，成为异乡人。</p>
+<p>在未来的某一刻，可能会突然意识到，有些人，此刻说了再见，这辈子就真的再也不见了。</p>
+<img data-src="/image/1-2.jpg" alt="毕业前再去瞅瞅西湖" style="zoom:25%;"/>
+
+<p>我们不能奢求有人可以一直陪我们走下去，有些人出现，就是在人生中陪我们走一段，这一段我们一起过得精彩，就足矣。<br>岁月匆匆，惟愿总相逢。</p>
+]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>故乡</title>
+    <url>/2020/10/11/photo/20201005-hometown/</url>
+    <content><![CDATA[<p>故乡，大概是写在每个人灵魂最深处的底层代码。</p>
+<p>越长大，在家的日子就越少。曾经熟悉的地方，那些个常去的影院，洒过汗水的球场，躲过雨的屋檐，一不留神就变了模样，甚至，一晃眼就成了一片废墟，再也回不来了。</p>
+<p>这小小的一方城池啊，承载着太多回忆。因为这片土地上有我们在意的人儿，发生过许许多多与我们有关的事，这土地上的钢筋混凝土才有了温度，被我们惦记着，并亲切地称之为故乡。</p>
+<a id="more"></a>
+
+<img data-src="/image/3-1.jpg" alt="1" style="zoom:30%;"/>
+
+<img data-src="/image/3-2.jpg" alt="2" style="zoom:30%;"/>
+
+<img data-src="/image/3-3.jpg" alt="3" style="zoom:30%;"/>    
+
+<img data-src="/image/3-4.jpg" alt="4" style="zoom:30%;"/>
+
+<img data-src="/image/3-5.jpg" alt="5" style="zoom:30%;"/>
+
+<img data-src="/image/3-6.jpg" alt="6" style="zoom:30%;"/>
+
+<img data-src="/image/3-7.jpg" alt="7" style="zoom:30%;"/>
+
+<img data-src="/image/3-8.jpg" alt="8" style="zoom:30%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
+        <tag>胶片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>那些年追过的展（持续更新）</title>
+    <url>/2020/10/31/photo/20201031-gallery/</url>
+    <content><![CDATA[<img data-src="/image/5-1.jpg" alt="🌊" style="zoom:30%;"/>
+
+<a id="more"></a>
+
+<img data-src="/image/5-2.jpg" alt="早安打工人！" style="zoom:30%;"/>
+
+<img data-src="/image/5-3.jpg" alt="西岸美术馆的长梯" style="zoom:30%;"/>
+
+<img data-src="/image/5-4.jpg" alt="Wheel" style="zoom:30%;"/>
+
+<img data-src="/image/5-5.jpg" alt="Plane" style="zoom:30%;"/>
+
+<img data-src="/image/5-6.jpg" alt="月食" style="zoom:30%;"/>
+
+<img data-src="/image/5-7.jpg" alt="最美二叉树？" style="zoom:30%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>追夕阳的日子</title>
+    <url>/2020/10/31/photo/20201031-sun/</url>
+    <content><![CDATA[<p>秋分一过，白天以肉眼可见的速度缩短。平日里七点下班，只能和星星月亮打个照面。</p>
+<p>可幸的是，今年的秋天格外长，西伯利亚的寒风迟迟没有吹来，好让我有足够多的时间去感受秋日午后的温柔。</p>
+<img data-src="/image/7-1.jpg" alt=" " style="zoom:30%;"/>
+
+<a id="more"></a>
+
+<p>揣上相机，骑个单车，打开杰伦的歌单列表循环，去把陌生城市的大街小巷都溜达一遍。</p>
+<img data-src="/image/7-2.jpg" alt=" " style="zoom:30%;"/>
+
+<p>过了三点，太阳也开始打盹，像极了下班前提前开始摸鱼的我们。阳光渐渐向着长波段偏移，这时，情况就变得焦急起来。 光影瞬息万变， 每一次快门可不再像原来那么从容。</p>
+<img data-src="/image/7-3.jpg" alt=" " style="zoom:40%;"/>
+
+<img data-src="/image/7-4.jpg" alt=" " style="zoom:30%;"/>
+
+<p>最后一缕阳光总是最珍贵的，向着西边的方向，以高中时赶早自习的速度，去追赶那一片在高楼间透出来的夕阳。不过，追不上也没有关系，看到那渐变的天空吗，那是老天爷对勤奋小孩额外的馈赠。</p>
+<img data-src="/image/7-5.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/7-6.jpg" alt=" " style="zoom:30%;"/>
+
+<p>想起高中作文里常写的老套的句子：看日出日落，云卷云舒。没想到在退休前还有机会过一段这样的日子，没有眼前的苟且，也没有诗和远方。但我自由自在，做着自己喜欢的事，在进步的同时还能有时间可以浪费。</p>
+<img data-src="/image/7-7.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/7-8.jpg" alt=" " style="zoom:30%;"/>
+
+<p>我永这会记得那个追着夕阳跑的少年，那份中二的浪漫，且珍惜。</p>
+]]></content>
+      <tags>
+        <tag>photos</tag>
+        <tag>胶片</tag>
+      </tags>
   </entry>
   <entry>
     <title>Lua小技巧及语法糖记录</title>
@@ -155,6 +287,74 @@
       </tags>
   </entry>
   <entry>
+    <title>DoTween</title>
+    <url>/2020/09/15/tech/DoTween/</url>
+    <content><![CDATA[<h1 id="1-Introdution"><a href="#1-Introdution" class="headerlink" title="1. Introdution"></a>1. Introdution</h1><a id="more"></a>
+
+<h1 id="2-Function"><a href="#2-Function" class="headerlink" title="2. Function"></a>2. Function</h1><h2 id="Transform"><a href="#Transform" class="headerlink" title="Transform"></a><strong>Transform</strong></h2><p><code>transform.Func()</code></p>
+<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><ul>
+<li><code>DOMove(Vector3 target, float time)</code></li>
+<li><code>DOLocalMove()</code></li>
+<li><code>DOPunchPosition()</code></li>
+</ul>
+<h3 id="rotation"><a href="#rotation" class="headerlink" title="rotation"></a>rotation</h3><ul>
+<li><code>DORotate()</code></li>
+<li><code>DOLocalRotate()</code></li>
+<li><code>DORotateQuaternion()</code></li>
+<li><code>DOLookat()</code></li>
+<li><code>DOPunchRotation()</code></li>
+</ul>
+<h3 id="scale"><a href="#scale" class="headerlink" title="scale"></a>scale</h3><ul>
+<li><code>DOScale()</code></li>
+<li><code>DOPunchScale()</code></li>
+</ul>
+<h3 id="other"><a href="#other" class="headerlink" title="other"></a>other</h3><ul>
+<li><code>DOShakePosition()</code>：常用于相机的振动效果</li>
+</ul>
+<h3 id="blend"><a href="#blend" class="headerlink" title="blend"></a>blend</h3><ul>
+<li>如果同时执行两个<code>DOMove()</code>，则前一个会被覆盖，这时需要使用动画混合</li>
+<li>实现增量控制</li>
+<li><code>DOBlendableMoveBy()</code></li>
+<li><code>DOBlendablePunchRotation()</code></li>
+</ul>
+<h2 id="Material"><a href="#Material" class="headerlink" title="Material"></a><strong>Material</strong></h2><p><code>Material material = GetComponent&lt;MeshRenderer&gt;().material;</code></p>
+<p><code>material.Func()</code></p>
+<h3 id="color"><a href="#color" class="headerlink" title="color"></a>color</h3><ul>
+<li><code>DOColor()</code>：传颜色属性名字</li>
+<li><code>DOGradientColor()</code>：渐变颜色动画</li>
+</ul>
+<h3 id="alpha"><a href="#alpha" class="headerlink" title="alpha"></a>alpha</h3><ul>
+<li><p><code>DOColor(Color.clear, time)</code>：通过改变颜色的透明度改变物体透明度</p>
+</li>
+<li><p><code>DOFade()</code></p>
+</li>
+</ul>
+<h3 id="other-1"><a href="#other-1" class="headerlink" title="other"></a>other</h3><ul>
+<li><code>DOOffset()</code>：动态改变uv坐标，可用于特效，如武器流光</li>
+<li><code>DOVector()</code>：改变任意material四维向量值</li>
+<li><code>DOBlendableColor()</code>：颜色混合</li>
+</ul>
+<h1 id="3-Tips"><a href="#3-Tips" class="headerlink" title="3. Tips"></a>3. Tips</h1><ul>
+<li>函数命名与功能相关，每一类命名都有关键词</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>一种拨轮动效</title>
+    <url>/2020/09/28/tech/TimeWidget/</url>
+    <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
+<a id="more"></a>
+
+<p><video src="/image/TimeWidget.mov" controls="controls" style="max-width: 50%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
+<p><a href="https://github.com/Luciano-0/TimeWidget">Github地址</a></p>
+]]></content>
+      <tags>
+        <tag>Unity</tag>
+        <tag>C#</tag>
+        <tag>动效</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>初见Processing</title>
     <url>/2020/10/18/tech/Processing-1/</url>
     <content><![CDATA[<h2 id="新大陆"><a href="#新大陆" class="headerlink" title="新大陆"></a>新大陆</h2><p>前几天开始看 Daniel Shiffman的<a href="https://book.douban.com/subject/26264736/">《代码本色：用编程模拟自然系统》</a>，接触到了Processing这种编程语言，就像发现了新大陆。Processing号称为艺术而生的语言，确实，从使用体验到运行效果，都能透露出一份独特的优雅。</p>
@@ -177,21 +377,6 @@
 ]]></content>
       <tags>
         <tag>Processing</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一种拨轮动效</title>
-    <url>/2020/09/28/tech/TimeWidget/</url>
-    <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
-<a id="more"></a>
-
-<p><video src="/image/TimeWidget.mov" controls="controls" style="max-width: 50%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
-<p><a href="https://github.com/Luciano-0/TimeWidget">Github地址</a></p>
-]]></content>
-      <tags>
-        <tag>Unity</tag>
-        <tag>C#</tag>
-        <tag>动效</tag>
       </tags>
   </entry>
   <entry>
@@ -269,156 +454,5 @@
 <li>换回默认源</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda config --remove-key channels</span><br></pre></td></tr></table></figure>]]></content>
-  </entry>
-  <entry>
-    <title>关于校园的一些碎片</title>
-    <url>/2020/01/01/photo/20200101-school/</url>
-    <content><![CDATA[<img data-src="/image/4-1.jpg" alt="天台" style="zoom:16%;"/>
-
-<a id="more"></a>
-
-<img data-src="/image/4-2.jpg" alt="红黄蓝" style="zoom:30%;"/>
-
-<img data-src="/image/4-4.jpg" alt="最爱玉泉午后的光影" style="zoom:30%;"/>
-
-<img data-src="/image/4-5.jpg" alt="玉泉某个角落" style="zoom:30%;"/>
-
-<img data-src="/image/4-6.jpg" alt="不知道是什么楼" style="zoom:30%;"/>
-
-<img data-src="/image/4-7.jpg" alt="祖国万岁" style="zoom:30%;"/>
-
-<img data-src="/image/4-8.jpg" alt="请爱护光缆" style="zoom:30%;"/>
-
-<img data-src="/image/4-9.jpg" alt="紫金港的鹅鹅鹅" style="zoom:16%;"/>
-
-<img data-src="/image/4-10.jpg" alt="你瞅啥" style="zoom:16%;"/>]]></content>
-      <tags>
-        <tag>photos</tag>
-        <tag>胶片</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>山河满目，既往不咎</title>
-    <url>/2020/01/10/photo/20200110-WestLake/</url>
-    <content><![CDATA[<p>2019年最后一天，于西湖。</p>
-<img data-src="/image/6-1.jpg" alt=" " style="zoom:30%;"/>
-
-<a id="more"></a>
-
-<img data-src="/image/6-2.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/6-3.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/6-4.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/6-5.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/6-6.jpg" alt=" " style="zoom:30%;"/>]]></content>
-      <tags>
-        <tag>photos</tag>
-        <tag>胶片</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>毕业那些事</title>
-    <url>/2020/10/11/photo/20200630-graduate/</url>
-    <content><![CDATA[<p>毕业，在杭州的雨季中悄然而至。</p>
-<p>2020年的毕业季，号称史上最难毕业季。疫情之下，校园紧闭，连最后的相聚也显得格外仓促。</p>
-<a id="more"></a>
-
-<p>雨后的校园，就会长出三三两两的穿着学位服拍照的人们，趁着一两片弥足珍贵的阳光，定格校园中最后的时光。</p>
-<img data-src="/image/1-1.jpg" alt="最后一课" style="zoom:16%;"/>
-
-<p>平日里，我是一个没心没肺的人，但到了离别的时候，总想着，让时间过得再慢一些，还想和这些可爱的人儿多说一些话。</p>
-<p>高中毕业时，似乎内心全乎是高考结束的欣喜，全然没有离别的伤感。大概是因为喜欢的人还在身边，要好的哥们还住对面，大家奔赴五湖四海，但我们来自同一个地方，相聚还容易。</p>
-<p>但今时不同往日。或许是因为我们来自五湖四海，匆匆四年又即将奔赴五湖四海，又或许，是因为自己也即将离开熟悉的城市，成为异乡人。</p>
-<p>在未来的某一刻，可能会突然意识到，有些人，此刻说了再见，这辈子就真的再也不见了。</p>
-<img data-src="/image/1-2.jpg" alt="毕业前再去瞅瞅西湖" style="zoom:25%;"/>
-
-<p>我们不能奢求有人可以一直陪我们走下去，有些人出现，就是在人生中陪我们走一段，这一段我们一起过得精彩，就足矣。<br>岁月匆匆，惟愿总相逢。</p>
-]]></content>
-      <tags>
-        <tag>photos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>月亮碎了，于是星星亮了</title>
-    <url>/2020/04/30/photo/20200430-star/</url>
-    <content><![CDATA[<blockquote class="blockquote-center">
-            <i class="fa fa-quote-left"></i>
-            <p>手牵手一步两步三步四步望着天    </p>
-<p>看星星一颗两颗三颗四颗连成线</p>
-
-            <i class="fa fa-quote-right"></i>
-          </blockquote>
-
-<img data-src= "/image/2-1.jpg" alt="1" style="zoom:16%;"/>
-
-<a id="more"></a>
-
-<img data-src= "/image/2-2.jpg" alt="2" style="zoom:16%;"/>
-
-<img data-src= "/image/2-3.jpg" alt="3" style="zoom:16%;"/>
-
-<img data-src= "/image/2-4.jpg" alt="4" style="zoom:16%;"/>
-
-<img data-src= "/image/2-5.jpg" alt="5" style="zoom:16%;"/>
-
-<img data-src= "/image/2-6.jpg" alt="6" style="zoom:16%;"/>
-
-]]></content>
-      <tags>
-        <tag>photos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>故乡</title>
-    <url>/2020/10/11/photo/20201005-hometown/</url>
-    <content><![CDATA[<p>故乡，大概是写在每个人灵魂最深处的底层代码。</p>
-<p>越长大，在家的日子就越少。曾经熟悉的地方，那些个常去的影院，洒过汗水的球场，躲过雨的屋檐，一不留神就变了模样，甚至，一晃眼就成了一片废墟，再也回不来了。</p>
-<p>这小小的一方城池啊，承载着太多回忆。因为这片土地上有我们在意的人儿，发生过许许多多与我们有关的事，这土地上的钢筋混凝土才有了温度，被我们惦记着，并亲切地称之为故乡。</p>
-<a id="more"></a>
-
-<img data-src="/image/3-1.jpg" alt="1" style="zoom:30%;"/>
-
-<img data-src="/image/3-2.jpg" alt="2" style="zoom:30%;"/>
-
-<img data-src="/image/3-3.jpg" alt="3" style="zoom:30%;"/>    
-
-<img data-src="/image/3-4.jpg" alt="4" style="zoom:30%;"/>
-
-<img data-src="/image/3-5.jpg" alt="5" style="zoom:30%;"/>
-
-<img data-src="/image/3-6.jpg" alt="6" style="zoom:30%;"/>
-
-<img data-src="/image/3-7.jpg" alt="7" style="zoom:30%;"/>
-
-<img data-src="/image/3-8.jpg" alt="8" style="zoom:30%;"/>]]></content>
-      <tags>
-        <tag>photos</tag>
-        <tag>胶片</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>那些年追过的展（持续更新）</title>
-    <url>/2020/10/31/photo/20201031-gallery/</url>
-    <content><![CDATA[<img data-src="/image/5-1.jpg" alt="🌊" style="zoom:30%;"/>
-
-<a id="more"></a>
-
-<img data-src="/image/5-2.jpg" alt="早安打工人！" style="zoom:30%;"/>
-
-<img data-src="/image/5-3.jpg" alt="西岸美术馆的长梯" style="zoom:30%;"/>
-
-<img data-src="/image/5-4.jpg" alt="Wheel" style="zoom:30%;"/>
-
-<img data-src="/image/5-5.jpg" alt="Plane" style="zoom:30%;"/>
-
-<img data-src="/image/5-6.jpg" alt="月食" style="zoom:30%;"/>
-
-<img data-src="/image/5-7.jpg" alt="最美二叉树？" style="zoom:30%;"/>]]></content>
-      <tags>
-        <tag>photos</tag>
-      </tags>
   </entry>
 </search>
