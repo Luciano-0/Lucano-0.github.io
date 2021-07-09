@@ -345,6 +345,49 @@
 ]]></content>
   </entry>
   <entry>
+    <title>效率工具备忘录</title>
+    <url>/2021/03/11/tech/EfficiencyTool/</url>
+    <content><![CDATA[<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><ul>
+<li><a href="http://www.1218.io/">Seer</a> 实现类似Mac OS下空格预览文件的功能。</li>
+<li><a href="https://www.islide.cc/">iSlide</a> 基于PPT的插件工具，包含查找模板、图片、图标素材、设计配色、页面布局、智能优化等功能。</li>
+<li><a href="https://everything.en.softonic.com/">Everything</a> 全局文件搜索</li>
+<li><a href="http://www.wox.one/">Wox</a> 实现类似Mac OS下Spot Light的功能，搭配Everything食用更佳。</li>
+<li><a href="https://github.com/microsoft/PowerToys/releases">PowerToys</a> 微软开发的开源效率工具，支持快速修改图片分辨率、批量文件重命名、Wox的大部分功能(暂时不支持与Everything配合使用)。<a href="https://docs.microsoft.com/zh-cn/windows/powertoys/">Microsoft PowerToys | Microsoft Docs</a></li>
+<li><a href="https://www.typora.io/">Typora</a> 用过颜值最高的Markdown编辑器。</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="Mac-OS"><a href="#Mac-OS" class="headerlink" title="Mac OS"></a>Mac OS</h3><ul>
+<li><strong>Bob</strong> 全局翻译软件</li>
+<li><strong>MonitorControl</strong> 控制显示器亮度</li>
+<li><strong>超级右键</strong> 右键菜单工具</li>
+<li><strong>Xnip</strong> 截图工具，支持滚动截图</li>
+<li><strong>Unsplash Wallpapers</strong> 壁纸</li>
+<li><strong>Cheat Sheet</strong> 快捷键查看工具</li>
+<li><strong>Keka</strong> 解压工具</li>
+<li><strong>Tencent Lemon</strong> 管家</li>
+<li><strong>Mos</strong> 鼠标优化</li>
+<li><strong>Rectangle</strong> 窗口调整工具</li>
+</ul>
+<h3 id="Edge-Chrome插件"><a href="#Edge-Chrome插件" class="headerlink" title="Edge/Chrome插件"></a>Edge/Chrome插件</h3><ul>
+<li><a href="https://microsoftedge.microsoft.com/addons/detail/adblock-%E2%80%94-%E6%9C%80%E4%BD%B3%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%B7%A5%E5%85%B7/ndcileolkflehcjpmjnfbnaibdcgglog">AdBlock</a></li>
+<li><a href="https://microsoftedge.microsoft.com/addons/detail/infinity-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5-pro/hajlmbnnniemimmaehcefkamdadpjlfa">Infinity 新标签页 (Pro)</a></li>
+<li><a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd">Tampermonkey</a></li>
+<li><a href="">Imagus</a> 图片预览</li>
+</ul>
+<h3 id="JetBrains插件"><a href="#JetBrains插件" class="headerlink" title="JetBrains插件"></a>JetBrains插件</h3><ul>
+<li><strong>Translation</strong> 翻译工具</li>
+<li><strong>Nyan Progress Bar</strong> 彩虹猫进度条</li>
+<li><strong>GitToolBox</strong> Git工具</li>
+<li><strong>Chinese(Simplified) Language Pack EAP</strong> 汉化包</li>
+<li><strong>CodeGlance</strong> 代码预览滚动条</li>
+<li><strong>Background Image Plus</strong> 设置IDE背景</li>
+<li><strong>Leetcode editor</strong> IDE刷Leetcode神器</li>
+<li><strong>AIXcoder Code Completer</strong> 代码补全工具</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Lua小技巧及语法糖记录</title>
     <url>/2020/10/27/tech/Lua-1/</url>
     <content><![CDATA[<p>在Lua的学习过程中，发现有许多特别或是巧妙的语法，特在此记录。</p>
@@ -446,49 +489,6 @@
       </tags>
   </entry>
   <entry>
-    <title>效率工具备忘录</title>
-    <url>/2021/03/11/tech/EfficiencyTool/</url>
-    <content><![CDATA[<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><ul>
-<li><a href="http://www.1218.io/">Seer</a> 实现类似Mac OS下空格预览文件的功能。</li>
-<li><a href="https://www.islide.cc/">iSlide</a> 基于PPT的插件工具，包含查找模板、图片、图标素材、设计配色、页面布局、智能优化等功能。</li>
-<li><a href="https://everything.en.softonic.com/">Everything</a> 全局文件搜索</li>
-<li><a href="http://www.wox.one/">Wox</a> 实现类似Mac OS下Spot Light的功能，搭配Everything食用更佳。</li>
-<li><a href="https://github.com/microsoft/PowerToys/releases">PowerToys</a> 微软开发的开源效率工具，支持快速修改图片分辨率、批量文件重命名、Wox的大部分功能(暂时不支持与Everything配合使用)。<a href="https://docs.microsoft.com/zh-cn/windows/powertoys/">Microsoft PowerToys | Microsoft Docs</a></li>
-<li><a href="https://www.typora.io/">Typora</a> 用过颜值最高的Markdown编辑器。</li>
-</ul>
-<a id="more"></a>
-
-<h3 id="Mac-OS"><a href="#Mac-OS" class="headerlink" title="Mac OS"></a>Mac OS</h3><ul>
-<li><strong>Bob</strong> 全局翻译软件</li>
-<li><strong>MonitorControl</strong> 控制显示器亮度</li>
-<li><strong>超级右键</strong> 右键菜单工具</li>
-<li><strong>Xnip</strong> 截图工具，支持滚动截图</li>
-<li><strong>Unsplash Wallpapers</strong> 壁纸</li>
-<li><strong>Cheat Sheet</strong> 快捷键查看工具</li>
-<li><strong>Keka</strong> 解压工具</li>
-<li><strong>Tencent Lemon</strong> 管家</li>
-<li><strong>Mos</strong> 鼠标优化</li>
-<li><strong>Rectangle</strong> 窗口调整工具</li>
-</ul>
-<h3 id="Edge-Chrome插件"><a href="#Edge-Chrome插件" class="headerlink" title="Edge/Chrome插件"></a>Edge/Chrome插件</h3><ul>
-<li><a href="https://microsoftedge.microsoft.com/addons/detail/adblock-%E2%80%94-%E6%9C%80%E4%BD%B3%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%B7%A5%E5%85%B7/ndcileolkflehcjpmjnfbnaibdcgglog">AdBlock</a></li>
-<li><a href="https://microsoftedge.microsoft.com/addons/detail/infinity-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5-pro/hajlmbnnniemimmaehcefkamdadpjlfa">Infinity 新标签页 (Pro)</a></li>
-<li><a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd">Tampermonkey</a></li>
-<li><a href="">Imagus</a> 图片预览</li>
-</ul>
-<h3 id="JetBrains插件"><a href="#JetBrains插件" class="headerlink" title="JetBrains插件"></a>JetBrains插件</h3><ul>
-<li><strong>Translation</strong> 翻译工具</li>
-<li><strong>Nyan Progress Bar</strong> 彩虹猫进度条</li>
-<li><strong>GitToolBox</strong> Git工具</li>
-<li><strong>Chinese(Simplified) Language Pack EAP</strong> 汉化包</li>
-<li><strong>CodeGlance</strong> 代码预览滚动条</li>
-<li><strong>Background Image Plus</strong> 设置IDE背景</li>
-<li><strong>Leetcode editor</strong> IDE刷Leetcode神器</li>
-<li><strong>AIXcoder Code Completer</strong> 代码补全工具</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>初见Processing</title>
     <url>/2020/10/18/tech/Processing-1/</url>
     <content><![CDATA[<h2 id="新大陆"><a href="#新大陆" class="headerlink" title="新大陆"></a>新大陆</h2><p>前几天开始看 Daniel Shiffman的<a href="https://book.douban.com/subject/26264736/">《代码本色：用编程模拟自然系统》</a>，接触到了Processing这种编程语言，就像发现了新大陆。Processing号称为艺术而生的语言，确实，从使用体验到运行效果，都能透露出一份独特的优雅。</p>
@@ -511,21 +511,6 @@
 ]]></content>
       <tags>
         <tag>Processing</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一种拨轮动效</title>
-    <url>/2020/09/28/tech/TimeWidget/</url>
-    <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
-<a id="more"></a>
-
-<p><video src="/image/TimeWidget.mov" controls="controls" style="max-width: 50%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
-<p><a href="https://github.com/Luciano-0/TimeWidget">Github地址</a></p>
-]]></content>
-      <tags>
-        <tag>Unity</tag>
-        <tag>C#</tag>
-        <tag>动效</tag>
       </tags>
   </entry>
   <entry>
@@ -580,6 +565,21 @@
         <tag>Unity</tag>
         <tag>C#</tag>
         <tag>Timeline</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一种拨轮动效</title>
+    <url>/2020/09/28/tech/TimeWidget/</url>
+    <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
+<a id="more"></a>
+
+<p><video src="/image/TimeWidget.mov" controls="controls" style="max-width: 50%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
+<p><a href="https://github.com/Luciano-0/TimeWidget">Github地址</a></p>
+]]></content>
+      <tags>
+        <tag>Unity</tag>
+        <tag>C#</tag>
+        <tag>动效</tag>
       </tags>
   </entry>
   <entry>
