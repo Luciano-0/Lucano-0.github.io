@@ -130,28 +130,6 @@
       </tags>
   </entry>
   <entry>
-    <title>那些年追过的展（持续更新）</title>
-    <url>/2020/10/31/photo/20201031-gallery/</url>
-    <content><![CDATA[<img data-src="/image/5-1.jpg" alt="🌊" style="zoom:30%;"/>
-
-<a id="more"></a>
-
-<img data-src="/image/5-2.jpg" alt="早安打工人！" style="zoom:30%;"/>
-
-<img data-src="/image/5-3.jpg" alt="西岸美术馆的长梯" style="zoom:30%;"/>
-
-<img data-src="/image/5-4.jpg" alt="Wheel" style="zoom:30%;"/>
-
-<img data-src="/image/5-5.jpg" alt="Plane" style="zoom:30%;"/>
-
-<img data-src="/image/5-6.jpg" alt="月食" style="zoom:30%;"/>
-
-<img data-src="/image/5-7.jpg" alt="最美二叉树？" style="zoom:30%;"/>]]></content>
-      <tags>
-        <tag>photos</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>追夕阳的日子</title>
     <url>/2020/10/31/photo/20201031-sun/</url>
     <content><![CDATA[<p>秋分一过，白天以肉眼可见的速度缩短。平日里七点下班，只能和星星月亮打个照面。</p>
@@ -183,6 +161,28 @@
       <tags>
         <tag>photos</tag>
         <tag>胶片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>那些年追过的展（持续更新）</title>
+    <url>/2020/10/31/photo/20201031-gallery/</url>
+    <content><![CDATA[<img data-src="/image/5-1.jpg" alt="🌊" style="zoom:30%;"/>
+
+<a id="more"></a>
+
+<img data-src="/image/5-2.jpg" alt="早安打工人！" style="zoom:30%;"/>
+
+<img data-src="/image/5-3.jpg" alt="西岸美术馆的长梯" style="zoom:30%;"/>
+
+<img data-src="/image/5-4.jpg" alt="Wheel" style="zoom:30%;"/>
+
+<img data-src="/image/5-5.jpg" alt="Plane" style="zoom:30%;"/>
+
+<img data-src="/image/5-6.jpg" alt="月食" style="zoom:30%;"/>
+
+<img data-src="/image/5-7.jpg" alt="最美二叉树？" style="zoom:30%;"/>]]></content>
+      <tags>
+        <tag>photos</tag>
       </tags>
   </entry>
   <entry>
@@ -218,40 +218,6 @@
       <tags>
         <tag>photos</tag>
         <tag>胶片</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>今日：阴有阵雨</title>
-    <url>/2021/02/28/photo/20210228-RainyShangHai/</url>
-    <content><![CDATA[<img data-src="/image/10-7.jpg" alt=" " style="zoom:30%;"/>
-
-<a id="more"></a>
-
-<img data-src="/image/10-1.JPG" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-2.JPG" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-3.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-4.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-5.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-6.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-8.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-9.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-10.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-11.jpg" alt=" " style="zoom:30%;"/>
-
-<img data-src="/image/10-12.jpg" alt=" " style="zoom:30%;"/>
-
-]]></content>
-      <tags>
-        <tag>photos</tag>
       </tags>
   </entry>
   <entry>
@@ -345,47 +311,38 @@
 ]]></content>
   </entry>
   <entry>
-    <title>效率工具备忘录</title>
-    <url>/2021/03/11/tech/EfficiencyTool/</url>
-    <content><![CDATA[<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><ul>
-<li><a href="http://www.1218.io/">Seer</a> 实现类似Mac OS下空格预览文件的功能。</li>
-<li><a href="https://www.islide.cc/">iSlide</a> 基于PPT的插件工具，包含查找模板、图片、图标素材、设计配色、页面布局、智能优化等功能。</li>
-<li><a href="https://everything.en.softonic.com/">Everything</a> 全局文件搜索</li>
-<li><a href="http://www.wox.one/">Wox</a> 实现类似Mac OS下Spot Light的功能，搭配Everything食用更佳。</li>
-<li><a href="https://github.com/microsoft/PowerToys/releases">PowerToys</a> 微软开发的开源效率工具，支持快速修改图片分辨率、批量文件重命名、Wox的大部分功能(暂时不支持与Everything配合使用)。<a href="https://docs.microsoft.com/zh-cn/windows/powertoys/">Microsoft PowerToys | Microsoft Docs</a></li>
-<li><a href="https://www.typora.io/">Typora</a> 用过颜值最高的Markdown编辑器。</li>
-</ul>
+    <title>今日：阴有阵雨</title>
+    <url>/2021/02/28/photo/20210228-RainyShangHai/</url>
+    <content><![CDATA[<img data-src="/image/10-7.jpg" alt=" " style="zoom:30%;"/>
+
 <a id="more"></a>
 
-<h3 id="Mac-OS"><a href="#Mac-OS" class="headerlink" title="Mac OS"></a>Mac OS</h3><ul>
-<li><strong>Bob</strong> 全局翻译软件</li>
-<li><strong>MonitorControl</strong> 控制显示器亮度</li>
-<li><strong>超级右键</strong> 右键菜单工具</li>
-<li><strong>Xnip</strong> 截图工具，支持滚动截图</li>
-<li><strong>Unsplash Wallpapers</strong> 壁纸</li>
-<li><strong>Cheat Sheet</strong> 快捷键查看工具</li>
-<li><strong>Keka</strong> 解压工具</li>
-<li><strong>Tencent Lemon</strong> 管家</li>
-<li><strong>Mos</strong> 鼠标优化</li>
-<li><strong>Rectangle</strong> 窗口调整工具</li>
-</ul>
-<h3 id="Edge-Chrome插件"><a href="#Edge-Chrome插件" class="headerlink" title="Edge/Chrome插件"></a>Edge/Chrome插件</h3><ul>
-<li><a href="https://microsoftedge.microsoft.com/addons/detail/adblock-%E2%80%94-%E6%9C%80%E4%BD%B3%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%B7%A5%E5%85%B7/ndcileolkflehcjpmjnfbnaibdcgglog">AdBlock</a></li>
-<li><a href="https://microsoftedge.microsoft.com/addons/detail/infinity-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5-pro/hajlmbnnniemimmaehcefkamdadpjlfa">Infinity 新标签页 (Pro)</a></li>
-<li><a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd">Tampermonkey</a></li>
-<li><a href="">Imagus</a> 图片预览</li>
-</ul>
-<h3 id="JetBrains插件"><a href="#JetBrains插件" class="headerlink" title="JetBrains插件"></a>JetBrains插件</h3><ul>
-<li><strong>Translation</strong> 翻译工具</li>
-<li><strong>Nyan Progress Bar</strong> 彩虹猫进度条</li>
-<li><strong>GitToolBox</strong> Git工具</li>
-<li><strong>Chinese(Simplified) Language Pack EAP</strong> 汉化包</li>
-<li><strong>CodeGlance</strong> 代码预览滚动条</li>
-<li><strong>Background Image Plus</strong> 设置IDE背景</li>
-<li><strong>Leetcode editor</strong> IDE刷Leetcode神器</li>
-<li><strong>AIXcoder Code Completer</strong> 代码补全工具</li>
-</ul>
+<img data-src="/image/10-1.JPG" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-2.JPG" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-3.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-4.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-5.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-6.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-8.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-9.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-10.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-11.jpg" alt=" " style="zoom:30%;"/>
+
+<img data-src="/image/10-12.jpg" alt=" " style="zoom:30%;"/>
+
 ]]></content>
+      <tags>
+        <tag>photos</tag>
+      </tags>
   </entry>
   <entry>
     <title>Lua小技巧及语法糖记录</title>
@@ -444,29 +401,47 @@
       </tags>
   </entry>
   <entry>
-    <title>初见Processing</title>
-    <url>/2020/10/18/tech/Processing-1/</url>
-    <content><![CDATA[<h2 id="新大陆"><a href="#新大陆" class="headerlink" title="新大陆"></a>新大陆</h2><p>前几天开始看 Daniel Shiffman的<a href="https://book.douban.com/subject/26264736/">《代码本色：用编程模拟自然系统》</a>，接触到了Processing这种编程语言，就像发现了新大陆。Processing号称为艺术而生的语言，确实，从使用体验到运行效果，都能透露出一份独特的优雅。</p>
+    <title>效率工具备忘录</title>
+    <url>/2021/03/11/tech/EfficiencyTool/</url>
+    <content><![CDATA[<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><ul>
+<li><a href="http://www.1218.io/">Seer</a> 实现类似Mac OS下空格预览文件的功能。</li>
+<li><a href="https://www.islide.cc/">iSlide</a> 基于PPT的插件工具，包含查找模板、图片、图标素材、设计配色、页面布局、智能优化等功能。</li>
+<li><a href="https://everything.en.softonic.com/">Everything</a> 全局文件搜索</li>
+<li><a href="http://www.wox.one/">Wox</a> 实现类似Mac OS下Spot Light的功能，搭配Everything食用更佳。</li>
+<li><a href="https://github.com/microsoft/PowerToys/releases">PowerToys</a> 微软开发的开源效率工具，支持快速修改图片分辨率、批量文件重命名、Wox的大部分功能(暂时不支持与Everything配合使用)。<a href="https://docs.microsoft.com/zh-cn/windows/powertoys/">Microsoft PowerToys | Microsoft Docs</a></li>
+<li><a href="https://www.typora.io/">Typora</a> 用过颜值最高的Markdown编辑器。</li>
+</ul>
 <a id="more"></a>
 
-<p>Processing设计的思路就是使用图形化替代原来的命令行，正是这种初衷赋予了这门语言生命，编写几行简单的代码，点击运行按钮就能看到生动的演示效果。</p>
-<p>在使用体验上，Processing简单但不简陋，下载后直接打开就能进行编程，不需要复杂的配置环境过程。窗口有点类似单片机的编程，而编程体验类似于Python，且由于开放的社区环境，有许多功能强大的扩展包可以安装。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
-<li><a href="https://processing.org/">官网</a></li>
-<li><a href="http://iprocessing.cn/%E6%96%87%E6%A1%A3/">文档</a></li>
-<li>社区：<a href="https://www.openprocessing.org/">OpenProcessing</a> / <a href="http://iprocessing.cn/">Processing编程艺术</a></li>
-<li>书籍：<a href="https://book.douban.com/subject/3143256/">Learning Processing</a> / <a href="https://book.douban.com/subject/20452058/">The Nature of Code</a></li>
+<h3 id="Mac-OS"><a href="#Mac-OS" class="headerlink" title="Mac OS"></a>Mac OS</h3><ul>
+<li><strong>Bob</strong> 全局翻译软件</li>
+<li><strong>MonitorControl</strong> 控制显示器亮度</li>
+<li><strong>超级右键</strong> 右键菜单工具</li>
+<li><strong>Xnip</strong> 截图工具，支持滚动截图</li>
+<li><strong>Unsplash Wallpapers</strong> 壁纸</li>
+<li><strong>Cheat Sheet</strong> 快捷键查看工具</li>
+<li><strong>Keka</strong> 解压工具</li>
+<li><strong>Tencent Lemon</strong> 管家</li>
+<li><strong>Mos</strong> 鼠标优化</li>
+<li><strong>Rectangle</strong> 窗口调整工具</li>
 </ul>
-<h2 id="一个小尝试"><a href="#一个小尝试" class="headerlink" title="一个小尝试"></a>一个小尝试</h2><p>迫不及待就仿照书中的例程编写了一个简单的Demo，模拟的是多个小球与中间大球之间的引力作用。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Mover[] movers = new Mover[<span class="number">2000</span>];</span><br><span class="line">Attractor a;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">	size(<span class="number">1600</span>, <span class="number">900</span>);</span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; movers.length; i++) &#123;</span><br><span class="line">	movers[i] = new Mover();</span><br><span class="line">	&#125;</span><br><span class="line">	a = new Attractor();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void draw() &#123;</span><br><span class="line">	background(<span class="number">50</span>);</span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; movers.length; i++) &#123;</span><br><span class="line">	PVector force = a.attract(movers[i]);</span><br><span class="line">	movers[i].applyForce(force);</span><br><span class="line">	movers[i].update();</span><br><span class="line">	movers[i].display();</span><br><span class="line">	&#125;</span><br><span class="line">	//a.display();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Mover &#123;</span><br><span class="line">	PVector location;</span><br><span class="line">	PVector velocity;</span><br><span class="line">	PVector acceleration;</span><br><span class="line">	float mass;</span><br><span class="line">	color mycolor;</span><br><span class="line">	</span><br><span class="line">	Mover() &#123;</span><br><span class="line">	location = new PVector(random(width / <span class="number">4</span>, width * <span class="number">3</span> / <span class="number">4</span>), random(height / <span class="number">4</span>, height * <span class="number">3</span> / <span class="number">4</span>));        </span><br><span class="line">	mass = random(<span class="number">0.5</span>, <span class="number">1</span>);</span><br><span class="line">	velocity = new PVector(random(<span class="number">0</span>, <span class="number">1</span>), random(<span class="number">0</span>, <span class="number">1</span>));</span><br><span class="line">	mycolor = color(<span class="number">200</span>, random(<span class="number">0</span>, <span class="number">200</span>), random(<span class="number">0</span>, <span class="number">200</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void update() &#123;</span><br><span class="line">	velocity.add(acceleration);</span><br><span class="line">	location.add(velocity);</span><br><span class="line">	acceleration.mult(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void display() &#123;</span><br><span class="line">	stroke(<span class="number">0</span>);</span><br><span class="line">	fill(mycolor);</span><br><span class="line">	ellipse(location.x, location.y, mass * <span class="number">16</span>, mass * <span class="number">16</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void applyForce(PVector force) &#123;</span><br><span class="line">	acceleration = force;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Attractor &#123;</span><br><span class="line">	float mass;</span><br><span class="line">	PVector location;</span><br><span class="line">	float G;</span><br><span class="line">	</span><br><span class="line">	Attractor() &#123;</span><br><span class="line">	location = new PVector(width / <span class="number">2</span>, height / <span class="number">2</span>);</span><br><span class="line">	mass = <span class="number">50</span>;</span><br><span class="line">	G = <span class="number">5</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	PVector attract(Mover m) &#123;</span><br><span class="line">	PVector force = PVector.sub(location, m.location);</span><br><span class="line">	float distance = force.mag();</span><br><span class="line">	distance = constrain(distance, <span class="number">10</span>, <span class="number">40</span>); //限制两者之间的距离</span><br><span class="line">	force.normalize();</span><br><span class="line">	float strength = (G * mass * m.mass) / (distance * distance);</span><br><span class="line">	force.mult(strength);</span><br><span class="line">	<span class="keyword">return</span> force;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void display() &#123;</span><br><span class="line">	stroke(<span class="number">0</span>);</span><br><span class="line">	fill(<span class="number">255</span>);</span><br><span class="line">	ellipse(location.x, location.y, mass * <span class="number">2</span>, mass * <span class="number">2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>作为一个重度“颜控”的程序员，热衷于实现一些炫酷、优雅或是有趣的视觉效果。Processing非常契合我的需求。之后会深入学习，争取做一些有意思的作品。</p>
+<h3 id="Edge-Chrome插件"><a href="#Edge-Chrome插件" class="headerlink" title="Edge/Chrome插件"></a>Edge/Chrome插件</h3><ul>
+<li><a href="https://microsoftedge.microsoft.com/addons/detail/adblock-%E2%80%94-%E6%9C%80%E4%BD%B3%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%B7%A5%E5%85%B7/ndcileolkflehcjpmjnfbnaibdcgglog">AdBlock</a></li>
+<li><a href="https://microsoftedge.microsoft.com/addons/detail/infinity-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5-pro/hajlmbnnniemimmaehcefkamdadpjlfa">Infinity 新标签页 (Pro)</a></li>
+<li><a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd">Tampermonkey</a></li>
+<li><a href="">Imagus</a> 图片预览</li>
+</ul>
+<h3 id="JetBrains插件"><a href="#JetBrains插件" class="headerlink" title="JetBrains插件"></a>JetBrains插件</h3><ul>
+<li><strong>Translation</strong> 翻译工具</li>
+<li><strong>Nyan Progress Bar</strong> 彩虹猫进度条</li>
+<li><strong>GitToolBox</strong> Git工具</li>
+<li><strong>Chinese(Simplified) Language Pack EAP</strong> 汉化包</li>
+<li><strong>CodeGlance</strong> 代码预览滚动条</li>
+<li><strong>Background Image Plus</strong> 设置IDE背景</li>
+<li><strong>Leetcode editor</strong> IDE刷Leetcode神器</li>
+<li><strong>AIXcoder Code Completer</strong> 代码补全工具</li>
+</ul>
 ]]></content>
-      <tags>
-        <tag>Processing</tag>
-      </tags>
   </entry>
   <entry>
     <title>游戏中的运动补偿</title>
@@ -511,6 +486,46 @@
 ]]></content>
       <tags>
         <tag>Game</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初见Processing</title>
+    <url>/2020/10/18/tech/Processing-1/</url>
+    <content><![CDATA[<h2 id="新大陆"><a href="#新大陆" class="headerlink" title="新大陆"></a>新大陆</h2><p>前几天开始看 Daniel Shiffman的<a href="https://book.douban.com/subject/26264736/">《代码本色：用编程模拟自然系统》</a>，接触到了Processing这种编程语言，就像发现了新大陆。Processing号称为艺术而生的语言，确实，从使用体验到运行效果，都能透露出一份独特的优雅。</p>
+<a id="more"></a>
+
+<p>Processing设计的思路就是使用图形化替代原来的命令行，正是这种初衷赋予了这门语言生命，编写几行简单的代码，点击运行按钮就能看到生动的演示效果。</p>
+<p>在使用体验上，Processing简单但不简陋，下载后直接打开就能进行编程，不需要复杂的配置环境过程。窗口有点类似单片机的编程，而编程体验类似于Python，且由于开放的社区环境，有许多功能强大的扩展包可以安装。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://processing.org/">官网</a></li>
+<li><a href="http://iprocessing.cn/%E6%96%87%E6%A1%A3/">文档</a></li>
+<li>社区：<a href="https://www.openprocessing.org/">OpenProcessing</a> / <a href="http://iprocessing.cn/">Processing编程艺术</a></li>
+<li>书籍：<a href="https://book.douban.com/subject/3143256/">Learning Processing</a> / <a href="https://book.douban.com/subject/20452058/">The Nature of Code</a></li>
+</ul>
+<h2 id="一个小尝试"><a href="#一个小尝试" class="headerlink" title="一个小尝试"></a>一个小尝试</h2><p>迫不及待就仿照书中的例程编写了一个简单的Demo，模拟的是多个小球与中间大球之间的引力作用。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Mover[] movers = new Mover[<span class="number">2000</span>];</span><br><span class="line">Attractor a;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">	size(<span class="number">1600</span>, <span class="number">900</span>);</span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; movers.length; i++) &#123;</span><br><span class="line">	movers[i] = new Mover();</span><br><span class="line">	&#125;</span><br><span class="line">	a = new Attractor();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void draw() &#123;</span><br><span class="line">	background(<span class="number">50</span>);</span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; movers.length; i++) &#123;</span><br><span class="line">	PVector force = a.attract(movers[i]);</span><br><span class="line">	movers[i].applyForce(force);</span><br><span class="line">	movers[i].update();</span><br><span class="line">	movers[i].display();</span><br><span class="line">	&#125;</span><br><span class="line">	//a.display();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Mover &#123;</span><br><span class="line">	PVector location;</span><br><span class="line">	PVector velocity;</span><br><span class="line">	PVector acceleration;</span><br><span class="line">	float mass;</span><br><span class="line">	color mycolor;</span><br><span class="line">	</span><br><span class="line">	Mover() &#123;</span><br><span class="line">	location = new PVector(random(width / <span class="number">4</span>, width * <span class="number">3</span> / <span class="number">4</span>), random(height / <span class="number">4</span>, height * <span class="number">3</span> / <span class="number">4</span>));        </span><br><span class="line">	mass = random(<span class="number">0.5</span>, <span class="number">1</span>);</span><br><span class="line">	velocity = new PVector(random(<span class="number">0</span>, <span class="number">1</span>), random(<span class="number">0</span>, <span class="number">1</span>));</span><br><span class="line">	mycolor = color(<span class="number">200</span>, random(<span class="number">0</span>, <span class="number">200</span>), random(<span class="number">0</span>, <span class="number">200</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void update() &#123;</span><br><span class="line">	velocity.add(acceleration);</span><br><span class="line">	location.add(velocity);</span><br><span class="line">	acceleration.mult(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void display() &#123;</span><br><span class="line">	stroke(<span class="number">0</span>);</span><br><span class="line">	fill(mycolor);</span><br><span class="line">	ellipse(location.x, location.y, mass * <span class="number">16</span>, mass * <span class="number">16</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void applyForce(PVector force) &#123;</span><br><span class="line">	acceleration = force;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Attractor &#123;</span><br><span class="line">	float mass;</span><br><span class="line">	PVector location;</span><br><span class="line">	float G;</span><br><span class="line">	</span><br><span class="line">	Attractor() &#123;</span><br><span class="line">	location = new PVector(width / <span class="number">2</span>, height / <span class="number">2</span>);</span><br><span class="line">	mass = <span class="number">50</span>;</span><br><span class="line">	G = <span class="number">5</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	PVector attract(Mover m) &#123;</span><br><span class="line">	PVector force = PVector.sub(location, m.location);</span><br><span class="line">	float distance = force.mag();</span><br><span class="line">	distance = constrain(distance, <span class="number">10</span>, <span class="number">40</span>); //限制两者之间的距离</span><br><span class="line">	force.normalize();</span><br><span class="line">	float strength = (G * mass * m.mass) / (distance * distance);</span><br><span class="line">	force.mult(strength);</span><br><span class="line">	<span class="keyword">return</span> force;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void display() &#123;</span><br><span class="line">	stroke(<span class="number">0</span>);</span><br><span class="line">	fill(<span class="number">255</span>);</span><br><span class="line">	ellipse(location.x, location.y, mass * <span class="number">2</span>, mass * <span class="number">2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>作为一个重度“颜控”的程序员，热衷于实现一些炫酷、优雅或是有趣的视觉效果。Processing非常契合我的需求。之后会深入学习，争取做一些有意思的作品。</p>
+]]></content>
+      <tags>
+        <tag>Processing</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一种拨轮动效</title>
+    <url>/2020/09/28/tech/TimeWidget/</url>
+    <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
+<a id="more"></a>
+
+<p><video src="/image/TimeWidget.mov" controls="controls" style="max-width: 50%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
+<p><a href="https://github.com/Luciano-0/TimeWidget">Github地址</a></p>
+]]></content>
+      <tags>
+        <tag>Unity</tag>
+        <tag>C#</tag>
+        <tag>动效</tag>
       </tags>
   </entry>
   <entry>
@@ -565,21 +580,6 @@
         <tag>Unity</tag>
         <tag>C#</tag>
         <tag>Timeline</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一种拨轮动效</title>
-    <url>/2020/09/28/tech/TimeWidget/</url>
-    <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
-<a id="more"></a>
-
-<p><video src="/image/TimeWidget.mov" controls="controls" style="max-width: 50%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
-<p><a href="https://github.com/Luciano-0/TimeWidget">Github地址</a></p>
-]]></content>
-      <tags>
-        <tag>Unity</tag>
-        <tag>C#</tag>
-        <tag>动效</tag>
       </tags>
   </entry>
   <entry>
