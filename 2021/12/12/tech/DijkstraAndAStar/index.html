@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
+  <link rel="mask-icon" href="/images/mylogo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"luciano-0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、最短路径问题最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：  Dijkstra算法 A*算法 SPFA算法 Floyd算法  二、Dijkstra概述Dijkstra用于解决图的单源最短路径问题，其前提为路径开销都为正值，使用贪心的思想进行边放松，其最终的结果是生成一棵最短路径树。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图的最短路径算法——Dijkstra和A*">
+<meta property="og:url" content="https://luciano-0.github.io/2021/12/12/tech/DijkstraAndAStar/index.html">
+<meta property="og:site_name" content="酒时柒">
+<meta property="og:description" content="一、最短路径问题最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：  Dijkstra算法 A*算法 SPFA算法 Floyd算法  二、Dijkstra概述Dijkstra用于解决图的单源最短路径问题，其前提为路径开销都为正值，使用贪心的思想进行边放松，其最终的结果是生成一棵最短路径树。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://luciano-0.github.io/image/15-1.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/15-2.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/15-3.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/15-4.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/15-5.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/15-6.png">
+<meta property="article:published_time" content="2021-12-12T15:14:19.000Z">
+<meta property="article:modified_time" content="2022-01-23T15:36:51.936Z">
+<meta property="article:author" content="酒时柒">
+<meta property="article:tag" content="Graph">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="寻路">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://luciano-0.github.io/image/15-1.png">
+
+<link rel="canonical" href="https://luciano-0.github.io/2021/12/12/tech/DijkstraAndAStar/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>图的最短路径算法——Dijkstra和A* | 酒时柒</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">酒时柒</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-技术">
+
+    <a href="/tech/" rel="section"><i class="fa fa-code fa-fw"></i>技术</a>
+
+  </li>
+        <li class="menu-item menu-item-摄影">
+
+    <a href="/photos/" rel="section"><i class="fa fa-camera fa-fw"></i>摄影</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/12/12/tech/DijkstraAndAStar/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图的最短路径算法——Dijkstra和A*
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-12 23:14:19" itemprop="dateCreated datePublished" datetime="2021-12-12T23:14:19+08:00">2021-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-23 23:36:51" itemprop="dateModified" datetime="2022-01-23T23:36:51+08:00">2022-01-23</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、最短路径问题"><a href="#一、最短路径问题" class="headerlink" title="一、最短路径问题"></a>一、最短路径问题</h3><p>最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：</p>
+<ul>
+<li>Dijkstra算法</li>
+<li>A*算法</li>
+<li>SPFA算法</li>
+<li>Floyd算法</li>
+</ul>
+<h3 id="二、Dijkstra"><a href="#二、Dijkstra" class="headerlink" title="二、Dijkstra"></a>二、Dijkstra</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>Dijkstra用于解决图的<strong>单源最短路径问题，其前提为路径开销都为正值</strong>，使用贪心的思想进行<strong>边放松</strong>，其最终的结果是生成一棵<strong>最短路径树</strong>。</p>
+<a id="more"></a>
+
+<ul>
+<li><strong>边放松</strong>指的是在查找最短路径过程中，如果碰到一条边，通过该边到达某一结点的路径比之前记录的到达该点的路径短，那么这个更短的路径将会取代之前的路径。可以把路径理解成从起点到某一点连接了一条橡皮筋，从下图的A-&gt;B操作，橡皮筋就得到了放松。</li>
+</ul>
+<img data-src="/image/15-1.png" alt=" " style="zoom:100%;"/>
+
+<ul>
+<li><strong>最短路径树（Short Path Tree，SPT）</strong>是图的一颗子树，其中根节点到某一子节点的路径就是这两节点在图中的最短路径。</li>
+</ul>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>首先，我们需要一个数据结构用于储存各个节点搜索过程中产生的数据：其中包含是否已经找到最短路径的标志、从源节点到该节点当前路径的开销以及当前路径数组。</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> found;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span> <span class="keyword">value</span> = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>一开始需要将字典初始化，将除了源节点O之外的所有节点开销设为无穷大，源节点则为0。</p>
+</li>
+<li><p><strong>接着进入循环，每次取未找到最短路径（found = false）且value最小的节点P，将found置为true，并遍历P的邻接节点，若遍历到的节点Q未找到最短路径，则检查通过P到达Q是否比Q原来的value小，若小则说明通过P到达Q为更优的路径，于是更新Q的value和path（这一步就是对O到Q的路径做了松弛），以此类推</strong>。</p>
+<p>以上就是Dijkstra算法的关键部分，至于为什么每次要取value最小的节点P并且可以将P的found置为true，<strong>因为所有边的开销都为正值，而目前除了已找到最短路径的节点外，距离源节点O最近的是P，那么就不可能通过其他未知的路径，进一步缩短从源节点到达P的开销。</strong>这一步就是Dijkstra算法贪心思想的体现。</p>
+</li>
+<li><p>若没有输入目标节点，则算法可以找到从源节点到任一节点的最短路径，形成最短路径树；若输入了目标节点，则循环可以在目标节点的最短路径找到后返回。</p>
+</li>
+</ul>
+<h4 id="栗子"><a href="#栗子" class="headerlink" title="栗子"></a>栗子</h4><ul>
+<li>以下图为例，假设源节点为0。</li>
+</ul>
+<img data-src="/image/15-2.png" alt=" " style="zoom:100%;"/>
+
+<ul>
+<li>首先将字典初始化为：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">dis</th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">value</td>
+<td align="center">0</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+</tr>
+<tr>
+<td align="center">found</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">path</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center">null</td>
+</tr>
+</tbody></table>
+<ul>
+<li>第一次循环：取0节点，0-&gt;0的最短路径找到，更新0节点的found和path，然后遍历可从0节点到达的节点：5、6，更新他们的value和path。</li>
+</ul>
+<img data-src="/image/15-3.png" alt=" " style="zoom:100%;"/>
+
+<table>
+<thead>
+<tr>
+<th align="center">dis</th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">value</td>
+<td align="center">0</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center"><strong>3</strong></td>
+<td align="center"><strong>5</strong></td>
+</tr>
+<tr>
+<td align="center">found</td>
+<td align="center"><strong>true</strong></td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">path</td>
+<td align="center"><strong>0-&gt;0</strong></td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center"><strong>0-&gt;5</strong></td>
+<td align="center"><strong>0-&gt;6</strong></td>
+</tr>
+</tbody></table>
+<ul>
+<li>第二次循环：取未找到最短路径节点中value最小的节点：5，0-&gt;5最短路径已找到，因为不可能通过其他节点，进一步缩短0-&gt;5的距离了，因此更新5节点的found和path，并遍历从5节点能到达的节点：6、4，发现0-&gt;5-&gt;6的路径优于0-&gt;6的路径，因此更新4和6节点的value和path。</li>
+</ul>
+<img data-src="/image/15-4.png" alt=" " style="zoom:100%;"/>
+
+<table>
+<thead>
+<tr>
+<th align="center">dis</th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">value</td>
+<td align="center">0</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">∞</td>
+<td align="center">8</td>
+<td align="center">3</td>
+<td align="center"><strong>4</strong></td>
+</tr>
+<tr>
+<td align="center">found</td>
+<td align="center">true</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center">false</td>
+<td align="center"><strong>true</strong></td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">path</td>
+<td align="center">0-&gt;0</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center">null</td>
+<td align="center"><strong>0-&gt;5-&gt;4</strong></td>
+<td align="center">0-&gt;5</td>
+<td align="center"><strong>0-&gt;5-&gt;6</strong></td>
+</tr>
+</tbody></table>
+<ul>
+<li>以此类推…</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">dis</th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">value</td>
+<td align="center">0</td>
+<td align="center">5</td>
+<td align="center">9</td>
+<td align="center">7</td>
+<td align="center">8</td>
+<td align="center">3</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">found</td>
+<td align="center">true</td>
+<td align="center">true</td>
+<td align="center">true</td>
+<td align="center">true</td>
+<td align="center">true</td>
+<td align="center">true</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">path</td>
+<td align="center">0</td>
+<td align="center">0-&gt;5-&gt;6-&gt;1</td>
+<td align="center">0-&gt;5-&gt;6-&gt;1-&gt;2</td>
+<td align="center">0-&gt;5-&gt;6-&gt;3</td>
+<td align="center">0-&gt;5-&gt;4</td>
+<td align="center">0-&gt;5</td>
+<td align="center">0-&gt;5-&gt;6</td>
+</tr>
+</tbody></table>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Dijkstra</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">bool</span> found;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">float</span> <span class="keyword">value</span> = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Node&lt;T&gt;&gt; DijkstraSearch(Graph&lt;T&gt; graph, Node&lt;T&gt; start, Node&lt;T&gt; end)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (graph == <span class="literal">null</span> || start == <span class="literal">null</span> || !graph.IsNode(start)) <span class="keyword">return</span> <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">        Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> vn <span class="keyword">in</span> graph)</span><br><span class="line">        &#123;</span><br><span class="line">            dis[vn.Data] = <span class="keyword">new</span> Distance();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dis[start].<span class="keyword">value</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!dis[end].found)</span><br><span class="line">        &#123;</span><br><span class="line">            Node&lt;T&gt; minNode = <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">float</span> temp = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> kv <span class="keyword">in</span> dis)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (kv.Value.<span class="keyword">value</span> &lt; temp &amp;&amp; kv.Value.found == <span class="literal">false</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    minNode = kv.Key;</span><br><span class="line">                    temp = kv.Value.<span class="keyword">value</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (minNode == <span class="literal">null</span>) <span class="keyword">break</span>;</span><br><span class="line">            dis[minNode].found = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">var</span> adjNode = graph[minNode].FirstAdjNode;</span><br><span class="line">            <span class="keyword">while</span> (adjNode != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> d = dis[adjNode.Data];</span><br><span class="line">                <span class="keyword">if</span> (d.found == <span class="literal">false</span> &amp;&amp; adjNode.Cost + dis[minNode].<span class="keyword">value</span> &lt; d.<span class="keyword">value</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    d.<span class="keyword">value</span> = adjNode.Cost + dis[minNode].<span class="keyword">value</span>;</span><br><span class="line">                    d.path = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;(dis[minNode].path) &#123;minNode&#125;;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                adjNode = adjNode.Next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dis[end].path.Count &gt; <span class="number">0</span>) dis[end].path.Add(end);</span><br><span class="line">        <span class="keyword">return</span> dis[end].path;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>未经过优化的Dijkstra算法时间复杂度为O(n^2)，而每次选最小节点的步骤可以使用堆进行优化，可以考虑使用二叉堆、二项堆或者斐波那契堆，优化后的时间复杂度计算可以参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/michealoven/article/details/114040136">Dijkstra算法时间复杂度分析</a></p>
+<h3 id="三、A"><a href="#三、A" class="headerlink" title="三、A*"></a>三、A*</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>Dijkstra算法在搜索过程中还是需要检查太多的边，在找到目标节点之前，算法会在各个方向上进行尝试。而A*算法就是在Dijkstra算法的基础上引入了<strong>启发函数</strong>的概念，大大地提高了搜索的效率。</p>
+<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><p>*<em>启发函数指的是对当前节点到目标节点开销的估计值，如果算法使用的启发函数是从任何节点到目标节点的实际开销的下限（低估开销得到），那么A</em>算法可以保证给出最优路径。**如对于导航图最常用的启发函数就是节点之间的直线距离。</p>
+</li>
+<li><p>A*算法的工作方式和Dijkstra几乎一致，唯一的区别就是每个节点开销F的计算变成了:<br>$$<br>F=G+H<br>$$<br>G为到达一个节点的累计开销，H是一个启发函数。</p>
+</li>
+</ul>
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">AStar</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">bool</span> found;</span><br><span class="line">        <span class="comment">// F = G + H</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">float</span> f = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">float</span> g = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Node&lt;T&gt;&gt; AStarSearch(Graph&lt;T&gt; graph, Node&lt;T&gt; start, Node&lt;T&gt; end,</span><br><span class="line">        Func&lt;Node&lt;T&gt;, Node&lt;T&gt;, <span class="keyword">float</span>&gt; heuristic)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (graph == <span class="literal">null</span> || start == <span class="literal">null</span> || !graph.IsNode(start)) <span class="keyword">return</span> <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">        Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> vn <span class="keyword">in</span> graph)</span><br><span class="line">        &#123;</span><br><span class="line">            dis[vn.Data] = <span class="keyword">new</span> Distance();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dis[start].f = <span class="number">0</span>;</span><br><span class="line">        dis[start].g = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!dis[end].found)</span><br><span class="line">        &#123;</span><br><span class="line">            Node&lt;T&gt; minNode = <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">float</span> temp = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> kv <span class="keyword">in</span> dis)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (kv.Value.f &lt; temp &amp;&amp; kv.Value.found == <span class="literal">false</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    minNode = kv.Key;</span><br><span class="line">                    temp = kv.Value.f;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (minNode == <span class="literal">null</span>) <span class="keyword">break</span>;</span><br><span class="line">            dis[minNode].found = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">var</span> adjNode = graph[minNode].FirstAdjNode;</span><br><span class="line">            <span class="keyword">while</span> (adjNode != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> d = dis[adjNode.Data];</span><br><span class="line">                <span class="keyword">if</span> (d.found)</span><br><span class="line">                &#123;</span><br><span class="line">                    adjNode = adjNode.Next;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (adjNode.Cost + dis[minNode].g &lt; d.g)</span><br><span class="line">                &#123;</span><br><span class="line">                    d.g = adjNode.Cost + dis[minNode].g;</span><br><span class="line">                    d.f = d.g + heuristic(adjNode.Data, end);</span><br><span class="line">                    d.path = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;(dis[minNode].path) &#123;minNode&#125;;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                adjNode = adjNode.Next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dis[end].path.Count &gt; <span class="number">0</span>) dis[end].path.Add(end);</span><br><span class="line">        <span class="keyword">return</span> dis[end].path;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><h5 id="结合Floyd算法"><a href="#结合Floyd算法" class="headerlink" title="结合Floyd算法"></a>结合Floyd算法</h5><p>Floyd算法是预计算每一条可能的路径存在查找表中，这是实时寻路最快的一种算法（比A*快一个数量级），但其对空间的需求非常大。不过我们有办法通过压缩减少其对空间的需求，达到可接受的水平。</p>
+<img data-src="/image/15-5.png" alt=" " style="zoom:100%;"/>
+
+<ul>
+<li><p><strong>无损压缩：只存储关键的”换乘点“信息</strong></p>
+<p>在实际应用的寻路地图中，最佳路径的数量是有限的，而且多数重叠，因此我们可以找到最佳路径会经过的有限的”换乘点“，每个节点保存通往该节点所有换乘点的路径以及换乘点之间的最佳路径。</p>
+</li>
+<li><p><strong>有损压缩：欧几里得嵌入算法</strong></p>
+<p>我们可以只储存查找表中的一部分行和列，这些数据可以成为<strong>枢纽节点</strong>来优化A*算法的启发函数，使得启发函数对距离的估算更加准确。</p>
+</li>
+</ul>
+<h5 id="使用最恰当的搜索空间表征"><a href="#使用最恰当的搜索空间表征" class="headerlink" title="使用最恰当的搜索空间表征"></a>使用最恰当的搜索空间表征</h5><ul>
+<li>常见的三种空间表征有：网格图、路点图、导航网格</li>
+</ul>
+<img data-src="/image/15-6.png" alt=" " style="zoom:100%;"/>
+
+<ul>
+<li>在大世界的地图中，以上三种空间表征可能性能开销都非常大，这时候就需要进行<strong>分层寻路</strong>。将较高的层级抽象为”区域到区域“的寻路方式，而较低的层级则抽象为”节点到节点“的寻路方式。</li>
+</ul>
+<h5 id="高估启发函数"><a href="#高估启发函数" class="headerlink" title="高估启发函数"></a>高估启发函数</h5><p>低估启发函数可以保证找到最优路径，但有时可以适当高估启发函数，得到一条不那么优的路径，但是可以大幅度提高寻路性能。可以使用加权的启发函数：<br>$$<br>f(x) = g(x) + h(x) * w(x)<br>$$<br>其中*w(x)<em>可以位置变化而变化，如：当距离目标较远时，</em>w(x)<em>取较大值，牺牲一定的精确度，快速接近目标；当距离目标较小时，</em>w(x)*取较小值，精确地到达目标位置。</p>
+<h5 id="更好的启发函数"><a href="#更好的启发函数" class="headerlink" title="更好的启发函数"></a>更好的启发函数</h5><p>以网格图为例，可以选用三种启发函数：欧几里得距离（直线距离）、对角线距离和曼哈顿距离，曼哈顿距离不考虑对角线行走，总是高估距离，欧几里得距离总是低估距离，而对角线距离是最合适的启发函数：<br>$$<br>max(\Delta x, \Delta y) + 0.41*min(\Delta x,\Delta y)<br>$$</p>
+<h5 id="开表的选择"><a href="#开表的选择" class="headerlink" title="开表的选择"></a>开表的选择</h5><p>通常情况下会选用堆来维护开表，但在节点数量较少时，采用简单的数组，插入开销小，查找需要遍历，但整体上对缓存友好，维护数据结构的开销几乎为0，因此寻路速度反而更快。</p>
+<h5 id="寻路期间请勿回溯"><a href="#寻路期间请勿回溯" class="headerlink" title="寻路期间请勿回溯"></a>寻路期间请勿回溯</h5><p>在网格图中存在许多短循环，而我们在寻路过程中不需要考虑那些与父节点临近的点，排除这些点可以避免许多多余的查找。这也是跳点寻路算法的思想：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/181734749">Jump Point Search(JPS)算法总结与实现</a></p>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li>《人工智能编程案例精粹》第5章：图的秘密生命</li>
+<li>《游戏人工智能》17：寻路架构的优化</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35644234/article/details/60870719">最短路径问题—Dijkstra算法详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/michealoven/article/details/114040136">Dijkstra算法时间复杂度分析</a></li>
+</ul>
+<p><strong>Demo地址：</strong><a target="_blank" rel="noopener" href="https://github.com/Luciano-0/Graph.git">https://github.com/Luciano-0/Graph.git</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Graph/" rel="tag"># Graph</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E5%AF%BB%E8%B7%AF/" rel="tag"># 寻路</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/10/tech/AIMovement/" rel="prev" title="游戏人工智能的移动">
+      <i class="fa fa-chevron-left"></i> 游戏人工智能的移动
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/22/tech/StateAndDuty/" rel="next" title="状态模式和职责链模式">
+      状态模式和职责链模式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">一、最短路径问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Dijkstra"><span class="nav-number">2.</span> <span class="nav-text">二、Dijkstra</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%97%E5%AD%90"><span class="nav-number">2.3.</span> <span class="nav-text">栗子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.4.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-number">2.5.</span> <span class="nav-text">优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81A"><span class="nav-number">3.</span> <span class="nav-text">三、A*</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-number">3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">3.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="nav-number">3.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96-1"><span class="nav-number">3.4.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%93%E5%90%88Floyd%E7%AE%97%E6%B3%95"><span class="nav-number">3.4.1.</span> <span class="nav-text">结合Floyd算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%80%E6%81%B0%E5%BD%93%E7%9A%84%E6%90%9C%E7%B4%A2%E7%A9%BA%E9%97%B4%E8%A1%A8%E5%BE%81"><span class="nav-number">3.4.2.</span> <span class="nav-text">使用最恰当的搜索空间表征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%AB%98%E4%BC%B0%E5%90%AF%E5%8F%91%E5%87%BD%E6%95%B0"><span class="nav-number">3.4.3.</span> <span class="nav-text">高估启发函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9B%B4%E5%A5%BD%E7%9A%84%E5%90%AF%E5%8F%91%E5%87%BD%E6%95%B0"><span class="nav-number">3.4.4.</span> <span class="nav-text">更好的启发函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%80%E8%A1%A8%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">3.4.5.</span> <span class="nav-text">开表的选择</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%BB%E8%B7%AF%E6%9C%9F%E9%97%B4%E8%AF%B7%E5%8B%BF%E5%9B%9E%E6%BA%AF"><span class="nav-number">3.4.6.</span> <span class="nav-text">寻路期间请勿回溯</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="酒时柒"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">酒时柒</p>
+  <div class="site-description" itemprop="description">梦想是拥有一套三块五的海景房</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/luciano-0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;luciano-0" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:3160102261@zju.edu.cn" title="E-Mail → mailto:3160102261@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">酒时柒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

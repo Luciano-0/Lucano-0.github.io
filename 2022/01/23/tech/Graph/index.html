@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
+  <link rel="mask-icon" href="/images/mylogo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"luciano-0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、图的基本概念 连通图&#x2F;非连通图：图中任意一个节点都可以通过一条路径到达所有的其他节点即为连通图，否则为非连通图。 带权图：图的边可以带权，用于描述从一个节点到另一个节点的开销。 致密图&#x2F;稀疏图：边与节点的比率决定一个图是稀疏的还是致密的。在设计算法时需要考虑图是稀疏图还是致密图。 有向图&#x2F;无向图：边是有方向的图即有向图。实际使用时，有时为了数据结构的统一，也会将无向图当作有向图处理（即每条边都">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图的基本概念">
+<meta property="og:url" content="https://luciano-0.github.io/2022/01/23/tech/Graph/index.html">
+<meta property="og:site_name" content="酒时柒">
+<meta property="og:description" content="一、图的基本概念 连通图&#x2F;非连通图：图中任意一个节点都可以通过一条路径到达所有的其他节点即为连通图，否则为非连通图。 带权图：图的边可以带权，用于描述从一个节点到另一个节点的开销。 致密图&#x2F;稀疏图：边与节点的比率决定一个图是稀疏的还是致密的。在设计算法时需要考虑图是稀疏图还是致密图。 有向图&#x2F;无向图：边是有方向的图即有向图。实际使用时，有时为了数据结构的统一，也会将无向图当作有向图处理（即每条边都">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://luciano-0.github.io/image/14-1.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/14-2.png">
+<meta property="article:published_time" content="2022-01-23T15:06:04.000Z">
+<meta property="article:modified_time" content="2022-01-23T15:27:08.867Z">
+<meta property="article:author" content="酒时柒">
+<meta property="article:tag" content="Graph">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://luciano-0.github.io/image/14-1.png">
+
+<link rel="canonical" href="https://luciano-0.github.io/2022/01/23/tech/Graph/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>图的基本概念 | 酒时柒</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">酒时柒</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-技术">
+
+    <a href="/tech/" rel="section"><i class="fa fa-code fa-fw"></i>技术</a>
+
+  </li>
+        <li class="menu-item menu-item-摄影">
+
+    <a href="/photos/" rel="section"><i class="fa fa-camera fa-fw"></i>摄影</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/23/tech/Graph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图的基本概念
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-23 23:06:04 / 修改时间：23:27:08" itemprop="dateCreated datePublished" datetime="2022-01-23T23:06:04+08:00">2022-01-23</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、图的基本概念"><a href="#一、图的基本概念" class="headerlink" title="一、图的基本概念"></a>一、图的基本概念</h3><ul>
+<li><strong>连通图/非连通图</strong>：图中任意一个节点都可以通过一条路径到达所有的其他节点即为连通图，否则为非连通图。</li>
+<li><strong>带权图</strong>：图的边可以带权，用于描述从一个节点到另一个节点的开销。</li>
+<li><strong>致密图/稀疏图</strong>：边与节点的比率决定一个图是稀疏的还是致密的。在设计算法时需要考虑图是稀疏图还是致密图。</li>
+<li><strong>有向图/无向图</strong>：边是有方向的图即有向图。实际使用时，有时为了数据结构的统一，也会将无向图当作有向图处理（即每条边都是双向的）。</li>
+</ul>
+<a id="more"></a>
+
+<ul>
+<li><p><strong>邻接矩阵</strong>：邻接矩阵用一个二维矩阵表示图的连接关系。其空间开销是O(N^2)，对于稀疏图来说，大部分元素都会浪费，因此不是很经济。</p>
+<img data-src="/image/14-1.png" alt=" " style="zoom:100%;"/>
+</li>
+<li><p><strong>邻接表</strong>：邻接表以链表的形式储存每一个节点连接的节点（边）。其空间开销是O(N+E)，因为游戏中使用的图大多数都为稀疏图，所以一般使用邻接表表示图。</p>
+<img data-src="/image/14-2.png" alt=" " style="zoom:100%;"/>
+</li>
+<li><p><strong>度/出度/入度</strong>：在无向图中，顶点 v 的度（Degree）是指依附于顶点 v 的边数，通常记为 TD(v)。在有向图中，顶点的度等于顶点的入度(In Degree)与顶点的出度之和。顶点v的入度是指以该顶点v为弧头的弧的数目，记为ID(v)；顶点 v 的出度（Out Degree）是指以该顶点 v 为弧尾的弧的数目，记为 OD(v)。所以，顶点 v 的度 TD(v)= ID(v) + OD(v)。</p>
+</li>
+</ul>
+<h3 id="二、游戏中图的作用"><a href="#二、游戏中图的作用" class="headerlink" title="二、游戏中图的作用"></a>二、游戏中图的作用</h3><h4 id="导航图"><a href="#导航图" class="headerlink" title="导航图"></a>导航图</h4><ul>
+<li>导航图包含了在一个游戏环境中智能体可以访问的所有位置和这些位置之间地所有连接。其中，节点通常表示关键区域的位置或者环境中的对象，边则代表了点与点之间的连接，边的开销可以根据具体的游戏定义，最简单的可以用两个节点之间的距离表示。</li>
+<li>智能体并非限制在只能沿着导航图的边移动，而是可以移动到环境内任何无障碍的位置，导航图的作用事规划路径，具体可以参考导航算法。</li>
+</ul>
+<h4 id="依赖图"><a href="#依赖图" class="headerlink" title="依赖图"></a>依赖图</h4><ul>
+<li>资源管理类游戏中，依赖图用来描述玩家可以利用的不同建筑物、材料、单元以及技术之间的依赖关系，可以清晰地显示每种类型的资源所需要的先决条件。</li>
+</ul>
+<h4 id="状态图"><a href="#状态图" class="headerlink" title="状态图"></a>状态图</h4><ul>
+<li>状态图用于表示状态之间的切换关系，一个图就能表示一个问题的状态空间，其中节点表示可能的一种状态，边则表示两个状态之间的切换关系，比如Unity中的动画状态机。</li>
+</ul>
+<h3 id="三、图的邻接表实现"><a href="#三、图的邻接表实现" class="headerlink" title="三、图的邻接表实现"></a>三、图的邻接表实现</h3><p>由于游戏中普遍使用的是稀疏图，因此之后的搜索算法都使用图的邻接表算法实现。</p>
+<p>邻接表由两部分构成：顶点节点和邻接表节点。顶点节点顺序储存，邻接表节点链式储存，其链接表示两个节点之间的边。具体实现如下。</p>
+<h4 id="顶点数据类-Node-lt-T-gt"><a href="#顶点数据类-Node-lt-T-gt" class="headerlink" title="顶点数据类 Node&lt;T&gt;"></a>顶点数据类 <code>Node&lt;T&gt;</code></h4><p>为了通用和便于扩展，首先需要定义顶点数据类型，用于储存顶点的数据。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span>(<span class="params">T data</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Data = data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> T Data &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="顶点节点类-VexNode-lt-T-gt"><a href="#顶点节点类-VexNode-lt-T-gt" class="headerlink" title="顶点节点类 VexNode&lt;T&gt;"></a>顶点节点类 <code>VexNode&lt;T&gt;</code></h4><p>顶点节点包含两个域，一个储存顶点数据，另一个为邻接表第一个节点的引用。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">VexNode</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">VexNode</span>(<span class="params">Node&lt;T&gt; data, AdjNode&lt;T&gt; adjNode = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Data = data;</span><br><span class="line">        FirstAdjNode = adjNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Node&lt;T&gt; Data &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> AdjNode&lt;T&gt; FirstAdjNode &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="邻接表节点类-AdjNode-lt-T-gt"><a href="#邻接表节点类-AdjNode-lt-T-gt" class="headerlink" title="邻接表节点类 AdjNode&lt;T&gt;"></a>邻接表节点类 <code>AdjNode&lt;T&gt;</code></h4><p>邻接节点同样会储存顶点数据（为了方便查找对应的顶点节点）；边的数据也会存在邻接表节点中；以及，会包含一个指向下一个节点的引用。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AdjNode</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AdjNode</span>(<span class="params">Node&lt;T&gt; data, <span class="keyword">float</span> cost = <span class="number">0</span>, AdjNode&lt;T&gt; next = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Data = data;</span><br><span class="line">        Next = next;</span><br><span class="line">        Cost = cost;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Node&lt;T&gt; Data &#123; <span class="keyword">get</span>;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span> Cost &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> AdjNode&lt;T&gt; Next &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="图类-Graph-lt-T-gt"><a href="#图类-Graph-lt-T-gt" class="headerlink" title="图类 Graph&lt;T&gt;"></a>图类 <code>Graph&lt;T&gt;</code></h4><ul>
+<li><p>图需要储存所有的顶点节点，一般会采用List，这里为了方便查询，使用一个字典储存顶点节点，用顶点数据作为Key，这样，就不用经常性地遍历List。</p>
+</li>
+<li><p>由于顶点节点和邻接节点只有图知道，不对外暴露，所以外部代码只知道顶点数据类，图对外提供的各个方法中都以顶点数据类为参数。 </p>
+</li>
+<li><p>图需要对外提供各种基本的图操作方法，如判断节点、增删节点、判断边、增删边、修改边的权值等。</p>
+</li>
+<li><p>为了兼容有向图和无向图，在添加（删除）边的时候，无向图会自动添加（删除）两遍，正向一遍，反向一遍。</p>
+</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br></pre></td><td class="code"><pre><span class="line">public class Graph&lt;T&gt; : IEnumerable&lt;VexNode&lt;T&gt;&gt;, IGraph&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Graph</span>(<span class="params">Node&lt;T&gt;[] data</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        NodeDic = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, VexNode&lt;T&gt;&gt;();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> t <span class="keyword">in</span> data)</span><br><span class="line">        &#123;</span><br><span class="line">            NodeDic[t] = <span class="keyword">new</span> VexNode&lt;T&gt;(t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Graph</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        NodeDic = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, VexNode&lt;T&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 是否为有向图</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> IsDigraph &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 顶点数目</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> NodeNum =&gt; NodeDic.Count;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 边的数目</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> EdgeNum</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> node <span class="keyword">in</span> NodeDic.Values)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> p = node.FirstAdjNode;</span><br><span class="line">                <span class="keyword">while</span> (p != <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    ++count;</span><br><span class="line">                    p = p.Next;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> IsDigraph ? count : count / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> VexNode&lt;T&gt; <span class="keyword">this</span>[Node&lt;T&gt; node]</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; NodeDic[node];</span><br><span class="line">        <span class="keyword">set</span> =&gt; NodeDic[node] = <span class="keyword">value</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Dictionary&lt;Node&lt;T&gt;, VexNode&lt;T&gt;&gt; NodeDic;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断节点是否属于图</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">IsNode</span>(<span class="params">Node&lt;T&gt; node</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> NodeDic.TryGetValue(node, <span class="keyword">out</span> <span class="keyword">var</span> _);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断两点之间是否有边</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">bool</span> <span class="title">HasEdge</span>(<span class="params">Node&lt;T&gt; <span class="keyword">from</span>, Node&lt;T&gt; to</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsNode(<span class="keyword">from</span>) || !IsNode(to))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;节点不属于图！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> p = NodeDic[<span class="keyword">from</span>].FirstAdjNode;</span><br><span class="line">        <span class="keyword">while</span> (p != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (p.Data == to)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            p = p.Next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 添加节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddNode</span>(<span class="params">Node&lt;T&gt; node</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (IsNode(node))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogError(<span class="string">&quot;已经存在节点！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        NodeDic[node] = <span class="keyword">new</span> VexNode&lt;T&gt;(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在两节点之间添加边</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddEdge</span>(<span class="params">Node&lt;T&gt; <span class="keyword">from</span>, Node&lt;T&gt; to, <span class="keyword">int</span> cost = <span class="number">1</span></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsNode(<span class="keyword">from</span>) || !IsNode(to))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogError(<span class="string">&quot;节点不属于图！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (HasEdge(<span class="keyword">from</span>, to))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogError(<span class="string">&quot;边已经存在！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> p = <span class="keyword">new</span> AdjNode&lt;T&gt;(to, cost);</span><br><span class="line">        <span class="keyword">var</span> firstNode = NodeDic[<span class="keyword">from</span>].FirstAdjNode;</span><br><span class="line">        <span class="keyword">if</span> (firstNode == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            NodeDic[<span class="keyword">from</span>].FirstAdjNode = p;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            p.Next = firstNode;</span><br><span class="line">            NodeDic[<span class="keyword">from</span>].FirstAdjNode = p;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (IsDigraph) <span class="keyword">return</span>;</span><br><span class="line">        p = <span class="keyword">new</span> AdjNode&lt;T&gt;(<span class="keyword">from</span>, cost);</span><br><span class="line">        firstNode = NodeDic[to].FirstAdjNode;</span><br><span class="line">        <span class="keyword">if</span> (firstNode == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            NodeDic[to].FirstAdjNode = p;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            p.Next = firstNode;</span><br><span class="line">            NodeDic[to].FirstAdjNode = p;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除边</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">RemoveEdge</span>(<span class="params">Node&lt;T&gt; <span class="keyword">from</span>, Node&lt;T&gt; to</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsNode(<span class="keyword">from</span>) || !IsNode(to))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogError(<span class="string">&quot;节点不属于图！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!HasEdge(<span class="keyword">from</span>, to))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogError(<span class="string">&quot;边不存在！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> p = NodeDic[<span class="keyword">from</span>].FirstAdjNode;</span><br><span class="line">        AdjNode&lt;T&gt; pre = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (p != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (p.Data == to) <span class="keyword">break</span>;</span><br><span class="line">            pre = p;</span><br><span class="line">            p = p.Next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pre.Next = p.Next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (IsDigraph) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        p = NodeDic[to].FirstAdjNode;</span><br><span class="line">        pre = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (p != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (p.Data == <span class="keyword">from</span>) <span class="keyword">break</span>;</span><br><span class="line">            pre = p;</span><br><span class="line">            p = p.Next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pre.Next = p.Next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 改变边的值</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ChangeEdgeCost</span>(<span class="params">Node&lt;T&gt; <span class="keyword">from</span>, Node&lt;T&gt; to, <span class="keyword">float</span> cost</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!IsNode(<span class="keyword">from</span>) || !IsNode(to))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogError(<span class="string">&quot;节点不属于图！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!HasEdge(<span class="keyword">from</span>, to))</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogError(<span class="string">&quot;边不存在！&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> p = NodeDic[<span class="keyword">from</span>].FirstAdjNode;</span><br><span class="line">        <span class="keyword">while</span> (p != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (p.Data == to) <span class="keyword">break</span>;</span><br><span class="line">            p = p.Next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        p.Cost = cost;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (IsDigraph) <span class="keyword">return</span>;</span><br><span class="line">        p = NodeDic[to].FirstAdjNode;</span><br><span class="line">        <span class="keyword">while</span> (p != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (p.Data == <span class="keyword">from</span>) <span class="keyword">break</span>;</span><br><span class="line">            p = p.Next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        p.Cost = cost;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> IEnumerator&lt;VexNode&lt;T&gt;&gt; GetEnumerator()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> NodeDic.Values.GetEnumerator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    IEnumerator IEnumerable.GetEnumerator()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> GetEnumerator();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>参考资料：</strong></p>
+<ul>
+<li>《游戏人工智能编程案例精粹》第5章：图的秘密生命</li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/SimplePoint/p/9270805.html">【C#数据结构系列】图 - 宇霍飞</a></li>
+</ul>
+<p><strong>Demo地址：</strong><a target="_blank" rel="noopener" href="https://github.com/Luciano-0/Graph.git">https://github.com/Luciano-0/Graph.git</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Graph/" rel="tag"># Graph</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/22/tech/StateAndDuty/" rel="prev" title="状态模式和职责链模式">
+      <i class="fa fa-chevron-left"></i> 状态模式和职责链模式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/23/tech/SPFA/" rel="next" title="图的最短路径算法——SPFA">
+      图的最短路径算法——SPFA <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9B%BE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一、图的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%9B%BE%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">二、游戏中图的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA%E5%9B%BE"><span class="nav-number">2.1.</span> <span class="nav-text">导航图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%9B%BE"><span class="nav-number">2.2.</span> <span class="nav-text">依赖图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E5%9B%BE"><span class="nav-number">2.3.</span> <span class="nav-text">状态图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%9B%BE%E7%9A%84%E9%82%BB%E6%8E%A5%E8%A1%A8%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">三、图的邻接表实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B6%E7%82%B9%E6%95%B0%E6%8D%AE%E7%B1%BB-Node-lt-T-gt"><span class="nav-number">3.1.</span> <span class="nav-text">顶点数据类 Node&lt;T&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B6%E7%82%B9%E8%8A%82%E7%82%B9%E7%B1%BB-VexNode-lt-T-gt"><span class="nav-number">3.2.</span> <span class="nav-text">顶点节点类 VexNode&lt;T&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%82%BB%E6%8E%A5%E8%A1%A8%E8%8A%82%E7%82%B9%E7%B1%BB-AdjNode-lt-T-gt"><span class="nav-number">3.3.</span> <span class="nav-text">邻接表节点类 AdjNode&lt;T&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%B1%BB-Graph-lt-T-gt"><span class="nav-number">3.4.</span> <span class="nav-text">图类 Graph&lt;T&gt;</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="酒时柒"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">酒时柒</p>
+  <div class="site-description" itemprop="description">梦想是拥有一套三块五的海景房</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/luciano-0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;luciano-0" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:3160102261@zju.edu.cn" title="E-Mail → mailto:3160102261@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">酒时柒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -186,7 +186,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/23/tech/AIMovement/">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/12/12/tech/GraphSearch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -200,7 +200,79 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/01/23/tech/AIMovement/" class="post-title-link" itemprop="url">游戏人工智能的移动</a>
+            <a href="/2022/12/12/tech/GraphSearch/" class="post-title-link" itemprop="url">图的盲目搜索</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-12 23:14:51" itemprop="dateCreated datePublished" datetime="2022-12-12T23:14:51+08:00">2022-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-23 23:28:40" itemprop="dateModified" datetime="2022-01-23T23:28:40+08:00">2022-01-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>图的盲目搜索指的是不考虑边的开销的条件下的搜索。通常是为了遍历一个图或是找到一条两点之间的任意路径。盲目搜索分为深度优先搜索和广度优先搜索，它们的思想和实现同树的先序遍历、层序遍历很相似（毕竟树是图的子集）。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/12/12/tech/GraphSearch/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/23/tech/SPFA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/23/tech/SPFA/" class="post-title-link" itemprop="url">图的最短路径算法——SPFA</a>
         </h2>
 
         <div class="post-meta">
@@ -211,7 +283,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-01-23 21:02:42 / 修改时间：21:05:36" itemprop="dateCreated datePublished" datetime="2022-01-23T21:02:42+08:00">2022-01-23</time>
+              <time title="创建时间：2022-01-23 23:15:51 / 修改时间：23:36:38" itemprop="dateCreated datePublished" datetime="2022-01-23T23:15:51+08:00">2022-01-23</time>
             </span>
 
           
@@ -225,16 +297,88 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>游戏中的人工智能指拥有决策能力的智能体，会对环境的改变作出相应的决策。其中，移动是智能体最基本也是最通用的行为。</p>
-<p>智能体的移动可以分为三个环节：</p>
+          <h3 id="一、最短路径问题"><a href="#一、最短路径问题" class="headerlink" title="一、最短路径问题"></a>一、最短路径问题</h3><p>最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：</p>
 <ul>
-<li><strong>行为选择</strong>：该部分负责选定目标、制定计划。它来告诉我们“到这来”和“做好A、B，然后做C”。</li>
-<li><strong>操控</strong>：该环节负责计算运动数据，根据选择的行为计算得到一个操控力，它决定智能体往哪儿移动以及如何快速移动。</li>
-<li><strong>移动</strong>：主要表现智能体运动的机械因素，即控制智能体的移动方式。比如，人和汽车有不同的移动方式，虽然他们具有同样的意向，收到相同的操控力，但是最终的移动表现是完全不同的。</li>
+<li>Dijkstra算法</li>
+<li>A*算法</li>
+<li>SPFA算法</li>
+<li>Floyd算法</li>
+</ul>
+<h3 id="二、SPFA"><a href="#二、SPFA" class="headerlink" title="二、SPFA"></a>二、SPFA</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>和Dijkstra算法一样，SPFA也是用于解决图的<strong>单源最短路径问题</strong>，它是Bellman-Ford算法的改良版本。相比于Dijkstra算法，其优点是<strong>可以处理权值为负的图</strong>，缺点是<strong>时间复杂度比Dijkstra高，高达O(VE)。</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/23/tech/SPFA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/23/tech/Graph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/23/tech/Graph/" class="post-title-link" itemprop="url">图的基本概念</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-23 23:06:04 / 修改时间：23:27:08" itemprop="dateCreated datePublished" datetime="2022-01-23T23:06:04+08:00">2022-01-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、图的基本概念"><a href="#一、图的基本概念" class="headerlink" title="一、图的基本概念"></a>一、图的基本概念</h3><ul>
+<li><strong>连通图/非连通图</strong>：图中任意一个节点都可以通过一条路径到达所有的其他节点即为连通图，否则为非连通图。</li>
+<li><strong>带权图</strong>：图的边可以带权，用于描述从一个节点到另一个节点的开销。</li>
+<li><strong>致密图/稀疏图</strong>：边与节点的比率决定一个图是稀疏的还是致密的。在设计算法时需要考虑图是稀疏图还是致密图。</li>
+<li><strong>有向图/无向图</strong>：边是有方向的图即有向图。实际使用时，有时为了数据结构的统一，也会将无向图当作有向图处理（即每条边都是双向的）。</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/01/23/tech/AIMovement/#more" rel="contents">
+              <a class="btn" href="/2022/01/23/tech/Graph/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -308,6 +452,163 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/22/tech/StateAndDuty/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/12/12/tech/DijkstraAndAStar/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/12/tech/DijkstraAndAStar/" class="post-title-link" itemprop="url">图的最短路径算法——Dijkstra和A*</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-12 23:14:19" itemprop="dateCreated datePublished" datetime="2021-12-12T23:14:19+08:00">2021-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-23 23:36:51" itemprop="dateModified" datetime="2022-01-23T23:36:51+08:00">2022-01-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、最短路径问题"><a href="#一、最短路径问题" class="headerlink" title="一、最短路径问题"></a>一、最短路径问题</h3><p>最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：</p>
+<ul>
+<li>Dijkstra算法</li>
+<li>A*算法</li>
+<li>SPFA算法</li>
+<li>Floyd算法</li>
+</ul>
+<h3 id="二、Dijkstra"><a href="#二、Dijkstra" class="headerlink" title="二、Dijkstra"></a>二、Dijkstra</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>Dijkstra用于解决图的<strong>单源最短路径问题，其前提为路径开销都为正值</strong>，使用贪心的思想进行<strong>边放松</strong>，其最终的结果是生成一棵<strong>最短路径树</strong>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/12/tech/DijkstraAndAStar/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/10/10/tech/AIMovement/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/10/tech/AIMovement/" class="post-title-link" itemprop="url">游戏人工智能的移动</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-10 21:02:42" itemprop="dateCreated datePublished" datetime="2021-10-10T21:02:42+08:00">2021-10-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-23 22:29:08" itemprop="dateModified" datetime="2022-01-23T22:29:08+08:00">2022-01-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h3><p>游戏中的人工智能指拥有决策能力的智能体，会对环境的改变作出相应的决策。其中，移动是智能体最基本也是最通用的行为。</p>
+<p>智能体的移动可以分为三个环节：</p>
+<ul>
+<li><strong>行为选择</strong>：该部分负责选定目标、制定计划。它来告诉我们“到这来”和“做好A、B，然后做C”。</li>
+<li><strong>操控</strong>：该环节负责计算运动数据，根据选择的行为计算得到一个操控力，它决定智能体往哪儿移动以及如何快速移动。</li>
+<li><strong>移动</strong>：主要表现智能体运动的机械因素，即控制智能体的移动方式。比如，人和汽车有不同的移动方式，虽然他们具有同样的意向，收到相同的操控力，但是最终的移动表现是完全不同的。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/10/tech/AIMovement/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -434,7 +735,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-22 23:29:08" itemprop="dateModified" datetime="2022-01-22T23:29:08+08:00">2022-01-22</time>
+                <time title="修改时间：2022-01-23 22:24:57" itemprop="dateModified" datetime="2022-01-23T22:24:57+08:00">2022-01-23</time>
               </span>
 
           
@@ -616,294 +917,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/02/28/photo/20210228-RainyShangHai/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/28/photo/20210228-RainyShangHai/" class="post-title-link" itemprop="url">今日：阴有阵雨</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-28 14:58:41" itemprop="dateCreated datePublished" datetime="2021-02-28T14:58:41+08:00">2021-02-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-13 00:00:16" itemprop="dateModified" datetime="2021-03-13T00:00:16+08:00">2021-03-13</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <img data-src="/image/10-7.jpg" alt=" " style="zoom:30%;"/>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/28/photo/20210228-RainyShangHai/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/02/23/photo/20210223-TheBond/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/23/photo/20210223-TheBond/" class="post-title-link" itemprop="url">下一站，南京东路站</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-23 13:58:31" itemprop="dateCreated datePublished" datetime="2021-02-23T13:58:31+08:00">2021-02-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-07 15:19:48" itemprop="dateModified" datetime="2021-03-07T15:19:48+08:00">2021-03-07</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <img data-src="/image/8-1.jpg" alt=" " style="zoom:30%;"/>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/23/photo/20210223-TheBond/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/01/30/tech/Timeline2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/30/tech/Timeline2/" class="post-title-link" itemprop="url">Timeline跳转过渡</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-30 21:38:52" itemprop="dateCreated datePublished" datetime="2021-01-30T21:38:52+08:00">2021-01-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-24 21:43:08" itemprop="dateModified" datetime="2021-05-24T21:43:08+08:00">2021-05-24</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="一、Animation-Track的过渡"><a href="#一、Animation-Track的过渡" class="headerlink" title="一、Animation Track的过渡"></a>一、Animation Track的过渡</h3><h4 id="1、背景"><a href="#1、背景" class="headerlink" title="1、背景"></a>1、背景</h4><p>当运行到Clip中间时，角色动画会由Timeline接管，即播放AnimationClip中的动画，当运行到Clip之外时，若前后片段中的Animation Extrapolation有设置为Hold，则会保持对应帧的动作，若都为None则会将动画控制权移交给状态机，通常播放Idle的动作。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/30/tech/Timeline2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/01/24/tech/TimeLine1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/24/tech/TimeLine1/" class="post-title-link" itemprop="url">TimeLine自定义轨道</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-24 20:52:08" itemprop="dateCreated datePublished" datetime="2021-01-24T20:52:08+08:00">2021-01-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-24 20:57:18" itemprop="dateModified" datetime="2021-05-24T20:57:18+08:00">2021-05-24</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Unity中的TimeLine支持自定义轨道，一般需要新建三个（若需要处理混合则为四个）类。<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1x7411P7J3">官方教学视频</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/24/tech/TimeLine1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -974,12 +987,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

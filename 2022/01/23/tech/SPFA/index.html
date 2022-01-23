@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
+  <link rel="mask-icon" href="/images/mylogo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"luciano-0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、最短路径问题最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：  Dijkstra算法 A*算法 SPFA算法 Floyd算法  二、SPFA概述和Dijkstra算法一样，SPFA也是用于解决图的单源最短路径问题，它是Bellman-Ford算法的改良版本。相比于Dijkstra算法，其优点是可以处理权值为负的图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图的最短路径算法——SPFA">
+<meta property="og:url" content="https://luciano-0.github.io/2022/01/23/tech/SPFA/index.html">
+<meta property="og:site_name" content="酒时柒">
+<meta property="og:description" content="一、最短路径问题最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：  Dijkstra算法 A*算法 SPFA算法 Floyd算法  二、SPFA概述和Dijkstra算法一样，SPFA也是用于解决图的单源最短路径问题，它是Bellman-Ford算法的改良版本。相比于Dijkstra算法，其优点是可以处理权值为负的图">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-23T15:15:51.000Z">
+<meta property="article:modified_time" content="2022-01-23T15:36:38.234Z">
+<meta property="article:author" content="酒时柒">
+<meta property="article:tag" content="Graph">
+<meta property="article:tag" content="寻路">
+<meta property="article:tag" content="SPFA">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://luciano-0.github.io/2022/01/23/tech/SPFA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>图的最短路径算法——SPFA | 酒时柒</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">酒时柒</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-技术">
+
+    <a href="/tech/" rel="section"><i class="fa fa-code fa-fw"></i>技术</a>
+
+  </li>
+        <li class="menu-item menu-item-摄影">
+
+    <a href="/photos/" rel="section"><i class="fa fa-camera fa-fw"></i>摄影</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/23/tech/SPFA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图的最短路径算法——SPFA
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-23 23:15:51 / 修改时间：23:36:38" itemprop="dateCreated datePublished" datetime="2022-01-23T23:15:51+08:00">2022-01-23</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、最短路径问题"><a href="#一、最短路径问题" class="headerlink" title="一、最短路径问题"></a>一、最短路径问题</h3><p>最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：</p>
+<ul>
+<li>Dijkstra算法</li>
+<li>A*算法</li>
+<li>SPFA算法</li>
+<li>Floyd算法</li>
+</ul>
+<h3 id="二、SPFA"><a href="#二、SPFA" class="headerlink" title="二、SPFA"></a>二、SPFA</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>和Dijkstra算法一样，SPFA也是用于解决图的<strong>单源最短路径问题</strong>，它是Bellman-Ford算法的改良版本。相比于Dijkstra算法，其优点是<strong>可以处理权值为负的图</strong>，缺点是<strong>时间复杂度比Dijkstra高，高达O(VE)。</strong></p>
+<a id="more"></a>
+
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><p>和Dijkstra类似，首先我们需要记录已经找到最短路径的节点以及待优化的节点。</p>
+</li>
+<li><p>不同点在于，Dijkstra算法运用了贪心的思想，每次从待优化节点中取出开销最小的节点，进入下一次循环；<strong>而SPFA算法采用的是动态规划的思想，使用一个队列保存待优化的节点，每一次循环取出队首节点P，并对该节点相邻的节点进行松弛操作，对于某一个相邻节点Q，若进行了松弛，且P不在队列中，则P节点会加入到队列中。这样不断循环直至队列为空。</strong></p>
+</li>
+<li><p>需要注意的是若图中存在负环，则算法会进入死循环，因此需要对负环进行判断，只需要记录每个点进入队列的次数，若次数超过图的顶点数，则存在负环。</p>
+</li>
+</ul>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">SPFA</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">float</span> <span class="keyword">value</span> = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> times;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Node&lt;T&gt;&gt; SPFASearch(Graph&lt;T&gt; graph, Node&lt;T&gt; start, Node&lt;T&gt; end)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (graph == <span class="literal">null</span> || start == <span class="literal">null</span> || !graph.IsNode(start)) <span class="keyword">return</span> <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">        Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br><span class="line">        Queue&lt;Node&lt;T&gt;&gt; queue = <span class="keyword">new</span> Queue&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> vn <span class="keyword">in</span> graph)</span><br><span class="line">        &#123;</span><br><span class="line">            dis[vn.Data] = <span class="keyword">new</span> Distance();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dis[start].<span class="keyword">value</span> = <span class="number">0</span>;</span><br><span class="line">        dis[start].times++;</span><br><span class="line">        queue.Enqueue(start);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (queue.Count &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Node&lt;T&gt; fNode = queue.Dequeue();</span><br><span class="line">            <span class="keyword">var</span> adjNode = graph[fNode].FirstAdjNode;</span><br><span class="line">            <span class="keyword">while</span> (adjNode != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> d = dis[adjNode.Data];</span><br><span class="line">                <span class="keyword">if</span> (adjNode.Cost + dis[fNode].<span class="keyword">value</span> &lt; d.<span class="keyword">value</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    d.<span class="keyword">value</span> = adjNode.Cost + dis[fNode].<span class="keyword">value</span>;</span><br><span class="line">                    d.path = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;(dis[fNode].path) &#123;fNode&#125;;</span><br><span class="line">                    <span class="keyword">if</span> (!queue.Contains(adjNode.Data))</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">if</span> (dis[adjNode.Data].times &gt; graph.NodeNum)</span><br><span class="line">                        &#123;</span><br><span class="line">                            Debug.LogError(<span class="string">&quot;图中存在负环，无最短路径！&quot;</span>);</span><br><span class="line">                            <span class="keyword">return</span> <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        dis[adjNode.Data].times++;</span><br><span class="line">                        queue.Enqueue(adjNode.Data);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                adjNode = adjNode.Next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dis[end].path.Count &gt; <span class="number">0</span>) dis[end].path.Add(end);</span><br><span class="line">        <span class="keyword">return</span> dis[end].path;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>和Dijkstra算法类似，我们优化的切入点也是待优化节点的数据结构，在Dijkstra算法中我们采用优先队列进行优化，而SPFA也可以用类似的思想来提高队列中节点排列的质量，从而提升平均性能（无法提升最坏情况下的性能），<strong>优化方法主要有SLF和LLL，都是通过调整队列中元素的顺序使得更靠近源节点的节点能够被更早地处理，两种方法可以结合。</strong></p>
+<h5 id="SLF-Small-Label-First"><a href="#SLF-Small-Label-First" class="headerlink" title="SLF (Small Label First)"></a>SLF (Small Label First)</h5><p>此优化针对队列加入节点时。使用双端队列实现，在节点加入队列时，判断待加入节点和队首节点的路径开销，若待加入节点的路径开销较小，则加入到队首，否则加入到队尾。</p>
+<h5 id="LLL-Large-Label-Last"><a href="#LLL-Large-Label-Last" class="headerlink" title="LLL(Large Label Last)"></a>LLL(Large Label Last)</h5><p>此优化针对的则是节点出队时，出队时需要比较队首节点的路径开销和队列中所有节点的路径开销平均值，若小于则正常出队，否则将出队节点加入到队尾，继续判断下一个队首节点，直到找到符合条件的节点。</p>
+<h5 id="DFS优化"><a href="#DFS优化" class="headerlink" title="DFS优化"></a>DFS优化</h5><p>DFS优化主要在找负环上有优势，由于原始算法使用的是BFS的思想，不会在某一条路径上持续深入，因此需要当一个节点被加入队列N(节点总是)次后才知道图中存在负环，而DFS只需要一个节点出现两次以上，就知道存在负环，因此可以避免大量的遍历。</p>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35644234/article/details/61614581">最短路径问题—SPFA算法详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lfri/p/9521271.html">Bellman-Ford与SPFA </a></li>
+</ul>
+<p><strong>Demo地址：</strong><a target="_blank" rel="noopener" href="https://github.com/Luciano-0/Graph.git">https://github.com/Luciano-0/Graph.git</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Graph/" rel="tag"># Graph</a>
+              <a href="/tags/%E5%AF%BB%E8%B7%AF/" rel="tag"># 寻路</a>
+              <a href="/tags/SPFA/" rel="tag"># SPFA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/23/tech/Graph/" rel="prev" title="图的基本概念">
+      <i class="fa fa-chevron-left"></i> 图的基本概念
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/12/tech/GraphSearch/" rel="next" title="图的盲目搜索">
+      图的盲目搜索 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">一、最短路径问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81SPFA"><span class="nav-number">2.</span> <span class="nav-text">二、SPFA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-number">2.4.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SLF-Small-Label-First"><span class="nav-number">2.4.1.</span> <span class="nav-text">SLF (Small Label First)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LLL-Large-Label-Last"><span class="nav-number">2.4.2.</span> <span class="nav-text">LLL(Large Label Last)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DFS%E4%BC%98%E5%8C%96"><span class="nav-number">2.4.3.</span> <span class="nav-text">DFS优化</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="酒时柒"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">酒时柒</p>
+  <div class="site-description" itemprop="description">梦想是拥有一套三块五的海景房</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/luciano-0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;luciano-0" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:3160102261@zju.edu.cn" title="E-Mail → mailto:3160102261@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">酒时柒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
