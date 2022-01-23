@@ -186,6 +186,151 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/23/tech/AIMovement/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/23/tech/AIMovement/" class="post-title-link" itemprop="url">游戏人工智能的移动</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-23 21:02:42 / 修改时间：21:05:36" itemprop="dateCreated datePublished" datetime="2022-01-23T21:02:42+08:00">2022-01-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>游戏中的人工智能指拥有决策能力的智能体，会对环境的改变作出相应的决策。其中，移动是智能体最基本也是最通用的行为。</p>
+<p>智能体的移动可以分为三个环节：</p>
+<ul>
+<li><strong>行为选择</strong>：该部分负责选定目标、制定计划。它来告诉我们“到这来”和“做好A、B，然后做C”。</li>
+<li><strong>操控</strong>：该环节负责计算运动数据，根据选择的行为计算得到一个操控力，它决定智能体往哪儿移动以及如何快速移动。</li>
+<li><strong>移动</strong>：主要表现智能体运动的机械因素，即控制智能体的移动方式。比如，人和汽车有不同的移动方式，虽然他们具有同样的意向，收到相同的操控力，但是最终的移动表现是完全不同的。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/23/tech/AIMovement/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/22/tech/StateAndDuty/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/22/tech/StateAndDuty/" class="post-title-link" itemprop="url">状态模式和职责链模式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-22 23:25:32" itemprop="dateCreated datePublished" datetime="2022-01-22T23:25:32+08:00">2022-01-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-23 21:05:29" itemprop="dateModified" datetime="2022-01-23T21:05:29+08:00">2022-01-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="故事背景"><a href="#故事背景" class="headerlink" title="故事背景"></a>故事背景</h3><p>最近在项目中负责任务系统相关的内容，刚重写了整个任务系统，趁热对过程中的心得做一点总结。</p>
+<h3 id="原任务系统——状态模式"><a href="#原任务系统——状态模式" class="headerlink" title="原任务系统——状态模式"></a>原任务系统——状态模式</h3><p>原来的任务系统是一个多层状态机，第一层控制不同大类任务之间的切换（如主线任务、分支任务），第二层控制不同种类任务之间的切换（如刷怪任务、剧情任务），第三层控制一个任务下不同行为状态之间的切换（如跑到某地、刷怪、对话等行为）。三层状态机中，中间层使用了状态模式实现，其余两层使用判断进行状态切换。在游戏设计之初，这种设计方法可能可以满足策划的需求，但随着需求的增多，问题就逐渐暴露出来，大致可以总结出几个问题：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/22/tech/StateAndDuty/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/04/20/photo/20210420-Dji/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -235,6 +380,78 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/04/20/photo/20210420-Dji/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/04/09/tech/NativeChannel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/09/tech/NativeChannel/" class="post-title-link" itemprop="url">一种Lua反射调用C#机制的实现</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-09 22:16:08" itemprop="dateCreated datePublished" datetime="2021-04-09T22:16:08+08:00">2021-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-22 23:29:08" itemprop="dateModified" datetime="2022-01-22T23:29:08+08:00">2022-01-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="一-概述"><a href="#一-概述" class="headerlink" title="一   概述"></a>一   概述</h4><p>NativeChannel提供Lua层通过反射调用C#层代码的机制，支持对静态类和非静态类中属性、方法、委托的调用，并支持在Lua层使用宏定义对代码进行隔离。通过NativeChannel可以不生成额外的wrap文件来达到Lua层访问C#层的效果，调用更加灵活，适合需要集成到Lua层但又要灵活增删的模块（如SDK）。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/09/tech/NativeChannel/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -687,217 +904,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2020/11/22/tech/MotionCompensation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/22/tech/MotionCompensation/" class="post-title-link" itemprop="url">游戏中的运动补偿</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-11-22 14:13:55 / 修改时间：14:22:42" itemprop="dateCreated datePublished" datetime="2020-11-22T14:13:55+08:00">2020-11-22</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="玩家角色的客户端预测与服务器对账"><a href="#玩家角色的客户端预测与服务器对账" class="headerlink" title="玩家角色的客户端预测与服务器对账"></a>玩家角色的客户端预测与服务器对账</h2><h3 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h3><ul>
-<li><p>在多人游戏中，外挂作弊不只是让自己的游戏体验更好，还会让其他玩家的游戏体验更差，因此在开发过程中需要避免这种情况的发生。</p>
-</li>
-<li><p><strong>权威服务器和哑客户端</strong>：为处理外挂问题，游戏中的逻辑通常只由服务器处理，客户端只负责显示，一切以服务器为准。</p>
-</li>
-<li><p>此方案在慢节奏的游戏中运行良好，但遇到快速刷新的游戏就要考虑网络延迟的问题。比如考虑一个实际场景，客户端发出指令向前运动一米，指令需要传给服务器（花费100 ms），服务器处理后返回角色运动一米后所在的位置（花费100 ms），再由客户端在画面上表现出来。因此在玩家发出指令后将在200 ms内游戏画面没有任何变化然后突然向前运动了一米。这种滞后对游戏来说当然是灾难性的。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/22/tech/MotionCompensation/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2020/10/31/photo/20201031-gallery/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/31/photo/20201031-gallery/" class="post-title-link" itemprop="url">那些年追过的展（持续更新）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-10-31 00:35:13 / 修改时间：00:57:46" itemprop="dateCreated datePublished" datetime="2020-10-31T00:35:13+08:00">2020-10-31</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <img data-src="/image/5-1.jpg" alt="🌊" style="zoom:30%;"/>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/31/photo/20201031-gallery/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2020/10/31/photo/20201031-sun/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/31/photo/20201031-sun/" class="post-title-link" itemprop="url">追夕阳的日子</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-31 00:20:11" itemprop="dateCreated datePublished" datetime="2020-10-31T00:20:11+08:00">2020-10-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-29 00:38:46" itemprop="dateModified" datetime="2020-11-29T00:38:46+08:00">2020-11-29</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>秋分一过，白天以肉眼可见的速度缩短。平日里七点下班，只能和星星月亮打个照面。</p>
-<p>可幸的是，今年的秋天格外长，西伯利亚的寒风迟迟没有吹来，好让我有足够多的时间去感受秋日午后的温柔。</p>
-<img data-src="/image/7-1.jpg" alt=" " style="zoom:30%;"/>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/31/photo/20201031-sun/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -968,12 +974,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -1008,7 +1014,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
+  <link rel="mask-icon" href="/images/mylogo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"luciano-0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一   概述NativeChannel提供Lua层通过反射调用C#层代码的机制，支持对静态类和非静态类中属性、方法、委托的调用，并支持在Lua层使用宏定义对代码进行隔离。通过NativeChannel可以不生成额外的wrap文件来达到Lua层访问C#层的效果，调用更加灵活，适合需要集成到Lua层但又要灵活增删的模块（如SDK）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一种Lua反射调用C#机制的实现">
+<meta property="og:url" content="https://luciano-0.github.io/2021/04/09/tech/NativeChannel/index.html">
+<meta property="og:site_name" content="酒时柒">
+<meta property="og:description" content="一   概述NativeChannel提供Lua层通过反射调用C#层代码的机制，支持对静态类和非静态类中属性、方法、委托的调用，并支持在Lua层使用宏定义对代码进行隔离。通过NativeChannel可以不生成额外的wrap文件来达到Lua层访问C#层的效果，调用更加灵活，适合需要集成到Lua层但又要灵活增删的模块（如SDK）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-09T14:16:08.000Z">
+<meta property="article:modified_time" content="2022-01-22T15:29:08.176Z">
+<meta property="article:author" content="酒时柒">
+<meta property="article:tag" content="Lua">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://luciano-0.github.io/2021/04/09/tech/NativeChannel/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>一种Lua反射调用C#机制的实现 | 酒时柒</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">酒时柒</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-技术">
+
+    <a href="/tech/" rel="section"><i class="fa fa-code fa-fw"></i>技术</a>
+
+  </li>
+        <li class="menu-item menu-item-摄影">
+
+    <a href="/photos/" rel="section"><i class="fa fa-camera fa-fw"></i>摄影</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/04/09/tech/NativeChannel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一种Lua反射调用C#机制的实现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-09 22:16:08" itemprop="dateCreated datePublished" datetime="2021-04-09T22:16:08+08:00">2021-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-22 23:29:08" itemprop="dateModified" datetime="2022-01-22T23:29:08+08:00">2022-01-22</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="一-概述"><a href="#一-概述" class="headerlink" title="一   概述"></a>一   概述</h4><p>NativeChannel提供Lua层通过反射调用C#层代码的机制，支持对静态类和非静态类中属性、方法、委托的调用，并支持在Lua层使用宏定义对代码进行隔离。通过NativeChannel可以不生成额外的wrap文件来达到Lua层访问C#层的效果，调用更加灵活，适合需要集成到Lua层但又要灵活增删的模块（如SDK）。</p>
+<a id="more"></a>
+
+<h4 id="二-实现"><a href="#二-实现" class="headerlink" title="二   实现"></a>二   实现</h4><p>实现的大致思路为封装两个类<code>AnyObject</code>和<code>AnyStaticObject</code>暴露到Lua层，这两个类都实现<code>IAny</code>接口。这两个类包含对具体类中的生命周期、属性、方法、委托的所有操作。再定义通道类<code>NativeChannel</code>，实现INativeChannel和<code>IServiceStart</code>接口，包装成Service管理所有反射调用的类。</p>
+<h5 id="1-Object"><a href="#1-Object" class="headerlink" title="1.Object"></a>1.<code>Object</code></h5><ul>
+<li>Interface</li>
+</ul>
+<p><code>AnyObject</code>和<code>AnyStaticObject</code>都实现了<code>IAny</code>接口，它们之间的区别是前者储存了目标类实例的引用<code>target</code>，在使用时调用属性、方法需要传入该引用；而后者储存的是静态类的类型。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IAny</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnStart</span>(<span class="params"></span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnUpdate</span>(<span class="params"><span class="keyword">float</span> deltaTime</span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnEnd</span>(<span class="params"></span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">object</span> <span class="title">Get</span>(<span class="params"><span class="keyword">string</span> prop</span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Set</span>(<span class="params"><span class="keyword">string</span> prop, <span class="keyword">object</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">object</span> <span class="title">Call</span>(<span class="params"><span class="keyword">string</span> method, <span class="keyword">params</span> <span class="keyword">object</span>[] args</span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AddDelegate</span>(<span class="params"><span class="keyword">string</span> del, <span class="keyword">string</span> func, LuaTable self = <span class="literal">null</span></span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">AddDelegate</span>(<span class="params"><span class="keyword">string</span> del, LuaFunction func</span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">RemoveDelegate</span>(<span class="params"><span class="keyword">string</span> del, <span class="keyword">string</span> func, LuaTable self = <span class="literal">null</span></span>)</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">RemoveDelegate</span>(<span class="params"><span class="keyword">string</span> del, LuaFunction func</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Life cycle</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnStart</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> method = <span class="keyword">this</span>.target.GetType().GetMethod(<span class="string">&quot;OnStart&quot;</span>);</span><br><span class="line">	method?.Invoke(<span class="keyword">this</span>.target, <span class="literal">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnUpdate</span>(<span class="params"><span class="keyword">float</span> deltaTime</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> method = <span class="keyword">this</span>.target.GetType().GetMethod(<span class="string">&quot;OnRefresh&quot;</span>);</span><br><span class="line">	Object[] p = <span class="keyword">new</span> Object[] &#123;deltaTime&#125;;</span><br><span class="line">	method?.Invoke(<span class="keyword">this</span>.target, p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnEnd</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> method = <span class="keyword">this</span>.target.GetType().GetMethod(<span class="string">&quot;OnEnd&quot;</span>);</span><br><span class="line">	method?.Invoke(<span class="keyword">this</span>.target, <span class="literal">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>Property</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">object</span> <span class="title">Get</span>(<span class="params"><span class="keyword">string</span> prop</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.target.GetType().GetProperty(prop)?.GetValue(<span class="keyword">this</span>.target);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Set</span>(<span class="params"><span class="keyword">string</span> prop, <span class="keyword">object</span> <span class="keyword">value</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> propInfo = <span class="keyword">this</span>.target.GetType().GetProperty(prop);</span><br><span class="line">	<span class="keyword">if</span> (propInfo != <span class="literal">null</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">value</span> = ConvertType(propInfo.PropertyType, <span class="keyword">value</span>);</span><br><span class="line">		propInfo?.SetValue(<span class="keyword">this</span>.target, <span class="keyword">value</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Method</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">object</span> <span class="title">Call</span>(<span class="params"><span class="keyword">string</span> method, <span class="keyword">params</span> <span class="keyword">object</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> methodInfo = <span class="keyword">this</span>.target.GetType().GetMethod(method);</span><br><span class="line">	<span class="keyword">var</span> parameters = methodInfo?.GetParameters();</span><br><span class="line">	<span class="keyword">if</span> (args.Length != parameters?.Length)</span><br><span class="line">	&#123;</span><br><span class="line">		Debug.LogError(<span class="string">&quot;Wrong parameters!&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; parameters.Length; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		args[i] = ConvertType(parameters[i].ParameterType, args[i]);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> methodInfo?.Invoke(<span class="keyword">this</span>.target, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>Delegate</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddDelegate</span>(<span class="params"><span class="keyword">string</span> del, <span class="keyword">string</span> func, LuaTable self = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> eventInfo = <span class="keyword">this</span>.target.GetType().GetEvent(del);</span><br><span class="line">	<span class="keyword">var</span> eventHandlerType = eventInfo.EventHandlerType;</span><br><span class="line">	<span class="keyword">var</span> eventArgs = eventHandlerType.GetMethod(<span class="string">&quot;Invoke&quot;</span>)?.GetParameters();</span><br><span class="line">	Type type;</span><br><span class="line">	<span class="keyword">if</span> (eventArgs == <span class="literal">null</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		type = <span class="literal">null</span>;</span><br><span class="line">		eventHandlerType = <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> args = <span class="keyword">new</span> Type[eventArgs.Length];</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; eventArgs.Length; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		args[i] = eventArgs[i].ParameterType;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> (eventArgs.Length)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">		type = <span class="keyword">typeof</span>(Handler);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">		type = <span class="keyword">typeof</span>(Handler&lt;&gt;).MakeGenericType(args);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">		type = <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (type == <span class="literal">null</span> || eventHandlerType == <span class="literal">null</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> helper = Activator.CreateInstance(type, func, self);</span><br><span class="line">	<span class="keyword">var</span> handler = Delegate.CreateDelegate(eventHandlerType, helper, <span class="string">&quot;Handle&quot;</span>);</span><br><span class="line">	eventInfo.AddEventHandler(<span class="keyword">this</span>.target, handler);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-NativeChannel"><a href="#2-NativeChannel" class="headerlink" title="2. NativeChannel"></a>2. <code>NativeChannel</code></h5><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">LuaUsage</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">INativeChannel</span></span><br><span class="line">&#123;</span><br><span class="line">	[<span class="meta">LuaIgnore</span>]</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Register</span>(<span class="params"><span class="keyword">string</span> name, Func&lt;<span class="keyword">object</span>&gt; factory</span>)</span>;</span><br><span class="line">        </span><br><span class="line">	<span class="function">IAny <span class="title">Get</span>(<span class="params"><span class="keyword">string</span> name</span>)</span>;</span><br><span class="line"></span><br><span class="line">	[<span class="meta">LuaIgnore</span>]</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Define</span>(<span class="params"><span class="keyword">string</span> macro</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>NativeChannel</code>中维护一个字典<code>factories</code>存储所有反射调用的类，维护一个列表<code>macros</code>存储所有在Lua层需要添加的宏定义。</p>
+<ul>
+<li>Register()</li>
+</ul>
+<p>提供在C#层注册Object的方法</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Register</span>(<span class="params"><span class="keyword">string</span> name, Func&lt;<span class="keyword">object</span>&gt; factory</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.factories.Add(name, () =&gt; <span class="keyword">new</span> AnyObject(factory()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Get()</li>
+</ul>
+<p>暴露到Lua层，供Lua层通过类名获取对应的引用，若字典中存在该类型则直接返回，若不存在则创建对应的Object。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> IAny <span class="title">Get</span>(<span class="params"><span class="keyword">string</span> name</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span>.factories.TryGetValue(name, <span class="keyword">out</span> <span class="keyword">var</span> factory))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> factory();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> type = Type.GetType(name);</span><br><span class="line">	<span class="keyword">if</span> (type == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">	<span class="keyword">if</span> (type.IsAbstract &amp;&amp; type.IsSealed)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> AnyStaticObject(type);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">var</span> obj = Activator.CreateInstance(type);</span><br><span class="line">		<span class="keyword">if</span> (obj == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> AnyObject(obj);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>Define()</li>
+</ul>
+<p>在C#层中添加宏定义。</p>
+<h4 id="三-问题与解决方法"><a href="#三-问题与解决方法" class="headerlink" title="三  问题与解决方法"></a>三  问题与解决方法</h4><h5 id="1-类型转换"><a href="#1-类型转换" class="headerlink" title="1. 类型转换"></a>1. 类型转换</h5><p>对于属性的赋值和方法的参数，Lua层传递过来的数据在C#中为Object类型，需要根据目标类型进行显式的转换。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">object</span> <span class="title">ConvertType</span>(<span class="params">Type type, <span class="keyword">object</span> <span class="keyword">value</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (type == <span class="keyword">typeof</span>(<span class="keyword">short</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> Convert.ToInt16(<span class="keyword">value</span>);</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-委托的调用"><a href="#2-委托的调用" class="headerlink" title="2. 委托的调用"></a>2. 委托的调用</h5><ul>
+<li><p>为了能正确调用委托，需要确定委托的参数和类型，因此需要特别封装各种参数数量的泛型类<code>Handler</code>，每种<code>Handler</code>类包含构造方法<code>Handler()</code>和触发回调方法的函数<code>Handle()</code>。</p>
+</li>
+<li><p>在委托添加方法时，先获取方法所有的参数，根据参数个数和每个参数的类型确定<code>Handler</code>的类型：<code>type = typeof(Handler&lt;&gt;).MakeGenericType(args);</code>。</p>
+</li>
+<li><p>接着使用<code>var helper = Activator.CreateInstance(type, func, self);</code>构造实例。</p>
+</li>
+<li><p>最后绑定方法</p>
+<p><code>var handler = Delegate.CreateDelegate(eventHandlerType, helper, &quot;Handle&quot;); eventInfo.AddEventHandler(this.target, handler);</code></p>
+<p>至此，当委托触发时，就能调用到对应<code>Handler</code>类中的<code>Handle()</code>方法，通过该方法再触发Lua层对应的方法，实现动态的绑定调用。</p>
+</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Handler</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">readonly</span> <span class="keyword">string</span> funcName;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">readonly</span> LuaTable self;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">readonly</span> LuaFunction func;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Handler</span>(<span class="params"><span class="keyword">string</span> funcName, LuaTable self = <span class="literal">null</span></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">this</span>.funcName = funcName;</span><br><span class="line">		<span class="keyword">this</span>.self = self;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Handler</span>(<span class="params">LuaFunction func</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">this</span>.func = func;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Handle</span>(<span class="params">T1 a, T2 b</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.func == <span class="literal">null</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (self == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">			<span class="keyword">if</span> (!(self[funcName] <span class="keyword">is</span> LuaFunction f)) <span class="keyword">return</span>;</span><br><span class="line">			f.Call(self, a, b);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			func.Call(a, b);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-IL2CPP裁剪代码问题"><a href="#3-IL2CPP裁剪代码问题" class="headerlink" title="3. IL2CPP裁剪代码问题"></a>3. IL2CPP裁剪代码问题</h5><ul>
+<li>[**什么是代码裁剪**](<a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/ManagedCodeStripping.html">Unity - Manual: Managed code stripping (unity3d.com)</a>)  当Unity中的Scripting Backend为IL2CPP时，默认会勾选代码裁剪，此时，构建时Unity代码裁剪工具会分析项目中的程序集，查找和删除未使用的代码，裁剪掉没有使用到的代码。</li>
+<li><strong>带来问题</strong>  [参考Unity官方回答](<a target="_blank" rel="noopener" href="https://forum.unity.com/threads/il2cpp-type-makegenerictype-work-around.311926/">IL2CPP Type.MakeGenericType work around - Unity Forum</a>) 问题主要出在<code>MakeGenericType()</code>方法上，该方法作用为：替代由当前泛型类型定义的类型参数组成的类型数组的元素，并返回表示结果构造类型的 Type 对象。目前IL2CPP还没有完全支持该方法，只能处理代码中已有的类型。</li>
+<li><strong>解决方法</strong>  可以通过在代码中明确声明需要使用到的类型来规避这一问题。额外定义特性用于修饰委托。</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">AttributeUsage(AttributeTargets.Delegate)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">NativeHandle</span> : <span class="title">Attribute</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">NativeHandle</span>(<span class="params">Type type</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">this</span>.Type = type;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> Type Type &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125; = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">NativeHandle(typeof(Handler&lt;int&gt;))</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">delegate</span> <span class="keyword">void</span> <span class="title">InitCompleteHandler</span>(<span class="params"><span class="keyword">int</span> retCode</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Lua/" rel="tag"># Lua</a>
+              <a href="/tags/C/" rel="tag"># C#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/05/photo/20210405-HengSha/" rel="prev" title="避世岛屿——横沙">
+      <i class="fa fa-chevron-left"></i> 避世岛屿——横沙
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/20/photo/20210420-Dji/" rel="next" title="有时也可以换个角度看世界">
+      有时也可以换个角度看世界 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一   概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">二   实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Object"><span class="nav-number">2.1.</span> <span class="nav-text">1.Object</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-NativeChannel"><span class="nav-number">2.2.</span> <span class="nav-text">2. NativeChannel</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">三  问题与解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">3.1.</span> <span class="nav-text">1. 类型转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E5%A7%94%E6%89%98%E7%9A%84%E8%B0%83%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text">2. 委托的调用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-IL2CPP%E8%A3%81%E5%89%AA%E4%BB%A3%E7%A0%81%E9%97%AE%E9%A2%98"><span class="nav-number">3.3.</span> <span class="nav-text">3. IL2CPP裁剪代码问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="酒时柒"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">酒时柒</p>
+  <div class="site-description" itemprop="description">梦想是拥有一套三块五的海景房</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/luciano-0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;luciano-0" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:3160102261@zju.edu.cn" title="E-Mail → mailto:3160102261@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">酒时柒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
