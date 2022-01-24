@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
+  <link rel="mask-icon" href="/images/mylogo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"luciano-0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、概述游戏开发中随机是一个常用的工具，游戏程序员需要常常和rand()函数打交道，但是很多效果其实是无法通过简单的rand()函数实现的，需要更高级的随机技术。以下简单整理了《游戏人工智能》《代码本色》中介绍的几种高级随机技术，主要有：  高斯随机 随机值筛选 自定义分布的随机数 柏林噪声">
+<meta property="og:type" content="article">
+<meta property="og:title" content="几种高级随机技术">
+<meta property="og:url" content="https://luciano-0.github.io/2022/01/24/tech/Random/index.html">
+<meta property="og:site_name" content="酒时柒">
+<meta property="og:description" content="一、概述游戏开发中随机是一个常用的工具，游戏程序员需要常常和rand()函数打交道，但是很多效果其实是无法通过简单的rand()函数实现的，需要更高级的随机技术。以下简单整理了《游戏人工智能》《代码本色》中介绍的几种高级随机技术，主要有：  高斯随机 随机值筛选 自定义分布的随机数 柏林噪声">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://luciano-0.github.io/image/17-1.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/17-2.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/17-3.png">
+<meta property="og:image" content="https://luciano-0.github.io/image/17-4.png">
+<meta property="article:published_time" content="2022-01-24T06:59:14.000Z">
+<meta property="article:modified_time" content="2022-01-24T13:34:51.774Z">
+<meta property="article:author" content="酒时柒">
+<meta property="article:tag" content="随机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://luciano-0.github.io/image/17-1.png">
+
+<link rel="canonical" href="https://luciano-0.github.io/2022/01/24/tech/Random/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>几种高级随机技术 | 酒时柒</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">酒时柒</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-主页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>主页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-技术">
+
+    <a href="/tech/" rel="section"><i class="fa fa-code fa-fw"></i>技术</a>
+
+  </li>
+        <li class="menu-item menu-item-摄影">
+
+    <a href="/photos/" rel="section"><i class="fa fa-camera fa-fw"></i>摄影</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/24/tech/Random/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          几种高级随机技术
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-24 14:59:14 / 修改时间：21:34:51" itemprop="dateCreated datePublished" datetime="2022-01-24T14:59:14+08:00">2022-01-24</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>游戏开发中随机是一个常用的工具，游戏程序员需要常常和<code>rand()</code>函数打交道，但是很多效果其实是无法通过简单的<code>rand()</code>函数实现的，需要更高级的随机技术。以下简单整理了《游戏人工智能》《代码本色》中介绍的几种高级随机技术，主要有：</p>
+<ul>
+<li>高斯随机</li>
+<li>随机值筛选</li>
+<li>自定义分布的随机数</li>
+<li>柏林噪声</li>
+</ul>
+<a id="more"></a>
+<h3 id="二、高斯随机"><a href="#二、高斯随机" class="headerlink" title="二、高斯随机"></a>二、高斯随机</h3><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>日常生活中许多现象在统计学上都满足高斯分布（即正态分布），其原因可以用<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/25241653">中央极限定理</a>来解释。在游戏中为了达到更真实更贴近自然的模拟，也要采用高斯随机，而不是简单的均匀随机。</p>
+<p><img data-src="/image/17-1.png" alt=" " style="zoom:100%;"/></p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>生成高斯随机值的方法非常简单，只需要对三个均匀随机值求和，即可得到一组满足高斯分布的随机数。<strong>更准确地说，按照中央极限定理，对多个[-1, 1]范围内的均匀随机数求和，其结果会逼近均值为0、标准差为$\sqrt{K/3}$ 的高斯分布，其中<em>K</em>为参与求和的随机数数量。</strong>如果<em>K</em>值为3，则标准差等于1，那么我们就得到一个标准正态分布。</p>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>高斯随机可以在游戏中得到广泛的应用，如：</p>
+<ul>
+<li>模拟弹道</li>
+<li>NPC的平均或最大速度</li>
+<li>NPC的反应时间</li>
+<li>暴击概率</li>
+<li>体型大小、宽度、高度、质量等</li>
+</ul>
+<p>为了达到更贴近真实的模拟，还可以进行叠加，如让每个NPC的基础射速呈高斯分布，而每一次射击还会在基础射速上按照高斯分布随机变化，这样就能达到非常自然的群体运动表现。</p>
+<h3 id="三、自定义分布的随机数"><a href="#三、自定义分布的随机数" class="headerlink" title="三、自定义分布的随机数"></a>三、自定义分布的随机数</h3><h4 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h4><p>现实中还存在许多例子不能用均匀分布或是高斯分布模拟，需要满足各种不同类型的分布，如指数分布、泊松分布、瑞利分布等。举个简单的例子：我们需要从[0, 1]中选出一个数，且数字越大，被选到的概率也越大，若选中概率为y，选中的值为x，可以简单地定义其映射关系为$y=x$。</p>
+<p><img data-src="/image/17-2.png" alt=" " style="zoom:100%;"/></p>
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><p>自定义分布的随机数的生成有几种不同的方法，可以参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xingshansi/p/6539319.html">信号处理——生成给定分布随机数</a>，这里介绍一种常见的方法：舍选法。</p>
+<p><strong>每次生成两个随机数，第一个是普通随机数，第二个作为“资格随机数”，用来决定第一个随机数的取舍。</strong>对于以上举的例子，具体计算步骤如下：</p>
+<ul>
+<li>生成一个随机数R1 = 0.3</li>
+<li>计算R1被选中的资格概率为0.3</li>
+<li>生成另一个随机数R2</li>
+<li>若R2 &lt; R1，则R1就是我们要的随机数</li>
+<li>否则，回到第一步重新开始</li>
+</ul>
+<h3 id="四、随机值筛选"><a href="#四、随机值筛选" class="headerlink" title="四、随机值筛选"></a>四、随机值筛选</h3><h4 id="问题-2"><a href="#问题-2" class="headerlink" title="问题"></a>问题</h4><p>在游戏中，随机值过于随机也会存在问题，人们会认为少量的随机值不是随机生成的，比如游戏战斗中，敌方连续多次的暴击是完全有可能发生的，但对于玩家来说这样的体验就会很糟糕，甚至会开始怀疑游戏的机制或是作弊问题，因此作为开发者需要避免这样的情况产生，即让随机数序列<strong>看上去更随机</strong>。</p>
+<h4 id="应对策略"><a href="#应对策略" class="headerlink" title="应对策略"></a>应对策略</h4><p>我们需要牺牲一点点随机完整性，换取一个看上去更加随机的序列。<strong>具体策略为：当生成一个随机数序列时，如果生成的下一个数会破坏随机性的表现，那就舍弃这个数然后再生成一个。</strong>具体策略可以参考《游戏人工智能：高级随机技术》，书中对于不同的情形有具体的应对策略。</p>
+<p>值得注意的是，使用的筛选规则会影响到随机值的数学完整性，开源程序ENT提供了许多不同的度量标准来评估随机性。</p>
+<h3 id="五、柏林噪声"><a href="#五、柏林噪声" class="headerlink" title="五、柏林噪声"></a>五、柏林噪声</h3><h4 id="问题-3"><a href="#问题-3" class="headerlink" title="问题"></a>问题</h4><p>游戏中会存在另一类随机需求：需要随机数之间存在连续性，即连续生成的随机数之间是有联系的，这种特性意味着我们不会在得到一个随机数之后得到一个差异很大的随机数。柏林噪声在图形学中有着广泛的应用，如用于生成大理石纹理、烟雾云彩、火焰等。</p>
+<p><img data-src="/image/17-3.png" alt=" " style="zoom:100%;"/></p>
+<p>在游戏AI方面，柏林噪声可以控制角色在一段时间内的移动或属性变化，如：</p>
+<ul>
+<li>角色移动（方向、速度、加速度）</li>
+<li>精准度（连续的成功或失败，模拟运气势头）</li>
+<li>注意力（警惕程度、反应时间）</li>
+<li>角色情绪（冷静、愤怒、高兴、悲伤…）</li>
+</ul>
+<h4 id="一维柏林噪声的生成"><a href="#一维柏林噪声的生成" class="headerlink" title="一维柏林噪声的生成"></a>一维柏林噪声的生成</h4><ul>
+<li>首先确定<strong>频程</strong>，每阶频程在特定层次上影响信号细节，引入更高的频程可以增加更细粒度的信息，每阶频程独立计算，累加后得到最终的信号。</li>
+<li>第一阶频程首先在[0, 1]范围内随机生成信号的起始和结束值，然后对这两个值做插值计算，得到中间值，理想的<strong>插值函数为$6t^5-15t^4+10t^3$</strong>，该函数在0和1处一阶导和二阶导都为0，即在过渡处会非常平滑。</li>
+<li>对于N阶频程，选取$2^{n-1}+1$个均匀随机数并等距离放置，然后再对其进行插值。</li>
+<li>对于每一阶的信号，还需要乘以一个放大倍数$p^i$，其中<em>p</em>为顽固指数，<em>i</em>为频程的阶数。对所有的信号叠加后就得到了最终的柏林噪声。下图中的例子就是一个阶数为4，顽固指数为0.5的柏林噪声生成过程。</li>
+</ul>
+<p><img data-src="/image/17-4.png" alt=" " style="zoom:100%;"/></p>
+<p>回顾以上的生成过程我们可以从中提取出几个重要的参数，通过改变他们的大小就能生成不同样式的柏林噪声。</p>
+<ul>
+<li><strong>频程的阶数</strong>：低阶频程在最终信号中造成更大的波动，而高阶的频程则导致更细粒度的噪声。</li>
+<li><strong>频程的范围</strong>：可以任意指定信号的频程范围来生成不同的最终信号。</li>
+<li><strong>每阶频程的放大倍数</strong>：可以通过改变每阶频程的放大倍数来决定该频程在最终信号中的权重。</li>
+<li><strong>插值函数的选择</strong>：$6t^5-15t^4+10t^3$为常用的插值函数，但也可以选择不同的插值函数来达到一些有趣的效果。</li>
+</ul>
+<p>以上介绍一维柏林噪声的生成，但在图形学中用的更多的是二维柏林噪声，关于二维噪声的生成或是其他种类的噪声可以阅读<a target="_blank" rel="noopener" href="https://blog.csdn.net/candycat1992/article/details/50346469">【图形学】谈谈噪声</a></p>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li>《游戏人工智能》第一部分3</li>
+<li>《代码本色》第一章：引言</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/25241653">中心极限定理通俗介绍 - 知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xingshansi/p/6539319.html">信号处理——生成给定分布随机数</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/candycat1992/article/details/50346469">【图形学】谈谈噪声</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9A%8F%E6%9C%BA/" rel="tag"># 随机</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/23/tech/SPFA/" rel="prev" title="图的最短路径算法——SPFA">
+      <i class="fa fa-chevron-left"></i> 图的最短路径算法——SPFA
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%AB%98%E6%96%AF%E9%9A%8F%E6%9C%BA"><span class="nav-number">2.</span> <span class="nav-text">二、高斯随机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E5%B8%83%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">三、自定义分布的随机数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-1"><span class="nav-number">3.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="nav-number">3.2.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%9A%8F%E6%9C%BA%E5%80%BC%E7%AD%9B%E9%80%89"><span class="nav-number">4.</span> <span class="nav-text">四、随机值筛选</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-2"><span class="nav-number">4.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E5%AF%B9%E7%AD%96%E7%95%A5"><span class="nav-number">4.2.</span> <span class="nav-text">应对策略</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%9F%8F%E6%9E%97%E5%99%AA%E5%A3%B0"><span class="nav-number">5.</span> <span class="nav-text">五、柏林噪声</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-3"><span class="nav-number">5.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E7%BB%B4%E6%9F%8F%E6%9E%97%E5%99%AA%E5%A3%B0%E7%9A%84%E7%94%9F%E6%88%90"><span class="nav-number">5.2.</span> <span class="nav-text">一维柏林噪声的生成</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="酒时柒"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">酒时柒</p>
+  <div class="site-description" itemprop="description">梦想是拥有一套三块五的海景房</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/luciano-0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;luciano-0" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:3160102261@zju.edu.cn" title="E-Mail → mailto:3160102261@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">酒时柒</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

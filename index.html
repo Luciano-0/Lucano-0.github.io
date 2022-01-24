@@ -186,6 +186,78 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2022/01/24/tech/Random/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/24/tech/Random/" class="post-title-link" itemprop="url">几种高级随机技术</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-24 14:59:14 / 修改时间：21:34:51" itemprop="dateCreated datePublished" datetime="2022-01-24T14:59:14+08:00">2022-01-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>游戏开发中随机是一个常用的工具，游戏程序员需要常常和<code>rand()</code>函数打交道，但是很多效果其实是无法通过简单的<code>rand()</code>函数实现的，需要更高级的随机技术。以下简单整理了《游戏人工智能》《代码本色》中介绍的几种高级随机技术，主要有：</p>
+<ul>
+<li>高斯随机</li>
+<li>随机值筛选</li>
+<li>自定义分布的随机数</li>
+<li>柏林噪声</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/24/tech/Random/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/12/23/tech/SPFA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -493,6 +565,81 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/11/15/tech/NodeCanvas/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="酒时柒">
+      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="酒时柒">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/15/tech/NodeCanvas/" class="post-title-link" itemprop="url">基于NodeCanvas的AI框架</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-15 14:58:56" itemprop="dateCreated datePublished" datetime="2021-11-15T14:58:56+08:00">2021-11-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-24 15:12:42" itemprop="dateModified" datetime="2022-01-24T15:12:42+08:00">2022-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h3><p>之前项目中重构过AI的框架，基于NodeCanvas实现，不过现在项目已经无了，所以想总结下之前重构的思路，做个备忘。</p>
+<h3 id="二、设计目的"><a href="#二、设计目的" class="headerlink" title="二、设计目的"></a>二、设计目的</h3><ul>
+<li><strong>实现行为树与客户端逻辑的解耦：</strong>作为Plugin，保证行为树框架层面没有客户端相关的逻辑和数据，即行为树只负责根据数据做决策，不知晓上层具体的游戏逻辑，可以实现行为树框架在不同游戏之间的移植。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/15/tech/NodeCanvas/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/10/10/tech/AIMovement/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -689,7 +836,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <img data-src= "/image/12-1.jpg" alt="第一次试飞" style="zoom:30%;"/>
+          <p><img data-src= "/image/12-1.jpg" alt="第一次试飞" style="zoom:30%;"/></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/04/20/photo/20210420-Dji/#more" rel="contents">
@@ -784,151 +931,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/04/05/photo/20210405-HengSha/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/05/photo/20210405-HengSha/" class="post-title-link" itemprop="url">避世岛屿——横沙</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-05 01:48:56" itemprop="dateCreated datePublished" datetime="2021-04-05T01:48:56+08:00">2021-04-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-17 00:55:08" itemprop="dateModified" datetime="2021-07-17T00:55:08+08:00">2021-07-17</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <img data-src= "/image/11-1.jpg" alt="1" style="zoom:30%;"/>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/04/05/photo/20210405-HengSha/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://luciano-0.github.io/2021/03/11/tech/EfficiencyTool/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="酒时柒">
-      <meta itemprop="description" content="梦想是拥有一套三块五的海景房">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="酒时柒">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/11/tech/EfficiencyTool/" class="post-title-link" itemprop="url">效率工具备忘录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-03-11 21:58:58 / 修改时间：22:24:58" itemprop="dateCreated datePublished" datetime="2021-03-11T21:58:58+08:00">2021-03-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><ul>
-<li><a target="_blank" rel="noopener" href="http://www.1218.io/">Seer</a> 实现类似Mac OS下空格预览文件的功能。</li>
-<li><a target="_blank" rel="noopener" href="https://www.islide.cc/">iSlide</a> 基于PPT的插件工具，包含查找模板、图片、图标素材、设计配色、页面布局、智能优化等功能。</li>
-<li><a target="_blank" rel="noopener" href="https://everything.en.softonic.com/">Everything</a> 全局文件搜索</li>
-<li><a target="_blank" rel="noopener" href="http://www.wox.one/">Wox</a> 实现类似Mac OS下Spot Light的功能，搭配Everything食用更佳。</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/PowerToys/releases">PowerToys</a> 微软开发的开源效率工具，支持快速修改图片分辨率、批量文件重命名、Wox的大部分功能(暂时不支持与Everything配合使用)。<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/powertoys/">Microsoft PowerToys | Microsoft Docs</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.typora.io/">Typora</a> 用过颜值最高的Markdown编辑器。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/11/tech/EfficiencyTool/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -999,12 +1001,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

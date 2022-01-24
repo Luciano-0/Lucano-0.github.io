@@ -259,20 +259,17 @@
 </ul>
 <h3 id="二、Dijkstra"><a href="#二、Dijkstra" class="headerlink" title="二、Dijkstra"></a>二、Dijkstra</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>Dijkstra用于解决图的<strong>单源最短路径问题，其前提为路径开销都为正值</strong>，使用贪心的思想进行<strong>边放松</strong>，其最终的结果是生成一棵<strong>最短路径树</strong>。</p>
 <a id="more"></a>
-
 <ul>
 <li><strong>边放松</strong>指的是在查找最短路径过程中，如果碰到一条边，通过该边到达某一结点的路径比之前记录的到达该点的路径短，那么这个更短的路径将会取代之前的路径。可以把路径理解成从起点到某一点连接了一条橡皮筋，从下图的A-&gt;B操作，橡皮筋就得到了放松。</li>
 </ul>
-<img data-src="/image/15-1.png" alt=" " style="zoom:100%;"/>
-
+<p><img data-src="/image/15-1.png" alt=" " style="zoom:100%;"/></p>
 <ul>
 <li><strong>最短路径树（Short Path Tree，SPT）</strong>是图的一颗子树，其中根节点到某一子节点的路径就是这两节点在图中的最短路径。</li>
 </ul>
 <h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
 <li>首先，我们需要一个数据结构用于储存各个节点搜索过程中产生的数据：其中包含是否已经找到最短路径的标志、从源节点到该节点当前路径的开销以及当前路径数组。</li>
 </ul>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> found;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span> <span class="keyword">value</span> = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">bool</span> found;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">float</span> <span class="keyword">value</span> = <span class="built_in">float</span>.MaxValue;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>一开始需要将字典初始化，将除了源节点O之外的所有节点开销设为无穷大，源节点则为0。</p>
 </li>
@@ -285,219 +282,227 @@
 <h4 id="栗子"><a href="#栗子" class="headerlink" title="栗子"></a>栗子</h4><ul>
 <li>以下图为例，假设源节点为0。</li>
 </ul>
-<img data-src="/image/15-2.png" alt=" " style="zoom:100%;"/>
-
+<p><img data-src="/image/15-2.png" alt=" " style="zoom:100%;"/></p>
 <ul>
 <li>首先将字典初始化为：</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">dis</th>
-<th align="center">0</th>
-<th align="center">1</th>
-<th align="center">2</th>
-<th align="center">3</th>
-<th align="center">4</th>
-<th align="center">5</th>
-<th align="center">6</th>
+<th style="text-align:center">dis</th>
+<th style="text-align:center">0</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">5</th>
+<th style="text-align:center">6</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">value</td>
-<td align="center">0</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
+<tbody>
+<tr>
+<td style="text-align:center">value</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
 </tr>
 <tr>
-<td align="center">found</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
+<td style="text-align:center">found</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
 </tr>
 <tr>
-<td align="center">path</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center">null</td>
+<td style="text-align:center">path</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <ul>
 <li>第一次循环：取0节点，0-&gt;0的最短路径找到，更新0节点的found和path，然后遍历可从0节点到达的节点：5、6，更新他们的value和path。</li>
 </ul>
-<img data-src="/image/15-3.png" alt=" " style="zoom:100%;"/>
-
+<p><img data-src="/image/15-3.png" alt=" " style="zoom:100%;"/></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">dis</th>
-<th align="center">0</th>
-<th align="center">1</th>
-<th align="center">2</th>
-<th align="center">3</th>
-<th align="center">4</th>
-<th align="center">5</th>
-<th align="center">6</th>
+<th style="text-align:center">dis</th>
+<th style="text-align:center">0</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">5</th>
+<th style="text-align:center">6</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">value</td>
-<td align="center">0</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center"><strong>3</strong></td>
-<td align="center"><strong>5</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center">value</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center"><strong>3</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
 </tr>
 <tr>
-<td align="center">found</td>
-<td align="center"><strong>true</strong></td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
+<td style="text-align:center">found</td>
+<td style="text-align:center"><strong>true</strong></td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
 </tr>
 <tr>
-<td align="center">path</td>
-<td align="center"><strong>0-&gt;0</strong></td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center"><strong>0-&gt;5</strong></td>
-<td align="center"><strong>0-&gt;6</strong></td>
+<td style="text-align:center">path</td>
+<td style="text-align:center"><strong>0-&gt;0</strong></td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center"><strong>0-&gt;5</strong></td>
+<td style="text-align:center"><strong>0-&gt;6</strong></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <ul>
 <li>第二次循环：取未找到最短路径节点中value最小的节点：5，0-&gt;5最短路径已找到，因为不可能通过其他节点，进一步缩短0-&gt;5的距离了，因此更新5节点的found和path，并遍历从5节点能到达的节点：6、4，发现0-&gt;5-&gt;6的路径优于0-&gt;6的路径，因此更新4和6节点的value和path。</li>
 </ul>
-<img data-src="/image/15-4.png" alt=" " style="zoom:100%;"/>
-
+<p><img data-src="/image/15-4.png" alt=" " style="zoom:100%;"/></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">dis</th>
-<th align="center">0</th>
-<th align="center">1</th>
-<th align="center">2</th>
-<th align="center">3</th>
-<th align="center">4</th>
-<th align="center">5</th>
-<th align="center">6</th>
+<th style="text-align:center">dis</th>
+<th style="text-align:center">0</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">5</th>
+<th style="text-align:center">6</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">value</td>
-<td align="center">0</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center">∞</td>
-<td align="center">8</td>
-<td align="center">3</td>
-<td align="center"><strong>4</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center">value</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">∞</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><strong>4</strong></td>
 </tr>
 <tr>
-<td align="center">found</td>
-<td align="center">true</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center">false</td>
-<td align="center"><strong>true</strong></td>
-<td align="center">false</td>
+<td style="text-align:center">found</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center"><strong>true</strong></td>
+<td style="text-align:center">false</td>
 </tr>
 <tr>
-<td align="center">path</td>
-<td align="center">0-&gt;0</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center">null</td>
-<td align="center"><strong>0-&gt;5-&gt;4</strong></td>
-<td align="center">0-&gt;5</td>
-<td align="center"><strong>0-&gt;5-&gt;6</strong></td>
+<td style="text-align:center">path</td>
+<td style="text-align:center">0-&gt;0</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center"><strong>0-&gt;5-&gt;4</strong></td>
+<td style="text-align:center">0-&gt;5</td>
+<td style="text-align:center"><strong>0-&gt;5-&gt;6</strong></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <ul>
 <li>以此类推…</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">dis</th>
-<th align="center">0</th>
-<th align="center">1</th>
-<th align="center">2</th>
-<th align="center">3</th>
-<th align="center">4</th>
-<th align="center">5</th>
-<th align="center">6</th>
+<th style="text-align:center">dis</th>
+<th style="text-align:center">0</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">5</th>
+<th style="text-align:center">6</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">value</td>
-<td align="center">0</td>
-<td align="center">5</td>
-<td align="center">9</td>
-<td align="center">7</td>
-<td align="center">8</td>
-<td align="center">3</td>
-<td align="center">4</td>
+<tbody>
+<tr>
+<td style="text-align:center">value</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
 </tr>
 <tr>
-<td align="center">found</td>
-<td align="center">true</td>
-<td align="center">true</td>
-<td align="center">true</td>
-<td align="center">true</td>
-<td align="center">true</td>
-<td align="center">true</td>
-<td align="center">true</td>
+<td style="text-align:center">found</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">true</td>
 </tr>
 <tr>
-<td align="center">path</td>
-<td align="center">0</td>
-<td align="center">0-&gt;5-&gt;6-&gt;1</td>
-<td align="center">0-&gt;5-&gt;6-&gt;1-&gt;2</td>
-<td align="center">0-&gt;5-&gt;6-&gt;3</td>
-<td align="center">0-&gt;5-&gt;4</td>
-<td align="center">0-&gt;5</td>
-<td align="center">0-&gt;5-&gt;6</td>
+<td style="text-align:center">path</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0-&gt;5-&gt;6-&gt;1</td>
+<td style="text-align:center">0-&gt;5-&gt;6-&gt;1-&gt;2</td>
+<td style="text-align:center">0-&gt;5-&gt;6-&gt;3</td>
+<td style="text-align:center">0-&gt;5-&gt;4</td>
+<td style="text-align:center">0-&gt;5</td>
+<td style="text-align:center">0-&gt;5-&gt;6</td>
 </tr>
-</tbody></table>
-<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Dijkstra</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">bool</span> found;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">float</span> <span class="keyword">value</span> = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Node&lt;T&gt;&gt; DijkstraSearch(Graph&lt;T&gt; graph, Node&lt;T&gt; start, Node&lt;T&gt; end)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (graph == <span class="literal">null</span> || start == <span class="literal">null</span> || !graph.IsNode(start)) <span class="keyword">return</span> <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">        Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> vn <span class="keyword">in</span> graph)</span><br><span class="line">        &#123;</span><br><span class="line">            dis[vn.Data] = <span class="keyword">new</span> Distance();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dis[start].<span class="keyword">value</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!dis[end].found)</span><br><span class="line">        &#123;</span><br><span class="line">            Node&lt;T&gt; minNode = <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">float</span> temp = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> kv <span class="keyword">in</span> dis)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (kv.Value.<span class="keyword">value</span> &lt; temp &amp;&amp; kv.Value.found == <span class="literal">false</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    minNode = kv.Key;</span><br><span class="line">                    temp = kv.Value.<span class="keyword">value</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (minNode == <span class="literal">null</span>) <span class="keyword">break</span>;</span><br><span class="line">            dis[minNode].found = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">var</span> adjNode = graph[minNode].FirstAdjNode;</span><br><span class="line">            <span class="keyword">while</span> (adjNode != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> d = dis[adjNode.Data];</span><br><span class="line">                <span class="keyword">if</span> (d.found == <span class="literal">false</span> &amp;&amp; adjNode.Cost + dis[minNode].<span class="keyword">value</span> &lt; d.<span class="keyword">value</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    d.<span class="keyword">value</span> = adjNode.Cost + dis[minNode].<span class="keyword">value</span>;</span><br><span class="line">                    d.path = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;(dis[minNode].path) &#123;minNode&#125;;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                adjNode = adjNode.Next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dis[end].path.Count &gt; <span class="number">0</span>) dis[end].path.Add(end);</span><br><span class="line">        <span class="keyword">return</span> dis[end].path;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
+</tbody>
+</table>
+</div>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Dijkstra</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">bool</span> found;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">float</span> <span class="keyword">value</span> = <span class="built_in">float</span>.MaxValue;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Node&lt;T&gt;&gt; DijkstraSearch(Graph&lt;T&gt; graph, Node&lt;T&gt; start, Node&lt;T&gt; end)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (graph == <span class="literal">null</span> || start == <span class="literal">null</span> || !graph.IsNode(start)) <span class="keyword">return</span> <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">        Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> vn <span class="keyword">in</span> graph)</span><br><span class="line">        &#123;</span><br><span class="line">            dis[vn.Data] = <span class="keyword">new</span> Distance();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dis[start].<span class="keyword">value</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!dis[end].found)</span><br><span class="line">        &#123;</span><br><span class="line">            Node&lt;T&gt; minNode = <span class="literal">null</span>;</span><br><span class="line">            <span class="built_in">float</span> temp = <span class="built_in">float</span>.MaxValue;</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> kv <span class="keyword">in</span> dis)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (kv.Value.<span class="keyword">value</span> &lt; temp &amp;&amp; kv.Value.found == <span class="literal">false</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    minNode = kv.Key;</span><br><span class="line">                    temp = kv.Value.<span class="keyword">value</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (minNode == <span class="literal">null</span>) <span class="keyword">break</span>;</span><br><span class="line">            dis[minNode].found = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">var</span> adjNode = graph[minNode].FirstAdjNode;</span><br><span class="line">            <span class="keyword">while</span> (adjNode != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> d = dis[adjNode.Data];</span><br><span class="line">                <span class="keyword">if</span> (d.found == <span class="literal">false</span> &amp;&amp; adjNode.Cost + dis[minNode].<span class="keyword">value</span> &lt; d.<span class="keyword">value</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    d.<span class="keyword">value</span> = adjNode.Cost + dis[minNode].<span class="keyword">value</span>;</span><br><span class="line">                    d.path = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;(dis[minNode].path) &#123;minNode&#125;;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                adjNode = adjNode.Next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dis[end].path.Count &gt; <span class="number">0</span>) dis[end].path.Add(end);</span><br><span class="line">        <span class="keyword">return</span> dis[end].path;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>未经过优化的Dijkstra算法时间复杂度为O(n^2)，而每次选最小节点的步骤可以使用堆进行优化，可以考虑使用二叉堆、二项堆或者斐波那契堆，优化后的时间复杂度计算可以参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/michealoven/article/details/114040136">Dijkstra算法时间复杂度分析</a></p>
-<h3 id="三、A"><a href="#三、A" class="headerlink" title="三、A*"></a>三、A*</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>Dijkstra算法在搜索过程中还是需要检查太多的边，在找到目标节点之前，算法会在各个方向上进行尝试。而A*算法就是在Dijkstra算法的基础上引入了<strong>启发函数</strong>的概念，大大地提高了搜索的效率。</p>
+<h3 id="三、A"><a href="#三、A" class="headerlink" title="三、A*"></a>三、A*</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>Dijkstra算法在搜索过程中还是需要检查太多的边，在找到目标节点之前，算法会在各个方向上进行尝试。而A<em>算法就是在Dijkstra算法的基础上引入了<em>*启发函数</em></em>的概念，大大地提高了搜索的效率。</p>
 <h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><ul>
-<li><p>*<em>启发函数指的是对当前节点到目标节点开销的估计值，如果算法使用的启发函数是从任何节点到目标节点的实际开销的下限（低估开销得到），那么A</em>算法可以保证给出最优路径。**如对于导航图最常用的启发函数就是节点之间的直线距离。</p>
+<li><p><strong>启发函数指的是对当前节点到目标节点开销的估计值，如果算法使用的启发函数是从任何节点到目标节点的实际开销的下限（低估开销得到），那么A*算法可以保证给出最优路径。</strong>如对于导航图最常用的启发函数就是节点之间的直线距离。</p>
 </li>
-<li><p>A*算法的工作方式和Dijkstra几乎一致，唯一的区别就是每个节点开销F的计算变成了:<br>$$<br>F=G+H<br>$$<br>G为到达一个节点的累计开销，H是一个启发函数。</p>
+<li><p>A*算法的工作方式和Dijkstra几乎一致，唯一的区别就是每个节点开销F的计算变成了:</p>
+<script type="math/tex; mode=display">
+F=G+H</script><p>G为到达一个节点的累计开销，H是一个启发函数。</p>
 </li>
 </ul>
-<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">AStar</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">bool</span> found;</span><br><span class="line">        <span class="comment">// F = G + H</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">float</span> f = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">float</span> g = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Node&lt;T&gt;&gt; AStarSearch(Graph&lt;T&gt; graph, Node&lt;T&gt; start, Node&lt;T&gt; end,</span><br><span class="line">        Func&lt;Node&lt;T&gt;, Node&lt;T&gt;, <span class="keyword">float</span>&gt; heuristic)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (graph == <span class="literal">null</span> || start == <span class="literal">null</span> || !graph.IsNode(start)) <span class="keyword">return</span> <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">        Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> vn <span class="keyword">in</span> graph)</span><br><span class="line">        &#123;</span><br><span class="line">            dis[vn.Data] = <span class="keyword">new</span> Distance();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dis[start].f = <span class="number">0</span>;</span><br><span class="line">        dis[start].g = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!dis[end].found)</span><br><span class="line">        &#123;</span><br><span class="line">            Node&lt;T&gt; minNode = <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">float</span> temp = <span class="keyword">float</span>.MaxValue;</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> kv <span class="keyword">in</span> dis)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (kv.Value.f &lt; temp &amp;&amp; kv.Value.found == <span class="literal">false</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    minNode = kv.Key;</span><br><span class="line">                    temp = kv.Value.f;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (minNode == <span class="literal">null</span>) <span class="keyword">break</span>;</span><br><span class="line">            dis[minNode].found = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">var</span> adjNode = graph[minNode].FirstAdjNode;</span><br><span class="line">            <span class="keyword">while</span> (adjNode != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> d = dis[adjNode.Data];</span><br><span class="line">                <span class="keyword">if</span> (d.found)</span><br><span class="line">                &#123;</span><br><span class="line">                    adjNode = adjNode.Next;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (adjNode.Cost + dis[minNode].g &lt; d.g)</span><br><span class="line">                &#123;</span><br><span class="line">                    d.g = adjNode.Cost + dis[minNode].g;</span><br><span class="line">                    d.f = d.g + heuristic(adjNode.Data, end);</span><br><span class="line">                    d.path = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;(dis[minNode].path) &#123;minNode&#125;;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                adjNode = adjNode.Next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dis[end].path.Count &gt; <span class="number">0</span>) dis[end].path.Add(end);</span><br><span class="line">        <span class="keyword">return</span> dis[end].path;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">AStar</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Distance</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">bool</span> found;</span><br><span class="line">        <span class="comment">// F = G + H</span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">float</span> f = <span class="built_in">float</span>.MaxValue;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">float</span> g = <span class="built_in">float</span>.MaxValue;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">List</span>&lt;<span class="title">Node</span>&lt;<span class="title">T</span>&gt;&gt; path</span> = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Node&lt;T&gt;&gt; AStarSearch(Graph&lt;T&gt; graph, Node&lt;T&gt; start, Node&lt;T&gt; end,</span><br><span class="line">        Func&lt;Node&lt;T&gt;, Node&lt;T&gt;, <span class="built_in">float</span>&gt; heuristic)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (graph == <span class="literal">null</span> || start == <span class="literal">null</span> || !graph.IsNode(start)) <span class="keyword">return</span> <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;();</span><br><span class="line">        Dictionary&lt;Node&lt;T&gt;, Distance&gt; dis = <span class="keyword">new</span> Dictionary&lt;Node&lt;T&gt;, Distance&gt;();</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> vn <span class="keyword">in</span> graph)</span><br><span class="line">        &#123;</span><br><span class="line">            dis[vn.Data] = <span class="keyword">new</span> Distance();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dis[start].f = <span class="number">0</span>;</span><br><span class="line">        dis[start].g = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!dis[end].found)</span><br><span class="line">        &#123;</span><br><span class="line">            Node&lt;T&gt; minNode = <span class="literal">null</span>;</span><br><span class="line">            <span class="built_in">float</span> temp = <span class="built_in">float</span>.MaxValue;</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> kv <span class="keyword">in</span> dis)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (kv.Value.f &lt; temp &amp;&amp; kv.Value.found == <span class="literal">false</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    minNode = kv.Key;</span><br><span class="line">                    temp = kv.Value.f;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (minNode == <span class="literal">null</span>) <span class="keyword">break</span>;</span><br><span class="line">            dis[minNode].found = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">var</span> adjNode = graph[minNode].FirstAdjNode;</span><br><span class="line">            <span class="keyword">while</span> (adjNode != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> d = dis[adjNode.Data];</span><br><span class="line">                <span class="keyword">if</span> (d.found)</span><br><span class="line">                &#123;</span><br><span class="line">                    adjNode = adjNode.Next;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (adjNode.Cost + dis[minNode].g &lt; d.g)</span><br><span class="line">                &#123;</span><br><span class="line">                    d.g = adjNode.Cost + dis[minNode].g;</span><br><span class="line">                    d.f = d.g + heuristic(adjNode.Data, end);</span><br><span class="line">                    d.path = <span class="keyword">new</span> List&lt;Node&lt;T&gt;&gt;(dis[minNode].path) &#123;minNode&#125;;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                adjNode = adjNode.Next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dis[end].path.Count &gt; <span class="number">0</span>) dis[end].path.Add(end);</span><br><span class="line">        <span class="keyword">return</span> dis[end].path;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><h5 id="结合Floyd算法"><a href="#结合Floyd算法" class="headerlink" title="结合Floyd算法"></a>结合Floyd算法</h5><p>Floyd算法是预计算每一条可能的路径存在查找表中，这是实时寻路最快的一种算法（比A*快一个数量级），但其对空间的需求非常大。不过我们有办法通过压缩减少其对空间的需求，达到可接受的水平。</p>
-<img data-src="/image/15-5.png" alt=" " style="zoom:100%;"/>
-
+<p><img data-src="/image/15-5.png" alt=" " style="zoom:100%;"/></p>
 <ul>
 <li><p><strong>无损压缩：只存储关键的”换乘点“信息</strong></p>
 <p>在实际应用的寻路地图中，最佳路径的数量是有限的，而且多数重叠，因此我们可以找到最佳路径会经过的有限的”换乘点“，每个节点保存通往该节点所有换乘点的路径以及换乘点之间的最佳路径。</p>
@@ -509,20 +514,22 @@
 <h5 id="使用最恰当的搜索空间表征"><a href="#使用最恰当的搜索空间表征" class="headerlink" title="使用最恰当的搜索空间表征"></a>使用最恰当的搜索空间表征</h5><ul>
 <li>常见的三种空间表征有：网格图、路点图、导航网格</li>
 </ul>
-<img data-src="/image/15-6.png" alt=" " style="zoom:100%;"/>
-
+<p><img data-src="/image/15-6.png" alt=" " style="zoom:100%;"/></p>
 <ul>
 <li>在大世界的地图中，以上三种空间表征可能性能开销都非常大，这时候就需要进行<strong>分层寻路</strong>。将较高的层级抽象为”区域到区域“的寻路方式，而较低的层级则抽象为”节点到节点“的寻路方式。</li>
 </ul>
-<h5 id="高估启发函数"><a href="#高估启发函数" class="headerlink" title="高估启发函数"></a>高估启发函数</h5><p>低估启发函数可以保证找到最优路径，但有时可以适当高估启发函数，得到一条不那么优的路径，但是可以大幅度提高寻路性能。可以使用加权的启发函数：<br>$$<br>f(x) = g(x) + h(x) * w(x)<br>$$<br>其中*w(x)<em>可以位置变化而变化，如：当距离目标较远时，</em>w(x)<em>取较大值，牺牲一定的精确度，快速接近目标；当距离目标较小时，</em>w(x)*取较小值，精确地到达目标位置。</p>
-<h5 id="更好的启发函数"><a href="#更好的启发函数" class="headerlink" title="更好的启发函数"></a>更好的启发函数</h5><p>以网格图为例，可以选用三种启发函数：欧几里得距离（直线距离）、对角线距离和曼哈顿距离，曼哈顿距离不考虑对角线行走，总是高估距离，欧几里得距离总是低估距离，而对角线距离是最合适的启发函数：<br>$$<br>max(\Delta x, \Delta y) + 0.41*min(\Delta x,\Delta y)<br>$$</p>
-<h5 id="开表的选择"><a href="#开表的选择" class="headerlink" title="开表的选择"></a>开表的选择</h5><p>通常情况下会选用堆来维护开表，但在节点数量较少时，采用简单的数组，插入开销小，查找需要遍历，但整体上对缓存友好，维护数据结构的开销几乎为0，因此寻路速度反而更快。</p>
+<h5 id="高估启发函数"><a href="#高估启发函数" class="headerlink" title="高估启发函数"></a>高估启发函数</h5><p>低估启发函数可以保证找到最优路径，但有时可以适当高估启发函数，得到一条不那么优的路径，但是可以大幅度提高寻路性能。可以使用加权的启发函数：</p>
+<script type="math/tex; mode=display">
+f(x) = g(x) + h(x) * w(x)</script><p>其中<em>w(x)</em>可以位置变化而变化，如：当距离目标较远时，<em>w(x)</em>取较大值，牺牲一定的精确度，快速接近目标；当距离目标较小时，<em>w(x)</em>取较小值，精确地到达目标位置。</p>
+<h5 id="更好的启发函数"><a href="#更好的启发函数" class="headerlink" title="更好的启发函数"></a>更好的启发函数</h5><p>以网格图为例，可以选用三种启发函数：欧几里得距离（直线距离）、对角线距离和曼哈顿距离，曼哈顿距离不考虑对角线行走，总是高估距离，欧几里得距离总是低估距离，而对角线距离是最合适的启发函数：</p>
+<script type="math/tex; mode=display">
+max(\Delta x, \Delta y) + 0.41*min(\Delta x,\Delta y)</script><h5 id="开表的选择"><a href="#开表的选择" class="headerlink" title="开表的选择"></a>开表的选择</h5><p>通常情况下会选用堆来维护开表，但在节点数量较少时，采用简单的数组，插入开销小，查找需要遍历，但整体上对缓存友好，维护数据结构的开销几乎为0，因此寻路速度反而更快。</p>
 <h5 id="寻路期间请勿回溯"><a href="#寻路期间请勿回溯" class="headerlink" title="寻路期间请勿回溯"></a>寻路期间请勿回溯</h5><p>在网格图中存在许多短循环，而我们在寻路过程中不需要考虑那些与父节点临近的点，排除这些点可以避免许多多余的查找。这也是跳点寻路算法的思想：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/181734749">Jump Point Search(JPS)算法总结与实现</a></p>
 <p><strong>参考资料：</strong></p>
 <ul>
 <li>《人工智能编程案例精粹》第5章：图的秘密生命</li>
 <li>《游戏人工智能》17：寻路架构的优化</li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35644234/article/details/60870719">最短路径问题—Dijkstra算法详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35644234/article/details/60870719">最短路径问题—-Dijkstra算法详解</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/michealoven/article/details/114040136">Dijkstra算法时间复杂度分析</a></li>
 </ul>
 <p><strong>Demo地址：</strong><a target="_blank" rel="noopener" href="https://github.com/Luciano-0/Graph.git">https://github.com/Luciano-0/Graph.git</a></p>
@@ -626,12 +633,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

@@ -244,22 +244,17 @@
         <p>在Lua的学习过程中，发现有许多特别或是巧妙的语法，特在此记录。</p>
 <p>参考书籍：<a target="_blank" rel="noopener" href="https://book.douban.com/subject/30262035/">《Lua程序设计（第4版）》</a></p>
 <a id="more"></a>
-
 <h4 id="注释代码"><a href="#注释代码" class="headerlink" title="注释代码"></a>注释代码</h4><p>Lua中使用<code>--</code>表示单行注释，<code>--[[ 多行长注释 ]]</code>表示多行长注释，在注释代码时，常见的技巧是将代码放入<code>--[[</code> 和 <code>--]]</code>之间，如：</p>
 <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--[[</span></span><br><span class="line"><span class="comment">print(10)</span></span><br><span class="line"><span class="comment">--]]</span></span><br></pre></td></tr></table></figure>
-
 <p>当需要重新启用这段代码时只需要在第一行行首添加一个连字符。</p>
 <h4 id="逻辑运算and、or"><a href="#逻辑运算and、or" class="headerlink" title="逻辑运算and、or"></a>逻辑运算and、or</h4><ul>
 <li><p>and：如果第一个操作数为”false”，则返回第一个操作数，否则返回第二个操作数。</p>
 </li>
 <li><p>or：如果第一个操作数不为”false”，则返回第一个操作数，否则返回第二个操作数。</p>
 </li>
-<li><p>and和or都遵循短路求值。</p>
-</li>
-<li><p>形如<code>x=x or v</code>的写法非常有用，等价于<code>if not x the x=v end</code></p>
-</li>
-<li><p>形如<code>(a and b or c)</code>，当b不为false时，等价于C语言中的三目运算符<code>a ? b : c</code></p>
-</li>
+<li>and和or都遵循短路求值。</li>
+<li>形如<code>x=x or v</code>的写法非常有用，等价于<code>if not x the x=v end</code></li>
+<li>形如<code>(a and b or c)</code>，当b不为false时，等价于C语言中的三目运算符<code>a ? b : c</code></li>
 </ul>
 <h4 id="取模运算"><a href="#取模运算" class="headerlink" title="取模运算"></a>取模运算</h4><p><code>x-x%0.01</code>表示x保留两位小数的结果。</p>
 <h4 id="全局变量本质为表"><a href="#全局变量本质为表" class="headerlink" title="全局变量本质为表"></a>全局变量本质为表</h4><p>Lua语言使用表来储存全局变量，未经初始化的表元素为nil，将nil赋值给表元素可以将它删除，这样的操作对全局变量同样适用。</p>
@@ -268,8 +263,7 @@
 </li>
 <li><p>但对于阅读程序的人而言，两种形式代表了不同的意图，点分式说明当前表被当作结构体使用，此时表实际上是由固定的、预先定义的键组成的集合；而字符串索引形式说明表可以使用任意字符作为键，并且处于某种原因我们操作的是指定键。</p>
 </li>
-<li><p>而<code>a.x</code>和<code>a[x]</code>是不等价的，不能搞混。</p>
-</li>
+<li>而<code>a.x</code>和<code>a[x]</code>是不等价的，不能搞混。</li>
 </ul>
 <h4 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h4><ul>
 <li>所有元素不为nil的数组称之为序列，Lua提供了获取序列长度的操作符#</li>
@@ -286,8 +280,7 @@
 </li>
 <li><p>Lua语言为面向对象风格的调用提供了一种特殊的语法，<code>o:foo(x)</code>，即调用对象o的foo方法。</p>
 </li>
-<li><p>调用函数时使用的参数个数可以与定义函数时使用的参数个数不一致，Lua语言会通过抛弃多余的参数和将参数设为nil来调整参数的个数。</p>
-</li>
+<li>调用函数时使用的参数个数可以与定义函数时使用的参数个数不一致，Lua语言会通过抛弃多余的参数和将参数设为nil来调整参数的个数。</li>
 </ul>
 
     </div>
@@ -387,12 +380,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
