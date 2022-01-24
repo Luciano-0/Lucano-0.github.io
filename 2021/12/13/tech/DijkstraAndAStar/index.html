@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 5.4.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
@@ -21,12 +21,12 @@
     var CONFIG = {"hostname":"luciano-0.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="一、最短路径问题最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：  Dijkstra算法 A*算法 SPFA算法 Floyd算法  二、Dijkstra概述Dijkstra用于解决图的单源最短路径问题，其前提为路径开销都为正值，使用贪心的思想进行边放松，其最终的结果是生成一棵最短路径树。">
+  <meta name="description" content="图的基本概念  图的盲目搜索  图的最短路径算法——SPFA   一、最短路径问题最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：  Dijkstra算法 A*算法 SPFA算法 Floyd算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图的最短路径算法——Dijkstra和A*">
 <meta property="og:url" content="https://luciano-0.github.io/2021/12/13/tech/DijkstraAndAStar/index.html">
 <meta property="og:site_name" content="酒时柒">
-<meta property="og:description" content="一、最短路径问题最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：  Dijkstra算法 A*算法 SPFA算法 Floyd算法  二、Dijkstra概述Dijkstra用于解决图的单源最短路径问题，其前提为路径开销都为正值，使用贪心的思想进行边放松，其最终的结果是生成一棵最短路径树。">
+<meta property="og:description" content="图的基本概念  图的盲目搜索  图的最短路径算法——SPFA   一、最短路径问题最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：  Dijkstra算法 A*算法 SPFA算法 Floyd算法">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://luciano-0.github.io/image/15-1.png">
 <meta property="og:image" content="https://luciano-0.github.io/image/15-2.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://luciano-0.github.io/image/15-5.png">
 <meta property="og:image" content="https://luciano-0.github.io/image/15-6.png">
 <meta property="article:published_time" content="2021-12-13T15:14:19.000Z">
-<meta property="article:modified_time" content="2022-01-23T15:37:58.875Z">
+<meta property="article:modified_time" content="2022-01-24T14:22:13.740Z">
 <meta property="article:author" content="酒时柒">
 <meta property="article:tag" content="Graph">
 <meta property="article:tag" content="AI">
@@ -87,7 +87,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -229,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-23 23:37:58" itemprop="dateModified" datetime="2022-01-23T23:37:58+08:00">2022-01-23</time>
+                <time title="修改时间：2022-01-24 22:22:13" itemprop="dateModified" datetime="2022-01-24T22:22:13+08:00">2022-01-24</time>
               </span>
 
           
@@ -250,15 +254,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="一、最短路径问题"><a href="#一、最短路径问题" class="headerlink" title="一、最短路径问题"></a>一、最短路径问题</h3><p>最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：</p>
+        <ul>
+<li><p><a href="/2021/12/11/tech/Graph/index.html">图的基本概念</a></p>
+</li>
+<li><p><a href="/2021/12/12/tech/GraphSearch/index.html">图的盲目搜索</a></p>
+</li>
+<li><p><a href="/2021/12/23/tech/SPFA/index.html">图的最短路径算法——SPFA</a></p>
+</li>
+</ul>
+<h3 id="一、最短路径问题"><a href="#一、最短路径问题" class="headerlink" title="一、最短路径问题"></a>一、最短路径问题</h3><p>最短路径问题是一个基于开销的图搜索问题，指求解从图中的某一节点出发到达另一个节点经过所有边的开销和最小的路径。解决该问题的算法有：</p>
 <ul>
 <li>Dijkstra算法</li>
 <li>A*算法</li>
 <li>SPFA算法</li>
 <li>Floyd算法</li>
 </ul>
+<span id="more"></span>
 <h3 id="二、Dijkstra"><a href="#二、Dijkstra" class="headerlink" title="二、Dijkstra"></a>二、Dijkstra</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>Dijkstra用于解决图的<strong>单源最短路径问题，其前提为路径开销都为正值</strong>，使用贪心的思想进行<strong>边放松</strong>，其最终的结果是生成一棵<strong>最短路径树</strong>。</p>
-<a id="more"></a>
 <ul>
 <li><strong>边放松</strong>指的是在查找最短路径过程中，如果碰到一条边，通过该边到达某一结点的路径比之前记录的到达该点的路径短，那么这个更短的路径将会取代之前的路径。可以把路径理解成从起点到某一点连接了一条橡皮筋，从下图的A-&gt;B操作，橡皮筋就得到了放松。</li>
 </ul>
@@ -633,7 +645,7 @@ max(\Delta x, \Delta y) + 0.41*min(\Delta x,\Delta y)</script><h5 id="开表的�
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -755,6 +767,8 @@ max(\Delta x, \Delta y) + 0.41*min(\Delta x,\Delta y)</script><h5 id="开表的�
 
 
 
+
+  
 
   
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 5.4.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
@@ -83,7 +83,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -250,7 +254,7 @@
 <h3 id="二、设计目的"><a href="#二、设计目的" class="headerlink" title="二、设计目的"></a>二、设计目的</h3><ul>
 <li><strong>实现行为树与客户端逻辑的解耦：</strong>作为Plugin，保证行为树框架层面没有客户端相关的逻辑和数据，即行为树只负责根据数据做决策，不知晓上层具体的游戏逻辑，可以实现行为树框架在不同游戏之间的移植。</li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 <ul>
 <li><strong>对现有的行为树Task做扩展：</strong>使其能够满足策划的行为树配置需求，兼顾配置过程的灵活性和易用性。应对变化的需求需满足开闭原则。</li>
 <li><strong>同时支持控制游戏玩法：</strong>行为树不光需要控制游戏角色，还需要支持控制某一特定玩法。在某一玩法中，实现行为树的分层，即不光有每个游戏个体的行为树，还有控制整体玩法流程的行为树。</li>
@@ -407,7 +411,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -529,6 +533,8 @@
 
 
 
+
+  
 
   
 

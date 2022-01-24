@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 5.4.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
@@ -78,7 +78,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -241,7 +245,7 @@
 <li><p><strong>权威服务器和哑客户端</strong>：为处理外挂问题，游戏中的逻辑通常只由服务器处理，客户端只负责显示，一切以服务器为准。</p>
 </li>
 <li><p>此方案在慢节奏的游戏中运行良好，但遇到快速刷新的游戏就要考虑网络延迟的问题。比如考虑一个实际场景，客户端发出指令向前运动一米，指令需要传给服务器（花费100 ms），服务器处理后返回角色运动一米后所在的位置（花费100 ms），再由客户端在画面上表现出来。因此在玩家发出指令后将在200 ms内游戏画面没有任何变化然后突然向前运动了一米。这种滞后对游戏来说当然是灾难性的。</p>
-<a id="more"></a>
+<span id="more"></span>
 </li>
 </ul>
 <h3 id="客户端预测"><a href="#客户端预测" class="headerlink" title="客户端预测"></a>客户端预测</h3><ul>
@@ -369,7 +373,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -491,6 +495,8 @@
 
 
 
+
+  
 
   
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.1.1">
+<meta name="generator" content="Hexo 5.4.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo16.png">
@@ -79,7 +79,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -243,7 +247,7 @@
 
       
         <h4 id="一-概述"><a href="#一-概述" class="headerlink" title="一   概述"></a>一   概述</h4><p>NativeChannel提供Lua层通过反射调用C#层代码的机制，支持对静态类和非静态类中属性、方法、委托的调用，并支持在Lua层使用宏定义对代码进行隔离。通过NativeChannel可以不生成额外的wrap文件来达到Lua层访问C#层的效果，调用更加灵活，适合需要集成到Lua层但又要灵活增删的模块（如SDK）。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h4 id="二-实现"><a href="#二-实现" class="headerlink" title="二   实现"></a>二   实现</h4><p>实现的大致思路为封装两个类<code>AnyObject</code>和<code>AnyStaticObject</code>暴露到Lua层，这两个类都实现<code>IAny</code>接口。这两个类包含对具体类中的生命周期、属性、方法、委托的所有操作。再定义通道类<code>NativeChannel</code>，实现INativeChannel和<code>IServiceStart</code>接口，包装成Service管理所有反射调用的类。</p>
 <h5 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h5><ul>
 <li>Interface</li>
@@ -404,7 +408,7 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -526,6 +530,8 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
 
 
 
+
+  
 
   
 
