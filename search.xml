@@ -612,6 +612,24 @@ max(\Delta x, \Delta y) + 0.41*min(\Delta x,\Delta y)</script><h5 id="开表的�
       </tags>
   </entry>
   <entry>
+    <title>初见Processing</title>
+    <url>/2020/10/18/tech/Processing-1/</url>
+    <content><![CDATA[<h2 id="新大陆"><a href="#新大陆" class="headerlink" title="新大陆"></a>新大陆</h2><p>前几天开始看 Daniel Shiffman的<a href="https://book.douban.com/subject/26264736/">《代码本色：用编程模拟自然系统》</a>，接触到了Processing这种编程语言，就像发现了新大陆。Processing号称为艺术而生的语言，确实，从使用体验到运行效果，都能透露出一份独特的优雅。</p>
+<span id="more"></span>
+<p>Processing设计的思路就是使用图形化替代原来的命令行，正是这种初衷赋予了这门语言生命，编写几行简单的代码，点击运行按钮就能看到生动的演示效果。</p>
+<p>在使用体验上，Processing简单但不简陋，下载后直接打开就能进行编程，不需要复杂的配置环境过程。窗口有点类似单片机的编程，而编程体验类似于Python，且由于开放的社区环境，有许多功能强大的扩展包可以安装。</p>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://processing.org">官网</a></li>
+<li><a href="http://iprocessing.cn/文档/">文档</a></li>
+<li>社区：<a href="https://www.openprocessing.org">OpenProcessing</a> / <a href="http://iprocessing.cn">Processing编程艺术</a></li>
+<li>书籍：<a href="https://book.douban.com/subject/3143256/">Learning Processing</a> / <a href="https://book.douban.com/subject/20452058/">The Nature of Code</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Processing</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>一种Lua反射调用C#机制的实现</title>
     <url>/2021/04/09/tech/NativeChannel/</url>
     <content><![CDATA[<h4 id="一-概述"><a href="#一-概述" class="headerlink" title="一   概述"></a>一   概述</h4><p>NativeChannel提供Lua层通过反射调用C#层代码的机制，支持对静态类和非静态类中属性、方法、委托的调用，并支持在Lua层使用宏定义对代码进行隔离。通过NativeChannel可以不生成额外的wrap文件来达到Lua层访问C#层的效果，调用更加灵活，适合需要集成到Lua层但又要灵活增删的模块（如SDK）。</p>
@@ -758,21 +776,27 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
       </tags>
   </entry>
   <entry>
-    <title>初见Processing</title>
-    <url>/2020/10/18/tech/Processing-1/</url>
-    <content><![CDATA[<h2 id="新大陆"><a href="#新大陆" class="headerlink" title="新大陆"></a>新大陆</h2><p>前几天开始看 Daniel Shiffman的<a href="https://book.douban.com/subject/26264736/">《代码本色：用编程模拟自然系统》</a>，接触到了Processing这种编程语言，就像发现了新大陆。Processing号称为艺术而生的语言，确实，从使用体验到运行效果，都能透露出一份独特的优雅。</p>
+    <title>状态模式和职责链模式</title>
+    <url>/2021/05/20/tech/StateAndDuty/</url>
+    <content><![CDATA[<h3 id="故事背景"><a href="#故事背景" class="headerlink" title="故事背景"></a>故事背景</h3><p>最近在项目中负责任务系统相关的内容，刚重写了整个任务系统，趁热对过程中的心得做一点总结。</p>
+<h3 id="原任务系统——状态模式"><a href="#原任务系统——状态模式" class="headerlink" title="原任务系统——状态模式"></a>原任务系统——状态模式</h3><p>原来的任务系统是一个多层状态机，第一层控制不同大类任务之间的切换（如主线任务、分支任务），第二层控制不同种类任务之间的切换（如刷怪任务、剧情任务），第三层控制一个任务下不同行为状态之间的切换（如跑到某地、刷怪、对话等行为）。三层状态机中，中间层使用了状态模式实现，其余两层使用判断进行状态切换。在游戏设计之初，这种设计方法可能可以满足策划的需求，但随着需求的增多，问题就逐渐暴露出来，大致可以总结出几个问题：</p>
 <span id="more"></span>
-<p>Processing设计的思路就是使用图形化替代原来的命令行，正是这种初衷赋予了这门语言生命，编写几行简单的代码，点击运行按钮就能看到生动的演示效果。</p>
-<p>在使用体验上，Processing简单但不简陋，下载后直接打开就能进行编程，不需要复杂的配置环境过程。窗口有点类似单片机的编程，而编程体验类似于Python，且由于开放的社区环境，有许多功能强大的扩展包可以安装。</p>
-<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
-<li><a href="https://processing.org">官网</a></li>
-<li><a href="http://iprocessing.cn/文档/">文档</a></li>
-<li>社区：<a href="https://www.openprocessing.org">OpenProcessing</a> / <a href="http://iprocessing.cn">Processing编程艺术</a></li>
-<li>书籍：<a href="https://book.douban.com/subject/3143256/">Learning Processing</a> / <a href="https://book.douban.com/subject/20452058/">The Nature of Code</a></li>
+<ul>
+<li><strong>代码冗余，可读性差：</strong>在不同种类的任务中可能会存在相同的行为，如刷怪任务和NPC对话任务都有跑到指定地点的行为，为了能让代码复用，这些公共的行为就被提出来写在了Manager中供状态调用，但是在不同任务中，执行完该行为后切换的下一个行为又是不同的，因此在行为的方法中又需要对当前行为进行判断。整体上来看，表示不同种类任务的状态类中只有状态的切换，具体的逻辑都在Manager中，使得Manager类十分庞杂，阅读时需要在状态类和Manager之间来回切换，不是非常直观。</li>
+<li><strong>灵活性差、无法应对多变的需求：</strong>这一点是状态模式本身的特点导致的，状态模式在类的设计中就确定了状态之间的转换，其转换关系是确定的，规范的状态模式客户都不知道状态之间的切换的结构，这样的设计非常稳定，但缺点就是灵活性差，耦合度高。但在游戏制作过程中，任务相关的需求总是多变的，比如策划突然想在前往某地和刷怪之间增加一个播放Timeline的环节，那么使用状态模式设计的任务系统就需要添加一个名为播放Timeline的状态，需要在原前往某地的状态切换中将下一个状态从刷怪改为播放Timeline，这就违反了设计原则中的<strong>开闭原则</strong>。</li>
+</ul>
+<h3 id="新任务系统——职责链模式"><a href="#新任务系统——职责链模式" class="headerlink" title="新任务系统——职责链模式"></a>新任务系统——职责链模式</h3><p>在设计新任务系统时，考虑到一个任务中的步骤可能会经常变化，因此需要使用更加灵活的设计模式来应对变化。新的系统主体采用职责链模式，定义好各种事件，每个事件中处理进入事件、更新事件、退出事件等方法，在执行一个任务前，根据策划的配置从事件库中取出需要执行的事件包装成事件链，这一事件链就构成了这一个任务的整体流程，接着就只需要按照顺序依次触发事件的执行。这样设计的优点在于：</p>
+<ul>
+<li><strong>减少判断，流程更清晰：</strong>职责链模式在环境类中就组装好事件序列，在具体的事件类中，不需要知道后续的事件做什么，减少if-else判断，只需要维护<code>Execute()</code> <code>Update()</code> <code>OnFinish()</code>等方法，更加纯粹。</li>
+<li><strong>灵活性高，使策划能够随意调整任务流程。</strong></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>状态模式适用于状态间的切换关系确定且不是很复杂的情况，也适用于一些需要根据用户输入改变状态的情况，其本质相当于if-else。</li>
+<li>职责链模式适合事件执行顺序复杂多变，但执行开始之前事件序列已经确定的情况，其本质相当于switch-case。</li>
 </ul>
 ]]></content>
       <tags>
-        <tag>Processing</tag>
+        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -817,45 +841,6 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
         <tag>Graph</tag>
         <tag>寻路</tag>
         <tag>SPFA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>状态模式和职责链模式</title>
-    <url>/2021/05/20/tech/StateAndDuty/</url>
-    <content><![CDATA[<h3 id="故事背景"><a href="#故事背景" class="headerlink" title="故事背景"></a>故事背景</h3><p>最近在项目中负责任务系统相关的内容，刚重写了整个任务系统，趁热对过程中的心得做一点总结。</p>
-<h3 id="原任务系统——状态模式"><a href="#原任务系统——状态模式" class="headerlink" title="原任务系统——状态模式"></a>原任务系统——状态模式</h3><p>原来的任务系统是一个多层状态机，第一层控制不同大类任务之间的切换（如主线任务、分支任务），第二层控制不同种类任务之间的切换（如刷怪任务、剧情任务），第三层控制一个任务下不同行为状态之间的切换（如跑到某地、刷怪、对话等行为）。三层状态机中，中间层使用了状态模式实现，其余两层使用判断进行状态切换。在游戏设计之初，这种设计方法可能可以满足策划的需求，但随着需求的增多，问题就逐渐暴露出来，大致可以总结出几个问题：</p>
-<span id="more"></span>
-<ul>
-<li><strong>代码冗余，可读性差：</strong>在不同种类的任务中可能会存在相同的行为，如刷怪任务和NPC对话任务都有跑到指定地点的行为，为了能让代码复用，这些公共的行为就被提出来写在了Manager中供状态调用，但是在不同任务中，执行完该行为后切换的下一个行为又是不同的，因此在行为的方法中又需要对当前行为进行判断。整体上来看，表示不同种类任务的状态类中只有状态的切换，具体的逻辑都在Manager中，使得Manager类十分庞杂，阅读时需要在状态类和Manager之间来回切换，不是非常直观。</li>
-<li><strong>灵活性差、无法应对多变的需求：</strong>这一点是状态模式本身的特点导致的，状态模式在类的设计中就确定了状态之间的转换，其转换关系是确定的，规范的状态模式客户都不知道状态之间的切换的结构，这样的设计非常稳定，但缺点就是灵活性差，耦合度高。但在游戏制作过程中，任务相关的需求总是多变的，比如策划突然想在前往某地和刷怪之间增加一个播放Timeline的环节，那么使用状态模式设计的任务系统就需要添加一个名为播放Timeline的状态，需要在原前往某地的状态切换中将下一个状态从刷怪改为播放Timeline，这就违反了设计原则中的<strong>开闭原则</strong>。</li>
-</ul>
-<h3 id="新任务系统——职责链模式"><a href="#新任务系统——职责链模式" class="headerlink" title="新任务系统——职责链模式"></a>新任务系统——职责链模式</h3><p>在设计新任务系统时，考虑到一个任务中的步骤可能会经常变化，因此需要使用更加灵活的设计模式来应对变化。新的系统主体采用职责链模式，定义好各种事件，每个事件中处理进入事件、更新事件、退出事件等方法，在执行一个任务前，根据策划的配置从事件库中取出需要执行的事件包装成事件链，这一事件链就构成了这一个任务的整体流程，接着就只需要按照顺序依次触发事件的执行。这样设计的优点在于：</p>
-<ul>
-<li><strong>减少判断，流程更清晰：</strong>职责链模式在环境类中就组装好事件序列，在具体的事件类中，不需要知道后续的事件做什么，减少if-else判断，只需要维护<code>Execute()</code> <code>Update()</code> <code>OnFinish()</code>等方法，更加纯粹。</li>
-<li><strong>灵活性高，使策划能够随意调整任务流程。</strong></li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>状态模式适用于状态间的切换关系确定且不是很复杂的情况，也适用于一些需要根据用户输入改变状态的情况，其本质相当于if-else。</li>
-<li>职责链模式适合事件执行顺序复杂多变，但执行开始之前事件序列已经确定的情况，其本质相当于switch-case。</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一种拨轮动效</title>
-    <url>/2020/09/28/tech/TimeWidget/</url>
-    <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
-<span id="more"></span>
-<video src="/image/TimeWidget.mp4" controls="controls" style="max-width: 80%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video>
-
-<p><a href="https://github.com/Luciano-0/TimeWidget">Github地址</a></p>
-]]></content>
-      <tags>
-        <tag>C#</tag>
-        <tag>Unity</tag>
-        <tag>动效</tag>
       </tags>
   </entry>
   <entry>
@@ -907,6 +892,21 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
       </tags>
   </entry>
   <entry>
+    <title>一种拨轮动效</title>
+    <url>/2020/09/28/tech/TimeWidget/</url>
+    <content><![CDATA[<p>实现了一种拨轮动画效果，可以用于游戏中的倒计时、数值显示等。目前实现了初始化的动画效果。</p>
+<span id="more"></span>
+<video src="/image/TimeWidget.mp4" controls="controls" style="max-width: 80%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video>
+
+<p><a href="https://github.com/Luciano-0/TimeWidget">Github地址</a></p>
+]]></content>
+      <tags>
+        <tag>C#</tag>
+        <tag>Unity</tag>
+        <tag>动效</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Timeline跳转过渡</title>
     <url>/2021/01/30/tech/Timeline2/</url>
     <content><![CDATA[<h3 id="一、Animation-Track的过渡"><a href="#一、Animation-Track的过渡" class="headerlink" title="一、Animation Track的过渡"></a>一、Animation Track的过渡</h3><h4 id="1、背景"><a href="#1、背景" class="headerlink" title="1、背景"></a>1、背景</h4><p>当运行到Clip中间时，角色动画会由Timeline接管，即播放AnimationClip中的动画，当运行到Clip之外时，若前后片段中的Animation Extrapolation有设置为Hold，则会保持对应帧的动作，若都为None则会将动画控制权移交给状态机，通常播放Idle的动作。</p>
@@ -924,6 +924,12 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
         <tag>Unity</tag>
         <tag>Timeline</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/01/01/tech/hello-world/</url>
+    <content><![CDATA[<p>Hello World！</p>
+]]></content>
   </entry>
   <entry>
     <title>Anconda常用命令</title>
@@ -983,6 +989,23 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conda config --remove-key channels</span><br></pre></td></tr></table></figure>]]></content>
   </entry>
   <entry>
+    <title>山河满目，既往不咎</title>
+    <url>/2020/01/10/photo/20200110-WestLake/</url>
+    <content><![CDATA[<p>2019年最后一天，于西湖。</p>
+<p><img data-src="/image/6-1.jpg" alt=" " style="zoom:30%;"/></p>
+<span id="more"></span>
+<p><img data-src="/image/6-2.jpg" alt=" " style="zoom:30%;"/></p>
+<p><img data-src="/image/6-3.jpg" alt=" " style="zoom:30%;"/></p>
+<p><img data-src="/image/6-4.jpg" alt=" " style="zoom:30%;"/></p>
+<p><img data-src="/image/6-5.jpg" alt=" " style="zoom:30%;"/></p>
+<p><img data-src="/image/6-6.jpg" alt=" " style="zoom:30%;"/></p>
+]]></content>
+      <tags>
+        <tag>photos</tag>
+        <tag>胶片</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于校园的一些碎片</title>
     <url>/2020/01/01/photo/20200101-school/</url>
     <content><![CDATA[<p><img data-src="/image/4-1.jpg" alt="天台" style="zoom:16%;"/></p>
@@ -995,29 +1018,6 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
 <p><img data-src="/image/4-8.jpg" alt="请爱护光缆" style="zoom:30%;"/></p>
 <p><img data-src="/image/4-9.jpg" alt="紫金港的鹅鹅鹅" style="zoom:16%;"/></p>
 <p><img data-src="/image/4-10.jpg" alt="你瞅啥" style="zoom:16%;"/></p>
-]]></content>
-      <tags>
-        <tag>photos</tag>
-        <tag>胶片</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/01/01/tech/hello-world/</url>
-    <content><![CDATA[<p>Hello World！</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>山河满目，既往不咎</title>
-    <url>/2020/01/10/photo/20200110-WestLake/</url>
-    <content><![CDATA[<p>2019年最后一天，于西湖。</p>
-<p><img data-src="/image/6-1.jpg" alt=" " style="zoom:30%;"/></p>
-<span id="more"></span>
-<p><img data-src="/image/6-2.jpg" alt=" " style="zoom:30%;"/></p>
-<p><img data-src="/image/6-3.jpg" alt=" " style="zoom:30%;"/></p>
-<p><img data-src="/image/6-4.jpg" alt=" " style="zoom:30%;"/></p>
-<p><img data-src="/image/6-5.jpg" alt=" " style="zoom:30%;"/></p>
-<p><img data-src="/image/6-6.jpg" alt=" " style="zoom:30%;"/></p>
 ]]></content>
       <tags>
         <tag>photos</tag>
@@ -1066,22 +1066,6 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
       </tags>
   </entry>
   <entry>
-    <title>那些年追过的展（持续更新）</title>
-    <url>/2020/10/31/photo/20201031-gallery/</url>
-    <content><![CDATA[<p><img data-src="/image/5-1.jpg" alt="🌊" style="zoom:30%;"/></p>
-<span id="more"></span>
-<p><img data-src="/image/5-2.jpg" alt="早安打工人！" style="zoom:30%;"/></p>
-<p><img data-src="/image/5-3.jpg" alt="西岸美术馆的长梯" style="zoom:30%;"/></p>
-<p><img data-src="/image/5-4.jpg" alt="Wheel" style="zoom:30%;"/></p>
-<p><img data-src="/image/5-5.jpg" alt="Plane" style="zoom:30%;"/></p>
-<p><img data-src="/image/5-6.jpg" alt="月食" style="zoom:30%;"/></p>
-<p><img data-src="/image/5-7.jpg" alt="最美二叉树？" style="zoom:30%;"/></p>
-]]></content>
-      <tags>
-        <tag>photos</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>故乡</title>
     <url>/2020/10/11/photo/20201005-hometown/</url>
     <content><![CDATA[<p>故乡，大概是写在每个人灵魂最深处的底层代码。</p>
@@ -1100,6 +1084,22 @@ eventInfo.AddEventHandler(this.target, handler);</code></p>
       <tags>
         <tag>photos</tag>
         <tag>胶片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>那些年追过的展（持续更新）</title>
+    <url>/2020/10/31/photo/20201031-gallery/</url>
+    <content><![CDATA[<p><img data-src="/image/5-1.jpg" alt="🌊" style="zoom:30%;"/></p>
+<span id="more"></span>
+<p><img data-src="/image/5-2.jpg" alt="早安打工人！" style="zoom:30%;"/></p>
+<p><img data-src="/image/5-3.jpg" alt="西岸美术馆的长梯" style="zoom:30%;"/></p>
+<p><img data-src="/image/5-4.jpg" alt="Wheel" style="zoom:30%;"/></p>
+<p><img data-src="/image/5-5.jpg" alt="Plane" style="zoom:30%;"/></p>
+<p><img data-src="/image/5-6.jpg" alt="月食" style="zoom:30%;"/></p>
+<p><img data-src="/image/5-7.jpg" alt="最美二叉树？" style="zoom:30%;"/></p>
+]]></content>
+      <tags>
+        <tag>photos</tag>
       </tags>
   </entry>
   <entry>
